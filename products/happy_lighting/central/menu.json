@@ -1,0 +1,31 @@
+{
+    "states": [
+        { "key": "power", "name": "Power" },
+        { "key": "color", "name": "Color"  }
+    ],
+
+    "initial_menu": "main",
+    "menus": [
+        {
+            "id": "main",
+            "title": "Happy Lighting lightbulb",
+            "on_enter": "on_main_enter",
+            "items": [
+                { "id": "turn_on",    "label": "Turn On"      },
+                { "id": "turn_off",   "label": "Turn Off"     },
+                { "id": "on_select_color", "label": "Color →" }
+            ]
+        },
+        {
+            "id": "color",
+            "title": "Color",
+            "items": [
+                { "id": "set_color(FF0000)",  "label": "Red"    },
+                { "id": "set_color(00FF00)",  "label": "Green"    },
+                { "id": "set_color(0000FF)",  "label": "Blue"   },
+                { "id": "set_color(DBDB48)",  "label": "Yellow"   },
+                { "id": "pop_menu", "label":  "Back" }
+            ]
+        }
+    ]
+}

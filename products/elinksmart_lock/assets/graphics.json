@@ -1,0 +1,18 @@
+{
+  "elements": [
+    {
+      "id": "lock_closed",
+      "type": "svg",
+      "file": "lock.svg",
+      "size": 80,
+      "align": "center"
+    },
+    {
+      "id": "lock_open",
+      "type": "svg",
+      "file": "lock-open.svg",
+      "size": 80,
+      "align": "center"
+    }
+  ]
+}

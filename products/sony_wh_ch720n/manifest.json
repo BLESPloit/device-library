@@ -1,0 +1,29 @@
+{
+  "name": "Sony WH-CH720N",
+  "description": "Sony Headphones, vulnerable to WhisperPair and Airoha",
+  "version": 1,
+  "notes": "Original headset did not return any value in Fast Pair model characteristic, this simulation does.",
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "assets": {
+    "icon": "assets/sony_wh_ch720n_black.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "priority": 50,
+      "scan_conditions": {
+        "device_name_contains": [
+          "WH-CH720N",
+          "LE-WH-CH720N"
+        ]
+      }
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/peripheral.lua",
+      "interface": "peripheral/interface.json"
+    }
+  },
+  "manifest_version": 1
+}

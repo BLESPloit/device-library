@@ -1,0 +1,24 @@
+{
+  "name": "Google Nearby",
+  "description": "Nearby style advertisements (service data)",
+  "author": "",
+  "version": 1,
+  "assets": {
+    "icon": "assets/google.svg"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 20,
+      "scan_conditions": {
+        "service_data_uuid_16": [
+          "fcf1",
+          "fe9f",
+          "fef3",
+          "fcc0"
+        ]
+      }
+    }
+  },
+  "manifest_version": 1
+}

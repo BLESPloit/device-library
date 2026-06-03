@@ -1,0 +1,698 @@
+{
+	"services":	[{
+			"uuid":	"1800",
+			"type_uuid":	"2800",
+			"start_handle":	1,
+			"end_handle":	9,
+			"characteristics":	[{
+					"handle":	2,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	3,
+						"uuid":	"2a00",
+						"data":	"4c452d57482d43483732304e"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	4,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	5,
+						"uuid":	"2a01",
+						"data":	"3412"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	6,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	7,
+						"uuid":	"2a04",
+						"data":	"8005800c10003303"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	8,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	9,
+						"uuid":	"2aa6",
+						"data":	"00"
+					},
+					"descriptors":	[]
+				}]
+		}, {
+			"uuid":	"1801",
+			"type_uuid":	"2800",
+			"start_handle":	17,
+			"end_handle":	17,
+			"characteristics":	[]
+		}, {
+			"uuid":	"dc405470-a351-4a59-97d8-2e2e3b207fbb",
+			"type_uuid":	"2800",
+			"start_handle":	81,
+			"end_handle":	86,
+			"characteristics":	[{
+					"handle":	82,
+					"uuid":	"2803",
+					"properties":	12,
+					"security":	0,
+					"value":	{
+						"handle":	83,
+						"uuid":	"bfd869fa-a3f2-4c2f-bcff-3eb1ec80cead",
+						"data":	""
+					},
+					"descriptors":	[],
+					"dynamic":	{
+						"on_write":	"on_race_tx_write"
+					}
+				}, {
+					"handle":	84,
+					"uuid":	"2803",
+					"properties":	16,
+					"security":	0,
+					"value":	{
+						"handle":	85,
+						"uuid":	"2a6b6575-faf6-418c-923f-ccd63a56d955",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	86,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}]
+		}, {
+			"uuid":	"180a",
+			"type_uuid":	"2800",
+			"start_handle":	96,
+			"end_handle":	114,
+			"characteristics":	[{
+					"handle":	97,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	98,
+						"uuid":	"2a23",
+						"data":	"5544332211887766"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	99,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	100,
+						"uuid":	"2a24",
+						"data":	"4149524f48412d4449532d4558414d504c45"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	101,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	102,
+						"uuid":	"2a25",
+						"data":	"3230313830343232"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	103,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	104,
+						"uuid":	"2a26",
+						"data":	"56657273696f6e312e30"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	105,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	106,
+						"uuid":	"2a27",
+						"data":	"56657273696f6e312e30"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	107,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	108,
+						"uuid":	"2a28",
+						"data":	"56657273696f6e312e30"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	109,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	110,
+						"uuid":	"2a29",
+						"data":	"4169726f6861"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	111,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	112,
+						"uuid":	"2a2a",
+						"data":	""
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	113,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	114,
+						"uuid":	"2a50",
+						"data":	"021519eeee0100"
+					},
+					"descriptors":	[]
+				}]
+		}, {
+			"uuid":	"fe59bfa8-7fe3-4a05-9d94-99fadc69faff",
+			"type_uuid":	"2800",
+			"start_handle":	144,
+			"end_handle":	156,
+			"characteristics":	[{
+					"handle":	145,
+					"uuid":	"2803",
+					"properties":	16,
+					"security":	0,
+					"value":	{
+						"handle":	146,
+						"uuid":	"69745240-ec29-4899-a2a8-cf78fd214303",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	147,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	148,
+					"uuid":	"2803",
+					"properties":	8,
+					"security":	0,
+					"value":	{
+						"handle":	149,
+						"uuid":	"104c022e-48d6-4dd2-8737-f8ac5489c5d4",
+						"data":	""
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	150,
+					"uuid":	"2803",
+					"properties":	16,
+					"security":	0,
+					"value":	{
+						"handle":	151,
+						"uuid":	"70efdf00-4375-4a9e-912d-63522566d947",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	152,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	153,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	154,
+						"uuid":	"eea2e8a0-89f0-4985-a1e2-d91dc4a52632",
+						"data":	""
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	155,
+					"uuid":	"2803",
+					"properties":	8,
+					"security":	0,
+					"value":	{
+						"handle":	156,
+						"uuid":	"a79e2bd1-d6e4-4d1e-8b4f-141d69011cbb",
+						"data":	""
+					},
+					"descriptors":	[]
+				}]
+		}, {
+			"uuid":	"67a846ad-de3e-451b-a6d8-7b2899ca2370",
+			"type_uuid":	"2800",
+			"start_handle":	160,
+			"end_handle":	171,
+			"characteristics":	[{
+					"handle":	161,
+					"uuid":	"2803",
+					"properties":	16,
+					"security":	0,
+					"value":	{
+						"handle":	162,
+						"uuid":	"9fbf120d-6301-42d9-8c58-25e699a21dbd",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	163,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	164,
+					"uuid":	"2803",
+					"properties":	8,
+					"security":	0,
+					"value":	{
+						"handle":	165,
+						"uuid":	"69d1d8f3-45e1-49a8-9821-9bbdfdaad9d9",
+						"data":	""
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	166,
+					"uuid":	"2803",
+					"properties":	16,
+					"security":	0,
+					"value":	{
+						"handle":	167,
+						"uuid":	"22eac6e9-24d6-4bb5-be44-b36ace7c7bfb",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	168,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	169,
+					"uuid":	"2803",
+					"properties":	18,
+					"security":	0,
+					"value":	{
+						"handle":	170,
+						"uuid":	"753eed35-a584-45bb-baed-67fc7b2dc142",
+						"data":	"0000"
+					},
+					"descriptors":	[{
+							"handle":	171,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}]
+		}, {
+			"uuid":	"55f80aef-d89f-41a4-9e36-0ffc88dc81ce",
+			"type_uuid":	"2800",
+			"start_handle":	176,
+			"end_handle":	187,
+			"characteristics":	[{
+					"handle":	177,
+					"uuid":	"2803",
+					"properties":	24,
+					"security":	0,
+					"value":	{
+						"handle":	178,
+						"uuid":	"2f7cabce-808d-411f-9a0c-bb92ba96c102",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	179,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	180,
+					"uuid":	"2803",
+					"properties":	10,
+					"security":	0,
+					"value":	{
+						"handle":	181,
+						"uuid":	"c6b2f38c-23ab-46d8-a6ab-a3a870bbd5d7",
+						"data":	""
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	182,
+					"uuid":	"2803",
+					"properties":	24,
+					"security":	0,
+					"value":	{
+						"handle":	183,
+						"uuid":	"9b3c81d8-57b1-4a8a-b8df-0e56f7ca51c2",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	184,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	185,
+					"uuid":	"2803",
+					"properties":	18,
+					"security":	0,
+					"value":	{
+						"handle":	186,
+						"uuid":	"3adf41af-f7a1-4e16-863e-53a188d5bf8d",
+						"data":	"0000"
+					},
+					"descriptors":	[{
+							"handle":	187,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}]
+		}, {
+			"uuid":	"91c10d9c-aaef-42bd-b6d6-8a648c19213d",
+			"type_uuid":	"2800",
+			"start_handle":	192,
+			"end_handle":	204,
+			"characteristics":	[{
+					"handle":	193,
+					"uuid":	"2803",
+					"properties":	26,
+					"security":	0,
+					"value":	{
+						"handle":	194,
+						"uuid":	"99d1064e-4517-46aa-8fb4-6be64dd1a1f1",
+						"data":	"0000"
+					},
+					"descriptors":	[{
+							"handle":	195,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	196,
+					"uuid":	"2803",
+					"properties":	24,
+					"security":	0,
+					"value":	{
+						"handle":	197,
+						"uuid":	"fbe87f6c-3f1a-44b6-b577-0bac731f6e85",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	198,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	199,
+					"uuid":	"2803",
+					"properties":	24,
+					"security":	0,
+					"value":	{
+						"handle":	200,
+						"uuid":	"420791c0-bff5-4bd1-b957-371614031136",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	201,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	202,
+					"uuid":	"2803",
+					"properties":	24,
+					"security":	0,
+					"value":	{
+						"handle":	203,
+						"uuid":	"e4ef5a46-30f9-4287-a3e7-643066acb768",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	204,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}]
+		}, {
+			"uuid":	"fe03",
+			"type_uuid":	"2800",
+			"start_handle":	208,
+			"end_handle":	213,
+			"characteristics":	[{
+					"handle":	209,
+					"uuid":	"2803",
+					"properties":	8,
+					"security":	0,
+					"value":	{
+						"handle":	210,
+						"uuid":	"f04eb177-3005-43a7-ac61-a390ddf83076",
+						"data":	""
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	211,
+					"uuid":	"2803",
+					"properties":	18,
+					"security":	0,
+					"value":	{
+						"handle":	212,
+						"uuid":	"2beea05b-1879-4bb4-8a2f-72641f82420b",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	213,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}]
+		}, {
+			"uuid":	"fe2c",
+			"type_uuid":	"2800",
+			"start_handle":	256,
+			"end_handle":	273,
+			"characteristics":	[{
+					"handle":	257,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	258,
+						"uuid":	"fe2c1233-8366-4814-8eb0-01de32100bea",
+						"data":	"f42ffc"
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	259,
+					"uuid":	"2803",
+					"properties":	24,
+					"security":	0,
+					"value":	{
+						"handle":	260,
+						"uuid":	"fe2c1234-8366-4814-8eb0-01de32100bea",
+						"data":	""
+					},
+					"dynamic":	{
+						"on_write":	"on_fast_pair_kbp_write"
+					},
+					"descriptors":	[{
+							"handle":	261,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	262,
+					"uuid":	"2803",
+					"properties":	24,
+					"security":	0,
+					"value":	{
+						"handle":	263,
+						"uuid":	"fe2c1235-8366-4814-8eb0-01de32100bea",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	264,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	265,
+					"uuid":	"2803",
+					"properties":	8,
+					"security":	0,
+					"value":	{
+						"handle":	266,
+						"uuid":	"fe2c1236-8366-4814-8eb0-01de32100bea",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	267,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	268,
+					"uuid":	"2803",
+					"properties":	24,
+					"security":	0,
+					"value":	{
+						"handle":	269,
+						"uuid":	"fe2c1237-8366-4814-8eb0-01de32100bea",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	270,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	271,
+					"uuid":	"2803",
+					"properties":	26,
+					"security":	0,
+					"value":	{
+						"handle":	272,
+						"uuid":	"fe2c1238-8366-4814-8eb0-01de32100bea",
+						"data":	"99a03f0a6b467c28"
+					},
+					"descriptors":	[{
+							"handle":	273,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}]
+		}, {
+			"uuid":	"5b833e05-6bc7-4802-8e9a-723ceca4bd8f",
+			"type_uuid":	"2800",
+			"start_handle":	560,
+			"end_handle":	567,
+			"characteristics":	[{
+					"handle":	561,
+					"uuid":	"2803",
+					"properties":	8,
+					"security":	0,
+					"value":	{
+						"handle":	562,
+						"uuid":	"5b833c11-6bc7-4802-8e9a-723ceca4bd8f",
+						"data":	""
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	563,
+					"uuid":	"2803",
+					"properties":	16,
+					"security":	0,
+					"value":	{
+						"handle":	564,
+						"uuid":	"5b833c13-6bc7-4802-8e9a-723ceca4bd8f",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	565,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}, {
+					"handle":	566,
+					"uuid":	"2803",
+					"properties":	2,
+					"security":	0,
+					"value":	{
+						"handle":	567,
+						"uuid":	"5b833c14-6bc7-4802-8e9a-723ceca4bd8f",
+						"data":	"57482d43483732304e"
+					},
+					"descriptors":	[]
+				}]
+		}, {
+			"uuid":	"5b833e06-6bc7-4802-8e9a-723ceca4bd8f",
+			"type_uuid":	"2800",
+			"start_handle":	576,
+			"end_handle":	581,
+			"characteristics":	[{
+					"handle":	577,
+					"uuid":	"2803",
+					"properties":	8,
+					"security":	0,
+					"value":	{
+						"handle":	578,
+						"uuid":	"5b833c10-6bc7-4802-8e9a-723ceca4bd8f",
+						"data":	""
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	579,
+					"uuid":	"2803",
+					"properties":	16,
+					"security":	0,
+					"value":	{
+						"handle":	580,
+						"uuid":	"5b833c12-6bc7-4802-8e9a-723ceca4bd8f",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	581,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}]
+		}, {
+			"uuid":	"5b833e0a-6bc7-4802-8e9a-723ceca4bd8f",
+			"type_uuid":	"2800",
+			"start_handle":	608,
+			"end_handle":	613,
+			"characteristics":	[{
+					"handle":	609,
+					"uuid":	"2803",
+					"properties":	8,
+					"security":	0,
+					"value":	{
+						"handle":	610,
+						"uuid":	"5b833c10-6bc7-4802-8e9a-723ceca4bd8f",
+						"data":	""
+					},
+					"descriptors":	[]
+				}, {
+					"handle":	611,
+					"uuid":	"2803",
+					"properties":	16,
+					"security":	0,
+					"value":	{
+						"handle":	612,
+						"uuid":	"5b833c12-6bc7-4802-8e9a-723ceca4bd8f",
+						"data":	""
+					},
+					"descriptors":	[{
+							"handle":	613,
+							"uuid":	"2902",
+							"data":	""
+						}]
+				}]
+		}],
+	"devinfo":	{
+		"adv_data":	"020af40f162cfe0060e12cca93127311191452030282fd",
+		"bd_addr":	"c3:66:29:13:69:cc",
+		"addr_type":	1,
+		"scan_rsp":	"17ff2d0104000202b0310802cea8dab27c00020033000000"
+	}
+}

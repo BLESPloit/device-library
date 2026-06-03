@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "icon",
+      "type": "png",
+      "file": "sony_wh_ch720n.png",
+      "size": 80,
+      "align": "center"
+    }
+  ]
+}

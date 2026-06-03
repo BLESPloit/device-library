@@ -1,0 +1,96 @@
+{
+  "states": [
+    { "key": "cmd", "name": "Last cmd" }
+  ],
+  "initial_menu": "main",
+  "menus": [
+    {
+      "id": "main",
+      "title": "Rapidpower dog",
+      "on_enter": "on_main_enter",
+      "items": [
+        { "id": "menu_move", "label": "Movement →" },
+        { "id": "menu_actions", "label": "Actions →" },
+        { "id": "menu_dance", "label": "Dance →" },
+        { "id": "menu_story", "label": "Story →" },
+        { "id": "menu_music", "label": "Music →" },
+        { "id": "menu_sleep", "label": "Sleep →" }
+      ]
+    },
+    {
+      "id": "movement",
+      "title": "Movement",
+      "items": [
+        { "id": "send_cmd(F02A0001D5FFFE)", "label": "Move forward" },
+        { "id": "send_cmd(F02A0004D5FFFB)", "label": "Turn left" },
+        { "id": "send_cmd(F02A0007D5FFF8)", "label": "Turn right" },
+        { "id": "send_cmd(F02A000AD5FFF5)", "label": "Stop" },
+        { "id": "send_cmd(F02A002BD5FFD4)", "label": "Patrol" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    },
+    {
+      "id": "actions",
+      "title": "Actions",
+      "items": [
+        { "id": "send_cmd(F02A000DD5FFF2)", "label": "Swimming" },
+        { "id": "send_cmd(F02A0010D5FFEF)", "label": "Sit down" },
+        { "id": "send_cmd(F02A0013D5FFEC)", "label": "Greetings / Hello" },
+        { "id": "send_cmd(F02A0016D5FFE9)", "label": "Get down" },
+        { "id": "send_cmd(F02A0019D5FFE6)", "label": "Act cute" },
+        { "id": "send_cmd(F02A001CD5FFE3)", "label": "Handshake" },
+        { "id": "send_cmd(F02A001FD5FFE0)", "label": "Attack" },
+        { "id": "send_cmd(F02A0022D5FFDD)", "label": "Surrender" },
+        { "id": "send_cmd(F02A0025D5FFDA)", "label": "Urinate" },
+        { "id": "send_cmd(F02A0028D5FFD7)", "label": "Stand / Hand stand" },
+        { "id": "send_cmd(F02A002ED5FFD1)", "label": "Kung fu" },
+        { "id": "send_cmd(F02A0031D5FFCE)", "label": "Push-up" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    },
+    {
+      "id": "dance",
+      "title": "Dance",
+      "items": [
+        { "id": "send_cmd(F0120001EDFFFE)", "label": "Dance (1)" },
+        { "id": "send_cmd(F0120002EDFFFD)", "label": "Dance (2)" },
+        { "id": "send_cmd(F0120003EDFFFC)", "label": "Dance (3)" },
+        { "id": "send_cmd(F0120004EDFFFB)", "label": "Dance (4)" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    },
+    {
+      "id": "story",
+      "title": "Story",
+      "items": [
+        { "id": "send_cmd(F0180001E7FFFE)", "label": "Story (1)" },
+        { "id": "send_cmd(F0180002E7FFFD)", "label": "Story (2)" },
+        { "id": "send_cmd(F0180003E7FFFC)", "label": "Story (3)" },
+        { "id": "send_cmd(F0180004E7FFFB)", "label": "Story (4)" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    },
+    {
+      "id": "music",
+      "title": "Music",
+      "items": [
+        { "id": "send_cmd(F01E0001E1FFFE)", "label": "Music (1)" },
+        { "id": "send_cmd(F01E0002E1FFFD)", "label": "Music (2)" },
+        { "id": "send_cmd(F01E0003E1FFFC)", "label": "Music (3)" },
+        { "id": "send_cmd(F01E0004E1FFFB)", "label": "Music (4)" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    },
+    {
+      "id": "sleep",
+      "title": "Sleep",
+      "items": [
+        { "id": "send_cmd(F0240001DBFFFE)", "label": "Sleep (1)" },
+        { "id": "send_cmd(F0240002DBFFFD)", "label": "Sleep (2)" },
+        { "id": "send_cmd(F0240003DBFFFC)", "label": "Sleep (3)" },
+        { "id": "send_cmd(F0240004DBFFFB)", "label": "Sleep (4)" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    }
+  ]
+}

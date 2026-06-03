@@ -1,0 +1,51 @@
+{
+  "profiles": [
+    {
+      "id": "legacy",
+      "enabled": true,
+      "legacy_pdu": true,
+      "connectable": true,
+      "scannable": true,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": -12,
+      "adv_interval_ms": 250,
+      "addr_type": "public_hardware",
+      "bd_addr": "99:3A:1F:EF:05:07",
+      "adv_data_hex": "020af416162cfe10401441100221343c46cac4b4601aff25d19f",
+      "scan_rsp_hex": "03165318"
+    },
+    {
+      "id": "legacy_pairing_mode",
+      "enabled": false,
+      "legacy_pdu": true,
+      "connectable": true,
+      "scannable": true,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": -12,
+      "adv_interval_ms": 250,
+      "addr_type": "public_hardware",
+      "bd_addr": "99:3A:1F:EF:05:07",
+      "adv_data_hex": "020af40201020a162cfe0037dcda991800",
+      "scan_rsp_hex": "03165318"
+    },
+    {
+      "id": "extended",
+      "enabled": true,
+      "legacy_pdu": false,
+      "connectable": true,
+      "scannable": false,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": 127,
+      "adv_interval_ms": 250,
+      "addr_type": "random_specific",
+      "bd_addr": "99:3A:1F:EF:05:07",
+      "adv_data_hex": "02010210095320506978656c204275647320326109164e1800ff0f43020003164f180416531800051655182a0003194109"
+    }
+  ]
+}

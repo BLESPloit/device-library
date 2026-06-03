@@ -1,0 +1,26 @@
+{
+  "SVC_ELINK_SMARTLOCK": {
+    "type": "service",
+    "uuid": "1828",
+    "name": "ElinkSmart lock",
+    "description": "Short UUID incorrectly used for proprietary protocol by smart lock vendor."
+  },
+  "CHR_DATAIN": {
+    "type": "characteristic",
+    "uuid": "2add",
+    "name": "ElinkSmart Data in",
+    "description": "App→lock encrypted command stream (chunked writes)"
+  },
+  "CHR_DATAOUT": {
+    "type": "characteristic",
+    "uuid": "2ade",
+    "name": "ElinkSmart Data out",
+    "description": "Lock→app notify (AES payload, chunked)"
+  },
+  "CHR_DATAIN2": {
+    "type": "characteristic",
+    "uuid": "2adf",
+    "name": "ElinkSmart Data in 2",
+    "description": "Secondary write characteristic (often unused)"
+  }
+}

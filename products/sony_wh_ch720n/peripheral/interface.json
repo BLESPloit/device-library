@@ -1,0 +1,18 @@
+{
+  "buttons": [
+    {
+      "id": "pairing",
+      "name": "Pairing mode",
+      "physical_button_id": 0,
+      "physical_button_press": "single",
+      "lua": "pairing_on"
+    },
+    {
+      "id": "normal",
+      "name": "Normal mode",
+      "physical_button_id": 1,
+      "physical_button_press": "single",
+      "lua": "pairing_off"
+    }
+  ]
+}

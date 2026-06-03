@@ -1,0 +1,213 @@
+{
+  "services": [
+    {
+      "uuid": "1800",
+      "type_uuid": "2800",
+      "start_handle": 1,
+      "end_handle": 9,
+      "characteristics": [
+        {
+          "handle": 2,
+          "uuid": "2803",
+          "properties": 10,
+          "security": 0,
+          "value": {
+            "handle": 3,
+            "uuid": "2a00",
+            "data": "514341522d314536363531000000"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 4,
+          "uuid": "2803",
+          "properties": 10,
+          "security": 0,
+          "value": {
+            "handle": 5,
+            "uuid": "2a01",
+            "data": "0000"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 6,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 7,
+            "uuid": "2a04",
+            "data": "2c01400104005802"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 8,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 9,
+            "uuid": "2aa6",
+            "data": "00"
+          },
+          "descriptors": []
+        }
+      ]
+    },
+    {
+      "uuid": "1801",
+      "type_uuid": "2800",
+      "start_handle": 12,
+      "end_handle": 15,
+      "characteristics": [
+        {
+          "handle": 13,
+          "uuid": "2803",
+          "properties": 34,
+          "security": 0,
+          "value": {
+            "handle": 14,
+            "uuid": "2a05",
+            "data": "0100ffff"
+          },
+          "descriptors": [
+            {
+              "handle": 15,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "fff0",
+      "type_uuid": "2800",
+      "start_handle": 16,
+      "end_handle": 28,
+      "characteristics": [
+        {
+          "handle": 17,
+          "uuid": "2803",
+          "properties": 12,
+          "security": 0,
+          "value": {
+            "handle": 18,
+            "uuid": "d44bc439-abfd-45a2-b575-925416129600",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 19,
+              "uuid": "2901",
+              "data": "5452313931315230322d30384100"
+            }
+          ],
+          "dynamic": {
+            "on_write": "on_write_supercars_drive"
+          }
+        },
+        {
+          "handle": 20,
+          "uuid": "2803",
+          "properties": 12,
+          "security": 0,
+          "value": {
+            "handle": 21,
+            "uuid": "d44bc439-abfd-45a2-b575-92541612960a",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 22,
+              "uuid": "2901",
+              "data": "31314100"
+            }
+          ]
+        },
+        {
+          "handle": 23,
+          "uuid": "2803",
+          "properties": 12,
+          "security": 0,
+          "value": {
+            "handle": 24,
+            "uuid": "d44bc439-abfd-45a2-b575-92541612960b",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 25,
+              "uuid": "2901",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 26,
+          "uuid": "2803",
+          "properties": 16,
+          "security": 0,
+          "value": {
+            "handle": 27,
+            "uuid": "d44bc439-abfd-45a2-b575-925416129601",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 28,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "fd00",
+      "type_uuid": "2800",
+      "start_handle": 29,
+      "end_handle": 34,
+      "characteristics": [
+        {
+          "handle": 30,
+          "uuid": "2803",
+          "properties": 4,
+          "security": 0,
+          "value": {
+            "handle": 31,
+            "uuid": "fd01",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 32,
+          "uuid": "2803",
+          "properties": 24,
+          "security": 0,
+          "value": {
+            "handle": 33,
+            "uuid": "fd02",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 34,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "devinfo": {
+    "adv_data": "0201060c08514341522d31453636353105ff5452003c",
+    "bd_addr": "00:3C:DE:1E:66:51",
+    "addr_type": 0,
+    "scan_rsp": "1106fb349b5f8000008000100000f0ff0000"
+  }
+}

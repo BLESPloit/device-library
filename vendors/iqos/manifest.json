@@ -1,0 +1,19 @@
+{
+  "name": "IQOS",
+  "description": "Just icon",
+  "author": "",
+  "version": 1,
+  "assets": {
+    "icon": "assets/iqos.svg"
+  },
+  "roles": {
+    "observer": {
+      "_comment": "No lua yet, just icon for matching conditions (company Philip Morris)",
+      "priority": 20,
+      "scan_conditions": {
+        "company_id": "0223"
+      }
+    }
+  },
+  "manifest_version": 1
+}

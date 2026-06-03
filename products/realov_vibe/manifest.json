@@ -1,0 +1,93 @@
+{
+  "name": "Realov vibe",
+  "description": "Realov Lydia I Smart Butterfly",
+  "author": "Slawomir Jasek",
+  "author_url": "https://blesplo.it",
+  "model_url": "https://www.realov.com",
+  "version": 1,
+  "notes": "",
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=cn.ble.realov_new",
+      "version_note": ""
+    },
+    "apple": {
+      "url": "https://apps.apple.com/us/app/realov/id893957103",
+      "version_note": ""
+    }
+  },
+  "assets": {
+    "icon": "assets/realov.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "scan_conditions": {
+        "device_name_contains": "REALOV_VIBE"
+      },
+      "priority": 50
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic_peripheral.lua",
+      "interface": "peripheral/interface.json"
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "main",
+          "title": "Realov Vibe",
+          "kind": "full_menu",
+          "entry": "central/dynamic_central.lua",
+          "menu": "central/menu.json",
+          "match": {
+            "fingerprint": {
+              "protocol": [
+                "realov_vibe"
+              ]
+            },
+            "services": [
+              "ffe0"
+            ]
+          }
+        },
+        {
+          "id": "quick_vibrate_30",
+          "title": "Vibrate (speed 30)",
+          "kind": "quick_action",
+          "priority": 55,
+          "entry": "central/quick_vibrate_30.lua",
+          "match": {
+            "fingerprint": {
+              "protocol": [
+                "realov_vibe"
+              ]
+            },
+            "services": []
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "quick_vibrate_off",
+          "title": "Turn off vibration",
+          "kind": "quick_action",
+          "priority": 54,
+          "entry": "central/quick_vibrate_off.lua",
+          "match": {
+            "fingerprint": {
+              "protocol": [
+                "realov_vibe"
+              ]
+            },
+            "services": []
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    }
+  },
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "manifest_version": 1
+}

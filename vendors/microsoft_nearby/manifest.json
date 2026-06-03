@@ -1,0 +1,17 @@
+{
+  "name": "Microsoft Nearby",
+  "assets": {
+    "icon": "assets/windows_logo_blue.svg"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "scan_conditions": {
+        "company_id": "0006"
+      },
+      "priority": 100
+    }
+  },
+  "manifest_version": 1,
+  "version": 1
+}

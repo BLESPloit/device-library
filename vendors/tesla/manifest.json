@@ -1,0 +1,26 @@
+{
+  "name": "Tesla",
+  "description": "iBeacon-format vehicle proximity token (18-char local name starting with S).",
+  "version": 1,
+  "profile": "ble.json",
+  "assets": {
+    "icon": "assets/tesla.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 45,
+      "_comment": "After devices/ibeacon (40); requires decoded iBeacon entry, then filters by BLE name.",
+      "scan_conditions": {
+        "fingerprint_has_entry_id": "ibeacon"
+      }
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/tesla_peripheral.lua",
+      "interface": "peripheral/interface.json"
+    }
+  },
+  "manifest_version": 1
+}

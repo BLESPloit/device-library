@@ -1,0 +1,128 @@
+{
+  "SVC_RACE_DEFAULT": {
+    "type": "service",
+    "uuid": "5052494D-2DAB-0341-6972-6F6861424C45",
+    "name": "RACE — Airoha vendor (default UUIDs)",
+    "description": "RACE is Airoha’s vendor protocol tunneled over a single BLE GATT service: host writes command frames to TX and receives replies on RX (NOTIFY). It is the same surface tools such as race-toolkit use for provisioning, debug, and flash-style operations (see CVE-2025-20700 / CVE-2025-20702 disclosure). UUID matches race-toolkit UuidTable.AIROHA_GATT_SERVICE_UUID."
+  },
+  "CHR_RACE_TX_DEFAULT": {
+    "type": "characteristic",
+    "uuid": "43484152-2DAB-3241-6972-6F6861424C45",
+    "name": "RACE TX — host → device",
+    "description": "Outgoing leg: application writes RACE command packets here (host → firmware). Pair with RACE RX for NOTIFY responses. UUID matches AIROHA_GATT_TX_UUID in race-toolkit.",
+    "structure": [
+      {
+        "field": "Get build info (preset wire)",
+        "type": "hex",
+        "size": 6,
+        "description": "Minimal RACE REQUEST: 05 5A | u16 LE length (payload octets + 2; here only the command word, so 2) | u16 LE command 0x1E08 | no extra payload octets beyond the LE command in the LENGTH field semantics used by race-toolkit. NOTIFY on RX carries RESPONSE 0x5B plus body (return_code plus vendor/build string)."
+      },
+      {
+        "field": "STORAGE_PAGE_READ 0x0403 (flash / memory preset)",
+        "type": "hex",
+        "size": 12,
+        "description": "RACE REQUEST frame: 05 5A | u16 LE (payload length + 2) | u16 LE command 0x0403 | 6-octet payload: storage selector u8 | high page-size selector u8 (0x01 = 256-byte page) | flash address u32 LE. Wire example 055A08000304000100001008 asks for 256 bytes from physical address 0x08100000; firmware replies on RX with STORAGE_PAGE_READ data."
+      }
+    ],
+    "write_presets": [
+      {
+        "label": "Get build version",
+        "hex": "055a0200081e"
+      },
+      {
+        "label": "Read flash 256 B @ 0x08100000",
+        "hex": "055a08000304000100001008"
+      }
+    ]
+  },
+  "CHR_RACE_RX_DEFAULT": {
+    "type": "characteristic",
+    "uuid": "43484152-2DAB-3141-6972-6F6861424C45",
+    "name": "RACE RX — device → host",
+    "description": "Return leg: firmware sends RACE response frames via NOTIFY after handling a TX write. Enable NOTIFY before writing TX. UUID matches AIROHA_GATT_RX_UUID in race-toolkit."
+  },
+  "SVC_RACE_SONY": {
+    "type": "service",
+    "uuid": "dc405470-a351-4a59-97d8-2e2e3b207fbb",
+    "name": "RACE — Airoha vendor (Sony layout)",
+    "description": "Sony version. RACE is Airoha’s vendor protocol tunneled over a single BLE GATT service: host writes command frames to TX and receives replies on RX (NOTIFY). It is the same surface tools such as race-toolkit use for provisioning, debug, and flash-style operations (see CVE-2025-20700 / CVE-2025-20702 disclosure). This UUID is the Sony OEM service mapping in race-toolkit (SONY_GATT_SERVICE_UUID)."
+  },
+  "CHR_RACE_TX_SONY": {
+    "type": "characteristic",
+    "uuid": "bfd869fa-a3f2-4c2f-bcff-3eb1ec80cead",
+    "name": "RACE TX (Sony) — host → device",
+    "description": "Sony version. Outgoing leg: application writes RACE command packets here (host → firmware). Pair with RACE RX (Sony) for NOTIFY responses. UUID matches SONY_GATT_TX_UUID in race-toolkit.",
+    "structure": [
+      {
+        "field": "Get build info (preset wire)",
+        "type": "hex",
+        "size": 6,
+        "description": "Minimal RACE REQUEST: 05 5A | u16 LE length (payload octets + 2; here only the command word, so 2) | u16 LE command 0x1E08 | no extra payload octets beyond the LE command in the LENGTH field semantics used by race-toolkit. NOTIFY on RX carries RESPONSE 0x5B plus body (return_code plus vendor/build string)."
+      },
+      {
+        "field": "STORAGE_PAGE_READ 0x0403 (flash / memory preset)",
+        "type": "hex",
+        "size": 12,
+        "description": "RACE REQUEST frame: 05 5A | u16 LE (payload length + 2) | u16 LE command 0x0403 | 6-octet payload: storage selector u8 | high page-size selector u8 (0x01 = 256-byte page) | flash address u32 LE. Wire example 055A08000304000100001008 asks for 256 bytes from physical address 0x08100000; firmware replies on RX with STORAGE_PAGE_READ data."
+      }
+    ],
+    "write_presets": [
+      {
+        "label": "Get build version",
+        "hex": "055a0200081e"
+      },
+      {
+        "label": "Read flash 256 B @ 0x08100000",
+        "hex": "055a08000304000100001008"
+      }
+    ]
+  },
+  "CHR_RACE_RX_SONY": {
+    "type": "characteristic",
+    "uuid": "2a6b6575-faf6-418c-923f-ccd63a56d955",
+    "name": "RACE RX (Sony) — device → host",
+    "description": "Sony version. Return leg: firmware sends RACE response frames via NOTIFY after handling a TX write. Enable NOTIFY before writing RACE TX (Sony). UUID matches SONY_GATT_RX_UUID in race-toolkit."
+  },
+  "SVC_RACE_TRSPX": {
+    "type": "service",
+    "uuid": "49535343-fe7d-4ae5-8fa9-9fafd205e455",
+    "name": "RACE — Airoha vendor (ISS/TRSPX app UUIDs)",
+    "description": "TRSPX / ISS app UUID version. RACE is Airoha’s vendor protocol tunneled over a single BLE GATT service: host writes command frames to TX and receives replies on RX (NOTIFY). It is the same surface tools such as race-toolkit use for provisioning, debug, and flash-style operations (see CVE-2025-20700 / CVE-2025-20702 disclosure). This UUID is the TRSPX service mapping in race-toolkit (TRSPX_GATT_SERVICE_UUID; ISS-style vendor layout)."
+  },
+  "CHR_RACE_TX_TRSPX": {
+    "type": "characteristic",
+    "uuid": "49535343-8841-43f4-a8d4-ecbe34729bb3",
+    "name": "RACE TX (TRSPX) — host → device",
+    "description": "TRSPX version. Outgoing leg: application writes RACE command packets here (host → firmware). Pair with RACE RX (TRSPX) for NOTIFY responses. UUID matches TRSPX_GATT_TX_UUID in race-toolkit.",
+    "structure": [
+      {
+        "field": "Get build info (preset wire)",
+        "type": "hex",
+        "size": 6,
+        "description": "Minimal RACE REQUEST: 05 5A | u16 LE length (payload octets + 2; here only the command word, so 2) | u16 LE command 0x1E08 | no extra payload octets beyond the LE command in the LENGTH field semantics used by race-toolkit. NOTIFY on RX carries RESPONSE 0x5B plus body (return_code plus vendor/build string)."
+      },
+      {
+        "field": "STORAGE_PAGE_READ 0x0403 (flash / memory preset)",
+        "type": "hex",
+        "size": 12,
+        "description": "RACE REQUEST frame: 05 5A | u16 LE (payload length + 2) | u16 LE command 0x0403 | 6-octet payload: storage selector u8 | high page-size selector u8 (0x01 = 256-byte page) | flash address u32 LE. Wire example 055A08000304000100001008 asks for 256 bytes from physical address 0x08100000; firmware replies on RX with STORAGE_PAGE_READ data."
+      }
+    ],
+    "write_presets": [
+      {
+        "label": "Get build version",
+        "hex": "055a0200081e"
+      },
+      {
+        "label": "Read flash 256 B @ 0x08100000",
+        "hex": "055a08000304000100001008"
+      }
+    ]
+  },
+  "CHR_RACE_RX_TRSPX": {
+    "type": "characteristic",
+    "uuid": "49535343-1e4d-4bd9-ba61-23c647249616",
+    "name": "RACE RX (TRSPX) — device → host",
+    "description": "TRSPX version. Return leg: firmware sends RACE response frames via NOTIFY after handling a TX write. Enable NOTIFY before writing RACE TX (TRSPX). UUID matches TRSPX_GATT_RX_UUID in race-toolkit."
+  }
+}

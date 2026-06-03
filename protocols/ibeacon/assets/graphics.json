@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "ibeacon_logo",
+      "type": "svg",
+      "file": "ibeacon.svg",
+      "size": 110,
+      "align": "center"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "elements": [
+    {
+      "id": "lightbulb",
+      "type": "svg",
+      "file": "lightbulb.svg",
+      "size": 80
+    }
+]
+}

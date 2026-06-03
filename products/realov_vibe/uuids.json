@@ -1,0 +1,47 @@
+{
+  "SVC_REALOV": {
+    "type": "service",
+    "uuid": "FFE0",
+    "name": "Realov Vibe Control",
+    "description": "Controls the vibration speed"
+  },
+
+  "CHR_SPEED": {
+    "type": "characteristic",
+    "uuid": "FFE1",
+    "name": "Realov speed",
+    "description": "Write to set vibration intensity. Frame: C555, speed octet (0-255, 0 = off), trailing AA. The bundled peripheral stub still reads only the third octet as speed (Lua string.byte(input, 3)), matching this layout.",
+    "structure": [
+      {
+        "field": "Preamble C5",
+        "type": "uint8",
+        "size": 1,
+        "description": "Fixed lead-in"
+      },
+      {
+        "field": "Preamble 55",
+        "type": "uint8",
+        "size": 1,
+        "description": "Fixed lead-in"
+      },
+      {
+        "field": "Speed",
+        "type": "uint8",
+        "size": 1,
+        "unit": "0-255",
+        "description": "Vibration level; 0 stops."
+      },
+      {
+        "field": "Suffix",
+        "type": "uint8",
+        "size": 1,
+        "description": "0xAA"
+      }
+    ],
+    "write_presets": [
+      { "label": "Off (speed 0)", "hex": "C55500AA" },
+      { "label": "Sample vibrate (speed 30)", "hex": "C5551EAA" },
+      { "label": "Sample high (speed 80)", "hex": "C55550AA" }
+    ]
+  }
+}

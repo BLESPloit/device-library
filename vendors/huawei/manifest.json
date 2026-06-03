@@ -1,0 +1,19 @@
+{
+  "name": "Huawei",
+  "description": "Just icon",
+  "version": 1,
+  "assets": {
+    "icon": "assets/huawei.svg"
+  },
+  "roles": {
+    "observer": {
+      "_comment": "No lua yet, just icon for matching conditions",
+      "priority": 20,
+      "scan_conditions": {
+        "company_id": "027D",
+        "device_name_contains": "HUAWEI"
+      }
+    }
+  },
+  "manifest_version": 1
+}

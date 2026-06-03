@@ -1,0 +1,20 @@
+{
+  "SVC_SUPER_CARS": {
+    "type": "service",
+    "uuid": "fff0",
+    "name": "SuperCars vendor",
+    "description": "Gadgetbridge SuperCarsSupport primary service (0000fff0-...)"
+  },
+  "CHR_DRIVE_CONTROL": {
+    "type": "characteristic",
+    "uuid": "d44bc439-abfd-45a2-b575-925416129600",
+    "name": "Drive control",
+    "description": "16-byte AES-ECB ciphertext; plaintext layout from SuperCarsSupport.craft_packet (movement, direction, light, speed)."
+  },
+  "CHR_BATTERY_NOTIFY": {
+    "type": "characteristic",
+    "uuid": "d44bc439-abfd-45a2-b575-925416129601",
+    "name": "Battery notify",
+    "description": "Encrypted 16-byte notify; Gadgetbridge reads plaintext byte index 4 as battery level."
+  }
+}

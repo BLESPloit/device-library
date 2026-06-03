@@ -1,0 +1,22 @@
+{
+    "states": [
+        { "key": "speed", "name": "Vibrating speed" }
+    ],
+
+    "initial_menu": "main",
+    "menus": [
+        {
+            "id": "main",
+            "title": "Realov Vibe speed control",
+            "on_enter": "on_main_enter",
+            "items": [
+                { "id": "set_speed(0)",          "label": "Off" },
+                { "id": "set_speed(10)",         "label": "Low (10)" },
+                { "id": "set_speed(30)",        "label": "Medium (30)" },
+                { "id": "set_speed(50)",        "label": "Medium-high (50)" },
+                { "id": "set_speed(80)",        "label": "High (80)" },
+                { "id": "set_speed(120)",       "label": "Max sample (120)" }
+            ]
+        }
+    ]
+}

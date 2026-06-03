@@ -1,0 +1,151 @@
+{
+  "name": "Airoha RACE (GATT)",
+  "description": "RACE protocol over BLE as on Airoha-class audio devices (CVE-2025-20700 / CVE-2025-20702 research).",
+  "version": 1,
+  "source_url": "https://github.com/auracast-research/race-toolkit",
+  "model_url": "https://insinuator.net/2025/12/bluetooth-headphone-jacking-full-disclosure-of-airoha-race-vulnerabilities/",
+  "notes": "UUIDs and framing follow race-toolkit librace/constants.py and librace/packets.py. Quick actions exercise vendor debug paths: STORAGE_PAGE_READ (0x0403) for one 0x100-byte page at address 0, and GET_BUILD_INFO-style cmd 0x1E08 (see RACE TX write presets). Responses confirm the tunnel is alive, not only that characteristics exist. Run from Device Services after discovery; Sony WH-CH720N simulator answers 0x1E08 with a fixed NOTIFY blob. Patched firmware may expose GATT but reject commands.",
+  "uuids": "uuids.json",
+  "assets": {
+    "icon": "assets/airoha_logo.svg"
+  },
+  "roles": {
+    "central": {
+      "scripts": [
+        {
+          "id": "race_flash_read_default",
+          "title": "Check Airoha vulnerability: flash read (default GATT)",
+          "kind": "quick_action",
+          "priority": 62,
+          "entry": "central/race_flash.lua",
+          "vars": {
+            "svc": "SVC_RACE_DEFAULT",
+            "tx": "CHR_RACE_TX_DEFAULT",
+            "rx": "CHR_RACE_RX_DEFAULT",
+            "variant": "default"
+          },
+          "match": {
+            "require_discovered_services": true,
+            "services": [
+              "5052494D-2DAB-0341-6972-6F6861424C45",
+              "43484152-2DAB-3241-6972-6F6861424C45",
+              "43484152-2DAB-3141-6972-6F6861424C45"
+            ]
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "race_flash_read_sony",
+          "title": "Check Airoha vulnerability: flash read (Sony GATT)",
+          "kind": "quick_action",
+          "priority": 62,
+          "entry": "central/race_flash.lua",
+          "vars": {
+            "svc": "SVC_RACE_SONY",
+            "tx": "CHR_RACE_TX_SONY",
+            "rx": "CHR_RACE_RX_SONY",
+            "variant": "sony"
+          },
+          "match": {
+            "require_discovered_services": true,
+            "services": [
+              "dc405470-a351-4a59-97d8-2e2e3b207fbb",
+              "bfd869fa-a3f2-4c2f-bcff-3eb1ec80cead",
+              "2a6b6575-faf6-418c-923f-ccd63a56d955"
+            ]
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "race_flash_read_trspx",
+          "title": "Check Airoha vulnerability: flash read (TRSPX GATT)",
+          "kind": "quick_action",
+          "priority": 61,
+          "entry": "central/race_flash.lua",
+          "vars": {
+            "svc": "SVC_RACE_TRSPX",
+            "tx": "CHR_RACE_TX_TRSPX",
+            "rx": "CHR_RACE_RX_TRSPX",
+            "variant": "trspx"
+          },
+          "match": {
+            "require_discovered_services": true,
+            "services": [
+              "49535343-FE7D-4AE5-8FA9-9FAFD205E455",
+              "49535343-8841-43F4-A8D4-ECBE34729BB3",
+              "49535343-1E4D-4BD9-BA61-23C647249616"
+            ]
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "race_build_version_default",
+          "title": "Check Airoha vulnerability: build version (default GATT)",
+          "kind": "quick_action",
+          "priority": 61,
+          "entry": "central/race_build_version.lua",
+          "vars": {
+            "svc": "SVC_RACE_DEFAULT",
+            "tx": "CHR_RACE_TX_DEFAULT",
+            "rx": "CHR_RACE_RX_DEFAULT",
+            "variant": "default"
+          },
+          "match": {
+            "require_discovered_services": true,
+            "services": [
+              "5052494D-2DAB-0341-6972-6F6861424C45",
+              "43484152-2DAB-3241-6972-6F6861424C45",
+              "43484152-2DAB-3141-6972-6F6861424C45"
+            ]
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "race_build_version_sony",
+          "title": "Check Airoha vulnerability: build version (Sony GATT)",
+          "kind": "quick_action",
+          "priority": 61,
+          "entry": "central/race_build_version.lua",
+          "vars": {
+            "svc": "SVC_RACE_SONY",
+            "tx": "CHR_RACE_TX_SONY",
+            "rx": "CHR_RACE_RX_SONY",
+            "variant": "sony"
+          },
+          "match": {
+            "require_discovered_services": true,
+            "services": [
+              "dc405470-a351-4a59-97d8-2e2e3b207fbb",
+              "bfd869fa-a3f2-4c2f-bcff-3eb1ec80cead",
+              "2a6b6575-faf6-418c-923f-ccd63a56d955"
+            ]
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "race_build_version_trspx",
+          "title": "Check Airoha vulnerability: build version (TRSPX GATT)",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/race_build_version.lua",
+          "vars": {
+            "svc": "SVC_RACE_TRSPX",
+            "tx": "CHR_RACE_TX_TRSPX",
+            "rx": "CHR_RACE_RX_TRSPX",
+            "variant": "trspx"
+          },
+          "match": {
+            "require_discovered_services": true,
+            "services": [
+              "49535343-FE7D-4AE5-8FA9-9FAFD205E455",
+              "49535343-8841-43F4-A8D4-ECBE34729BB3",
+              "49535343-1E4D-4BD9-BA61-23C647249616"
+            ]
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    }
+  },
+  "manifest_version": 1
+}

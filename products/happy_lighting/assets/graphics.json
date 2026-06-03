@@ -1,0 +1,16 @@
+{
+  "elements": [
+    {
+      "id": "lightbulb",
+      "type": "svg",
+      "file": "lightbulb.svg",
+      "size": 70
+    },
+    {
+      "id": "lightbulb_color",
+      "type": "svg",
+      "file": "lightbulb_color.svg",
+      "size": 70
+    }
+  ]
+}

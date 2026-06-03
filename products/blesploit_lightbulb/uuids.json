@@ -1,0 +1,59 @@
+{
+  "SVC_LIGHTBULB": {
+    "type": "service",
+    "uuid": "a700cc65-e486-40ba-5d24-99601dc38fd7",
+    "name": "BLESPlo.it Light Control",
+    "description": "Controls power state and color of the LED bulb"
+  },
+
+  "CHR_ONOFF": {
+    "type": "characteristic",
+    "uuid": "a701cc65-e486-40ba-5d24-99601dc38fd7",
+    "name": "Power Switch",
+    "description": "LED on/off state.",
+    "structure": [
+      {
+        "field": "State",
+        "type": "uint8",
+        "size": 1,
+        "description": "0 = off, 1 = on. Values 2–255 reserved."
+      }
+    ],
+    "fields": [
+      {
+        "name": "State",
+        "values": [
+          { "value": "0", "description": "Off" },
+          { "value": "1", "description": "On" },
+          { "value": "2-255", "description": "Reserved for future use" }
+        ]
+      }
+    ]
+  },
+  "CHR_RGB": {
+    "type": "characteristic",
+    "uuid": "a702cc65-e486-40ba-5d24-99601dc38fd7",
+    "name": "RGB Color",
+    "description": "LED color as 3-byte RGB",
+    "structure": [
+      { "field": "Red",   "type": "uint8", "size": 1, "unit": "0–255" },
+      { "field": "Green", "type": "uint8", "size": 1, "unit": "0–255" },
+      { "field": "Blue",  "type": "uint8", "size": 1, "unit": "0–255" }
+    ]
+  },
+
+  "CHR_SECRET": {
+    "type": "characteristic",
+    "uuid": "a703cc65-e486-40ba-5d24-99601dc38fd7",
+    "name": "Secret challenge",
+    "description": "Write-only: first byte compared to a peripheral-generated secret",
+    "structure": [
+      {
+        "field": "Guess",
+        "type": "uint8",
+        "size": 1,
+        "description": "Single-byte value to match the random secret."
+      }
+    ]
+  }
+}

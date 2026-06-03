@@ -1,0 +1,54 @@
+{
+  "name": "Rapidpower robotic dog",
+  "description": "Rapidpower",
+  "author": "Slawomir Jasek",
+  "author_url": "https://blesplo.it",
+  "model_url": "http://www.rapidpowertoys.com",
+  "version": 1,
+  "notes": "",
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.zhongrun.robotdog",
+      "version_note": ""
+    },
+    "apple": {
+      "url": "https://apps.apple.com/us/app/rapidpower/id6479237013",
+      "version_note": ""
+    }
+  },
+  "assets": {
+    "icon": "assets/rapidpower_dog.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "scan_conditions": {
+        "device_name_contains": "Rapidpower-dog"
+      },
+      "priority": 50
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic_peripheral.lua"
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "main",
+          "title": "Rapidpower dog",
+          "kind": "full_menu",
+          "entry": "central/dynamic_central.lua",
+          "menu": "central/menu.json",
+          "match": {
+            "services": [
+              "fa879af4-d601-420c-b2b4-07ffb528dde3"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "manifest_version": 1
+}

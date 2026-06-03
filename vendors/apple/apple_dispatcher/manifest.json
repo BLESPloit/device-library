@@ -1,0 +1,18 @@
+{
+  "name": "Apple Continuity (dispatcher)",
+  "assets": {
+    "icon": "assets/apple_gradient.svg",
+    "icon_tint": "#8E8E93"
+  },
+  "roles": {
+    "observer": {
+      "scan_conditions": {
+        "company_id": "004C"
+      },
+      "entry": "observer/adv_decode.lua",
+      "priority": 20
+    }
+  },
+  "manifest_version": 1,
+  "version": 1
+}

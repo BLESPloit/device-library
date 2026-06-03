@@ -1,0 +1,68 @@
+{
+  "name": "Google Fast Pair",
+  "description": "Google Nearby Fast Pair over BLE — service UUID 0xFE2C (discoverable model ID ads and non-discoverable account key bloom payloads), plus canonical Fast Pair GATT profile.",
+  "author": "Google (spec)",
+  "version": 1,
+  "model_url": "https://developers.google.com/nearby/fast-pair/specifications/service/provider",
+  "source_url": "https://developers.google.com/nearby/fast-pair/specifications/characteristics",
+  "catalog": "fast_pair/fast_pair_models.json",
+  "notes": "Advertising: BR/EDR discoverable providers carry 24‑bit Fast Pair Model ID in Service Data 0xFE2C per provider spec (≤100 ms interval; BLE addr must not rotate in that mode). When not discoverable, providers advertise Fast Pair Account Data in the same service data (≤250 ms) when they have≥1 persisted account key — version byte plus Account Key bloom filter TLV and Salt TLV. Optional Battery Notification extension may follow the salt: length/type nibble plus per‑component octets (left bud, right bud, case), each 0bSVVVVVVV. Interval and rotation rules apply at the UX layer.\nSeeker-visible GATT: Fast Pair service 0xFE2C (Model ID read; Key-based pairing / Passkey write+notify; Account Key write). Optional Device Information Service 0x180A with Firmware Revision 0x2A26. Additional Data characteristic FE2C1237 flows use handshake shared secret plus AES‑CTR+HMAC‑SHA256 as defined in characteristics spec.\nFind Hub Network (FHN) / Find My Device Network (FMDN): providers that support Google’s locator / tracking extension expose characteristic FE2C1238‑8366‑4814‑8EB0‑01DE32100BEA (Beacon actions) on the same 0xFE2C service — read/write/notify for nonce plus HMAC‑authenticated writes (provisioning, ring, unwanted‑tracking protection, Precision Finding / ranging, etc.) and separate FHN LE advertisement payloads. DULT applies to certified accessories. Spec: https://developers.google.com/nearby/fast-pair/specifications/extensions/fmdn\nBundled `fast_pair/fast_pair_models.json` catalogs 24‑bit model IDs (WhisperPair `model_ids.csv` CC BY‑4.0, then DiamondRoPlayz README for missing ids). Regenerate: `python mobile/scripts/build_fast_pair_models_catalog.py`.",
+  "assets": {
+    "icon": "assets/fast_pair_logo.svg"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 25,
+      "scan_conditions": {
+        "service_data_uuid_16": "fe2c"
+      }
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "read_fast_pair_model_id",
+          "title": "Check Fast Pair model",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/read_fast_pair_model_id.lua",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "device_type": [
+                "FAST_PAIR"
+              ]
+            },
+            "services": [
+              "fe2c"
+            ],
+            "require_discovered_services": true
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "check_whisperpair_kb_probe",
+          "title": "Check WhisperPair vulnerability",
+          "kind": "quick_action",
+          "priority": 61,
+          "entry": "central/check_whisperpair_kb_probe.lua",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "device_type": [
+                "FAST_PAIR"
+              ]
+            },
+            "services": [
+              "fe2c"
+            ],
+            "require_discovered_services": true
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    }
+  },
+  "uuids": "uuids.json",
+  "manifest_version": 1
+}

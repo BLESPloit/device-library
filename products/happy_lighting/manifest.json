@@ -1,0 +1,94 @@
+{
+  "name": "Happy Lighting",
+  "description": "Happy Lighting smart light systems. On/off, set color.",
+  "author": "Slawomir Jasek",
+  "author_url": "https://blesplo.it",
+  "model_url": "https://happylightingapp.com/",
+  "version": 1,
+  "notes": "Confirmed working with 'Triones' lightbulb. Other device names extracted from the app (unconfirmed). The device seems to have a PIN authentication, but it is not enforced nor visible anywhere the user interface. The application sends hardcoded '1234', but the device accepts commands without it as well. ",
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.xiaoyu.hlight",
+      "version_note": "There are also several unofficial ones available."
+    },
+    "apple": {
+      "url": "https://apps.apple.com/us/app/happylighting-life-with-smart/id1145694075",
+      "version_note": ""
+    },
+    "direct": [
+      {
+        "label": "confirmed APK",
+        "url": "https://apkpure.com/happylighting/com.xiaoyu.hlight/download/1.6.49",
+        "version_note": "v1.6.49"
+      }
+    ]
+  },
+  "assets": {
+    "icon": "assets/happy_lighting.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "scan_conditions": {
+        "device_name_regex": "^(Triones|BRGlight|Color\\+|Dream-|Light-|Color-|QHM|Flash|LD-|Dimmer|Dream\\*|Dream#|Dream~|Dream&|Morimoto|Thaillamp|LXDZ|Archaic|GLOWDRIV|RAMAND|Dream=|QLAMP)"
+      },
+      "priority": 50
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic_peripheral.lua"
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "main",
+          "title": "Happy Lighting",
+          "kind": "full_menu",
+          "entry": "central/dynamic_central.lua",
+          "menu": "central/menu.json",
+          "match": {
+            "services": [
+              "ffd5"
+            ]
+          }
+        },
+        {
+          "id": "check_light_status",
+          "title": "Check light status",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/quick_check_light_status.lua",
+          "match": {
+            "fingerprint": {
+              "protocol": [
+                "happy_lighting"
+              ]
+            },
+            "services": []
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "flash_rainbow",
+          "title": "Flash rainbow",
+          "kind": "quick_action",
+          "priority": 55,
+          "entry": "central/quick_flash_rainbow.lua",
+          "match": {
+            "fingerprint": {
+              "protocol": [
+                "happy_lighting"
+              ]
+            },
+            "services": []
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    }
+  },
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "manifest_version": 1
+}

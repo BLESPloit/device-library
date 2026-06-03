@@ -1,0 +1,18 @@
+{
+  "elements": [
+    {
+      "id": "car",
+      "type": "png",
+      "file": "bmw_m1.png",
+      "size": 80,
+      "align": "center"
+    },
+    {
+      "id": "status",
+      "type": "text",
+      "text": "Shell SuperCars",
+      "size": 8,
+      "align": "bottom_center"
+    }
+  ]
+}

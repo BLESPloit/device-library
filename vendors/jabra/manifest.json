@@ -1,0 +1,18 @@
+{
+  "name": "Jabra",
+  "description": "Just icon",
+  "version": 1,
+  "assets": {
+    "icon": "assets/jabra.svg"
+  },
+  "roles": {
+    "observer": {
+      "_comment": "No lua yet, just icon for matching conditions",
+      "priority": 20,
+      "scan_conditions": {
+        "device_name_contains": "Jabra"
+      }
+    }
+  },
+  "manifest_version": 1
+}

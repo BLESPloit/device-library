@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "eddystone_logo",
+      "type": "svg",
+      "file": "eddystone.svg",
+      "size": 110,
+      "align": "center"
+    }
+  ]
+}

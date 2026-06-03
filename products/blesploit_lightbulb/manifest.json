@@ -1,0 +1,46 @@
+{
+  "name": "BLESPlo.it Light",
+  "description": "Example lightbulb: on/off (notify), RGB color, and an optional write-only secret-challenge characteristic for peripheral Lua.",
+  "author": "Slawomir Jasek",
+  "author_url": "https://blesplo.it",
+  "version": 1,
+  "assets": {
+    "icon": "assets/blesploit_logo.svg",
+    "icon_tint": "#4b96cb",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "scan_conditions": {
+        "service_data_uuid_128": "a700cc65-e486-40ba-5d24-99601dc38fd7"
+      },
+      "entry": "observer/adv_decode.lua",
+      "priority": 50
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic_peripheral.lua",
+      "interface": "peripheral/interface.json"
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "main",
+          "title": "BLESPlo.it Light",
+          "kind": "full_menu",
+          "entry": "central/dynamic_central.lua",
+          "menu": "central/menu.json",
+          "match": {
+            "services": [
+              "a701cc65-e486-40ba-5d24-99601dc38fd7",
+              "a702cc65-e486-40ba-5d24-99601dc38fd7"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "manifest_version": 1
+}

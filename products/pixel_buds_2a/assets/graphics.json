@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "icon",
+      "type": "png",
+      "file": "pixel_buds_2a.png",
+      "size": 80,
+      "align": "center"
+    }
+  ]
+}

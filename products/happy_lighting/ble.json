@@ -1,0 +1,59 @@
+{
+  "services": [
+    {
+      "uuid": "ffd0",
+      "type_uuid": "2800",
+      "start_handle": 1,
+      "end_handle": 4,
+      "characteristics": [
+        {
+          "handle": 2,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 3,
+            "uuid": "ffd4",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 4,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "ffd5",
+      "type_uuid": "2800",
+      "start_handle": 5,
+      "end_handle": 7,
+      "characteristics": [
+        {
+          "handle": 6,
+          "uuid": "2803",
+          "properties": 4,
+          "security": 0,
+          "value": {
+            "handle": 7,
+            "uuid": "ffd9",
+            "data": ""
+          },
+          "dynamic": {
+            "on_write": "on_write_command"
+          },
+          "descriptors": []
+        }
+      ]
+    }
+  ],
+  "devinfo": {
+    "adv_data": "02010615095472696F6E65732D464646463338353941393146",
+    "bd_addr": "FF:FF:38:59:A9:1F",
+    "addr_type": 0,
+    "pdu_type": "ADV_IND"
+  }
+}

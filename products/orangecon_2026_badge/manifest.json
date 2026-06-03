@@ -1,0 +1,19 @@
+{
+  "name": "OrangeCon 2026 Badge",
+  "description": "Simple match for advertising",
+  "version": 1,
+  "assets": {
+    "icon": "assets/orangecon.svg"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 20,
+      "scan_conditions": {
+        "company_id": "BAD0",
+        "device_name_contains": "OCB"
+      }
+    }
+  },
+  "manifest_version": 1
+}

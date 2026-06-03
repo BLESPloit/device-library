@@ -1,0 +1,53 @@
+{
+  "name": "Shell SuperCars",
+  "description": "Shell Racing toy car (2020 edition)",
+  "author": "Slawomir Jasek",
+  "author_url": "https://blesplo.it",
+  "version": 1,
+  "notes": "Peripheral sim: AES-ECB control writes on FFF1; battery notify on FFF4 (16-byte blocks).",
+  "apps": {
+    "google": {
+      "url": "",
+      "version_note": "https://play.google.com/store/apps/details?id=nl.brandbase.shellsupercars"
+    },
+    "apple": {
+      "url": "https://apps.apple.com/pl/app/shell-racing/id1458482004",
+      "version_note": ""
+    }
+  },
+  "roles": {
+    "observer": {
+      "scan_conditions": {
+        "device_name_regex": "^QCAR-[0-9A-F]{4}$"
+      },
+      "priority": 50
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic_peripheral.lua"
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "main",
+          "title": "Shell SuperCars",
+          "kind": "full_menu",
+          "entry": "central/dynamic_central.lua",
+          "menu": "central/menu.json",
+          "match": {
+            "services": [
+              "fff0"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "assets": {
+    "icon": "assets/bmw_m1.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "manifest_version": 1
+}

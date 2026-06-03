@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "tesla_logo",
+      "type": "svg",
+      "file": "tesla.svg",
+      "size": 110,
+      "align": "center"
+    }
+  ]
+}

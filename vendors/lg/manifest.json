@@ -1,0 +1,18 @@
+{
+  "name": "LG",
+  "description": "Just icon",
+  "version": 1,
+  "assets": {
+    "icon": "assets/lg.svg"
+  },
+  "roles": {
+    "observer": {
+      "_comment": "No lua yet, just icon for matching conditions",
+      "priority": 20,
+      "scan_conditions": {
+        "company_id": "00C4"
+      }
+    }
+  },
+  "manifest_version": 1
+}

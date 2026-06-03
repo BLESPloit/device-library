@@ -1,0 +1,56 @@
+{
+  "SVC_FAST_PAIR": {
+    "type": "service",
+    "uuid": "fe2c",
+    "name": "Fast Pair Service",
+    "description": "Google Fast Pair Provider GATT service (16‑bit UUID 0xFE2C). Holds Model ID, key-based pairing, passkey, account key, Additional Data, and (when implemented) Find Hub Network (FHN / FMDN) Beacon actions (0xFE2C…1238)."
+  },
+  "CHR_MODEL_ID": {
+    "type": "characteristic",
+    "uuid": "fe2c1233-8366-4814-8eb0-01de32100bea",
+    "name": "Model ID",
+    "description": "Read-only 24‑bit Fast Pair model ID (uint24, octets 0–2, big-endian). Same value as discoverable Model ID advertisement."
+  },
+  "CHR_KEY_BASED_PAIRING": {
+    "type": "characteristic",
+    "uuid": "fe2c1234-8366-4814-8eb0-01de32100bea",
+    "name": "Key-based Pairing",
+    "description": "Write + notify. Encrypted request/response KBP procedure (anti-spoofing key or account key). Decrypted types include 0x00 key-based pairing request, 0x10 action request, 0x01 response."
+  },
+  "CHR_PASSKEY": {
+    "type": "characteristic",
+    "uuid": "fe2c1235-8366-4814-8eb0-01de32100bea",
+    "name": "Passkey",
+    "description": "Write + notify. Encrypted passkey block; raw block message type 0x02 (Seeker) or 0x03 (Provider), 6‑digit passkey as uint32, salt padding."
+  },
+  "CHR_ACCOUNT_KEY": {
+    "type": "characteristic",
+    "uuid": "fe2c1236-8366-4814-8eb0-01de32100bea",
+    "name": "Account Key",
+    "description": "Write only. Seeker writes encrypted account key (uint128); Provider decrypts with pairing shared secret, validates 0x04 prefix, stores in bounded Account Key list."
+  },
+  "CHR_ADDITIONAL_DATA": {
+    "type": "characteristic",
+    "uuid": "fe2c1237-8366-4814-8eb0-01de32100bea",
+    "name": "Additional Data (Data)",
+    "description": "Write + notify. After KBP handshake: data packet = 8‑byte HMAC‑SHA256 prefix + 8‑byte AES‑CTR nonce + ciphertext; raw payload Data ID 0x01 = personalized name (utf8s). Old 16‑bit 0x1237 target deprecated 2021/01/01."
+  },
+  "CHR_BEACON_ACTIONS_FHN": {
+    "type": "characteristic",
+    "uuid": "fe2c1238-8366-4814-8eb0-01de32100bea",
+    "name": "Beacon actions (Find Hub Network / FMDN)",
+    "description": "Find Hub Network (FHN) extension to Fast Pair — also referred to in Google docs as Find My Device Network (FMDN) for tracker-style accessories. Read + write + notify. Read returns protocol major (0x01) + 8‑byte one-time nonce; writes use HMAC‑authenticated requests for beacon provisioning (Data IDs 0x00–0x04), ringing (0x05–0x06), unwanted tracking protection (0x07–0x08), Precision Finding / ranging (0x0A–0x0D), etc. Spec: https://developers.google.com/nearby/fast-pair/specifications/extensions/fmdn"
+  },
+  "SVC_DEVICE_INFORMATION": {
+    "type": "service",
+    "uuid": "180a",
+    "name": "Device Information Service",
+    "description": "Bluetooth SIG Device Information Service; Fast Pair recommends Firmware Revision characteristic for seekers."
+  },
+  "CHR_FIRMWARE_REVISION": {
+    "type": "characteristic",
+    "uuid": "2a26",
+    "name": "Firmware Revision",
+    "description": "Read utf8 firmware string. Spec allows status-updating / status-abnormal sentinel values; Provider should gate reads to bonded devices or discoverable state to reduce tracking."
+  }
+}

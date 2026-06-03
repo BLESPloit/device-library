@@ -1,0 +1,22 @@
+{
+  "name": "Generic BLE",
+  "description": "Fallback enrichment actions for connectable devices that do not match a more specific observer manifest yet (typical Android, various headsets, generic BLE modules).",
+  "priority": 20,
+  "roles": {
+    "central": {
+      "scripts": [
+        {
+          "id": "generic_read_device_info",
+          "title": "Read device info",
+          "kind": "quick_action",
+          "priority": 20,
+          "entry": "central/read_device_info.lua",
+          "match": {},
+          "auto_run_on_connect": false
+        }
+      ]
+    }
+  },
+  "manifest_version": 1,
+  "version": 1
+}

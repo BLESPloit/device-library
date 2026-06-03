@@ -1,0 +1,41 @@
+{
+  "SVC_HAPPYLIGHT": {
+    "type": "service",
+    "uuid": "ffd5",
+    "name": "Happy Lighting",
+    "description": "Happy Lighting LED service (16-bit Bluetooth SIG reserved UUID used by the vendor improperly)"
+  },
+  "SVC_NOTIFY": {
+    "type": "service",
+    "uuid": "ffd0",
+    "name": "Happy Lighting Notify",
+    "description": "Happy Lighting LED service for notifications (16-bit Bluetooth SIG reserved UUID used by the vendor improperly)"
+  },
+
+  "CHR_NOTIFY": {
+    "type": "characteristic",
+    "uuid": "ffd4",
+    "name": "Happy Lighting Notification",
+    "description": "Happy Lighting notification responses"
+  },
+
+  "CHR_COMMAND": {
+    "type": "characteristic",
+    "uuid": "ffd9",
+    "name": "Happy Lighting Control",
+    "description": "Happy Lighting control commands",
+    "structure": [
+      {
+        "field": "Frame",
+        "type": "hex",
+        "size": 3,
+        "description": "on: CC2333, off: CC2433, color: 56RRGGBB00F0AA, special: BBXXYY44 (XX: command, YY: speed"
+      }
+    ],
+    "write_presets": [
+      { "label": "On", "hex": "CC2333" },
+      { "label": "Off", "hex": "CC2433" },
+      { "label": "Sample color", "hex": "56FF880000F0AA" }
+    ]
+  }
+}

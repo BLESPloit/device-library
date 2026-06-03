@@ -1,0 +1,27 @@
+{
+  "name": "Google Pixel Buds 2a",
+  "description": "Google Headphones",
+  "version": 1,
+  "notes": "Simple observer based on device name, static peripheral.",
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "assets": {
+    "icon": "assets/pixel_buds_2a.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "device_name_contains": "Pixel Buds 2a"
+      }
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/peripheral.lua",
+      "interface": "peripheral/interface.json"
+    }
+  },
+  "manifest_version": 1
+}

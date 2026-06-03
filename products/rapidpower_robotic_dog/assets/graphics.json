@@ -1,0 +1,25 @@
+{
+  "elements": [
+    {
+      "id": "dog",
+      "type": "png",
+      "file": "rapidpower_dog_128.png",
+      "size": 80,
+      "align": "center"
+    },
+    {
+      "id": "dog_svg",
+      "type": "svg",
+      "file": "rapidpower_dog.svg",
+      "size": 80,
+      "align": "center"
+    },
+    {
+      "id": "status",
+      "type": "text",
+      "text": "Idle",
+      "size": 8,
+      "align": "bottom_center"
+    }
+  ]
+}

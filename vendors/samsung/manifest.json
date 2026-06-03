@@ -1,0 +1,25 @@
+{
+  "name": "Samsung",
+  "description": "Just icon",
+  "version": 1,
+  "assets": {
+    "icon": "assets/samsung.svg"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 20,
+      "scan_conditions": {
+        "one_of": [
+          {
+            "company_id": "0075"
+          },
+          {
+            "service_data_uuid_16": "fd69"
+          }
+        ]
+      }
+    }
+  },
+  "manifest_version": 1
+}

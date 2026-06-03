@@ -1,0 +1,27 @@
+{
+  "name": "iBeacon",
+  "version": 1,
+  "vars": "vars.json",
+  "assets": {
+    "icon": "assets/ibeacon.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "scan_conditions": {
+        "company_id": "004C",
+        "manufacturer_data_prefix_hex": "0215"
+      },
+      "_comment": "Runs after apple_dispatcher (20) and apple_* decoders (30); decodes iBeacon while dispatcher only flags TLV 0x02",
+      "priority": 40
+    },
+    "peripheral": {
+      "entry": "peripheral/ibeacon_peripheral.lua",
+      "advertisement": "peripheral/adv.json",
+      "interface": "peripheral/interface.json",
+      "show_adv_address": true
+    }
+  },
+  "manifest_version": 1
+}

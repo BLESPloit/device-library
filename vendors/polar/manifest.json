@@ -1,0 +1,19 @@
+{
+  "name": "Polar",
+  "description": "Just icon",
+  "version": 1,
+  "assets": {
+    "icon": "assets/polar.svg"
+  },
+  "roles": {
+    "observer": {
+      "_comment": "No lua yet, just icon for matching conditions",
+      "priority": 20,
+      "scan_conditions": {
+        "company_id": "006b",
+        "device_name_contains": "Polar"
+      }
+    }
+  },
+  "manifest_version": 1
+}

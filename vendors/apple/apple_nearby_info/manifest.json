@@ -1,0 +1,40 @@
+{
+  "name": "Apple Nearby Info",
+  "assets": {
+    "icon": "assets/apple.svg",
+    "icon_tint": "#0A84FF"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "scan_conditions": {
+        "fingerprint_has_entry_id": "apple_meta",
+        "fingerprint_entry_attributes": {
+          "continuity_has_nearbyinfo": "true"
+        }
+      },
+      "priority": 30
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "apple_check_ios_model",
+          "title": "Check iOS model",
+          "kind": "quick_action",
+          "priority": 30,
+          "entry": "central/check_ios_model.lua",
+          "match": {
+            "fingerprint": {
+              "continuity_has_nearbyinfo": [
+                "true"
+              ]
+            }
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    }
+  },
+  "manifest_version": 1,
+  "version": 1
+}

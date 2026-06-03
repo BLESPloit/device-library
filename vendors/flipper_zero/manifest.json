@@ -1,0 +1,21 @@
+{
+  "name": "Flipper Zero",
+  "description": "Detect the specific service uuid",
+  "author": "Slawomir Jasek",
+  "author_url": "https://blesplo.it",
+  "model_url": "https://flipper.net",
+  "version": 1,
+  "assets": {
+    "icon": "assets/flipper.svg"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 20,
+      "scan_conditions": {
+         "service_uuid_16": [ "3081", "3082", "3083"]
+      }
+    }
+  },
+  "manifest_version": 1
+}

@@ -1,0 +1,23 @@
+{
+  "SVC_RAPIDPOWER": {
+    "type": "service",
+    "uuid": "fa879af4-d601-420c-b2b4-07ffb528dde3",
+    "name": "Rapidpower",
+    "description": "Rapidpower control service"
+  },
+  "CHR_COMMAND": {
+    "type": "characteristic",
+    "uuid": "b02eaeaa-f6bc-4a7e-bc94-f7b7fc8ded0b",
+    "name": "Rapidpower Control",
+    "description": "7-byte vendor command frames (hex). Matches vendor app phrase map.",
+    "write_presets": [
+      { "label": "Stop", "hex": "F02A000AD5FFF5" },
+      { "label": "Move forward", "hex": "F02A0001D5FFFE" },
+      { "label": "Turn left", "hex": "F02A0004D5FFFB" },
+      { "label": "Turn right", "hex": "F02A0007D5FFF8" },
+      { "label": "Handshake", "hex": "F02A001CD5FFE3" },
+      { "label": "Attack", "hex": "F02A001FD5FFE0" },
+      { "label": "Push-up", "hex": "F02A0031D5FFCE" },
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Apple Handoff",
+  "assets": {
+    "icon": "assets/apple.svg",
+    "icon_tint": "#5AC8FA"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "scan_conditions": {
+        "fingerprint_has_entry_id": "apple_meta",
+        "fingerprint_entry_attributes": {
+          "continuity_has_handoff": "true"
+        }
+      },
+      "priority": 30
+    }
+  },
+  "manifest_version": 1,
+  "version": 1
+}

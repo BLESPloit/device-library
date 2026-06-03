@@ -1,0 +1,32 @@
+{
+  "buttons": [
+    {
+      "id": "toggle",
+      "name": "Toggle",
+      "physical_button_id": 0,
+      "physical_button_press": "single",
+      "lua": "toggle"
+    },
+    {
+      "id": "random_color",
+      "name": "Random color",
+      "physical_button_id": 0,
+      "physical_button_press": "double",
+      "lua": "set_random_color"
+    },
+    {
+      "id": "on",
+      "name": "On",
+      "physical_button_id": 1,
+      "physical_button_press": "double",
+      "lua": "turn_on"
+    },
+    {
+      "id": "off",
+      "name": "Off",
+      "physical_button_id": 1,
+      "physical_button_press": "single",
+      "lua": "turn_off"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "elements": [
+    {
+      "id": "realov", 
+      "type": "png",
+      "file": "realov.png",
+      "size": 60,
+      "align": "center"      
+    },
+    {
+      "id": "realov_svg",
+      "type": "svg",
+      "file": "realov.svg",
+      "size": 60,
+      "align": "center"
+    },
+    {
+      "id": "status",
+      "type": "text",
+      "text": "off",
+      "size": 12,
+      "align": "bottom_center"
+    }
+  ]
+}

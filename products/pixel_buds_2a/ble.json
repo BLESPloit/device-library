@@ -1,0 +1,752 @@
+{
+  "services": [
+    {
+      "uuid": "1801",
+      "type_uuid": "2800",
+      "start_handle": 1,
+      "end_handle": 9,
+      "characteristics": [
+        {
+          "handle": 2,
+          "uuid": "2803",
+          "properties": 32,
+          "security": 0,
+          "value": {
+            "handle": 3,
+            "uuid": "2a05",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 4,
+          "uuid": "2803",
+          "properties": 10,
+          "security": 0,
+          "value": {
+            "handle": 5,
+            "uuid": "2b29",
+            "data": "00"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 6,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 7,
+            "uuid": "2b2a",
+            "data": "d3ab76ce0aa86025f28766d2a29f4aaf"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 8,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 9,
+            "uuid": "2b3a",
+            "data": "01"
+          },
+          "descriptors": []
+        }
+      ]
+    },
+    {
+      "uuid": "1800",
+      "type_uuid": "2800",
+      "start_handle": 50,
+      "end_handle": 54,
+      "characteristics": [
+        {
+          "handle": 51,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 52,
+            "uuid": "2a00",
+            "data": "506978656c2042756473203261"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 53,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 54,
+            "uuid": "2a01",
+            "data": "4109"
+          },
+          "descriptors": []
+        }
+      ]
+    },
+    {
+      "uuid": "184f",
+      "type_uuid": "2800",
+      "start_handle": 224,
+      "end_handle": 233,
+      "characteristics": [
+        {
+          "handle": 225,
+          "uuid": "2803",
+          "properties": 12,
+          "security": 0,
+          "value": {
+            "handle": 226,
+            "uuid": "2bc7",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 228,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 229,
+            "uuid": "2bc8",
+            "data": "",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 230,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 231,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 232,
+            "uuid": "2bc8",
+            "data": "",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 233,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "184e",
+      "type_uuid": "2800",
+      "start_handle": 256,
+      "end_handle": 278,
+      "characteristics": [
+        {
+          "handle": 257,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 258,
+            "uuid": "2bc4",
+            "data": "0100",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 259,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 260,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 261,
+            "uuid": "2bc4",
+            "data": "0200",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 262,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 263,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 264,
+            "uuid": "2bc5",
+            "data": "0300",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 265,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 266,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 267,
+            "uuid": "2bc5",
+            "data": "0400",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 268,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 276,
+          "uuid": "2803",
+          "properties": 28,
+          "security": 0,
+          "value": {
+            "handle": 277,
+            "uuid": "2bc6",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 278,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "1850",
+      "type_uuid": "2800",
+      "start_handle": 512,
+      "end_handle": 530,
+      "characteristics": [
+        {
+          "handle": 513,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 514,
+            "uuid": "2bc9",
+            "data": "030600000000130301b50002020302030305041a00f0",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 515,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 516,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 517,
+            "uuid": "2bca",
+            "data": "03000000",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 518,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 519,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 520,
+            "uuid": "2bcc",
+            "data": "01000000",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 521,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 522,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 523,
+            "uuid": "2bcb",
+            "data": "020600000000130301b50002020302030105041a00f0",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 524,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 525,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 526,
+            "uuid": "2bcd",
+            "data": "ff0f4302",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 527,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 528,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 529,
+            "uuid": "2bce",
+            "data": "ff0f4302",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": [
+            {
+              "handle": 530,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "1844",
+      "type_uuid": "2800",
+      "start_handle": 592,
+      "end_handle": 609,
+      "characteristics": [
+        {
+          "handle": 602,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 603,
+            "uuid": "2b7d",
+            "data": "640000"
+          },
+          "descriptors": [
+            {
+              "handle": 604,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 605,
+          "uuid": "2803",
+          "properties": 8,
+          "security": 0,
+          "value": {
+            "handle": 606,
+            "uuid": "2b7e",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 607,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 608,
+            "uuid": "2b7f",
+            "data": "00"
+          },
+          "descriptors": [
+            {
+              "handle": 609,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "184d",
+      "type_uuid": "2800",
+      "start_handle": 768,
+      "end_handle": 775,
+      "characteristics": [
+        {
+          "handle": 773,
+          "uuid": "2803",
+          "properties": 26,
+          "security": 0,
+          "value": {
+            "handle": 774,
+            "uuid": "2bc3",
+            "data": "00"
+          },
+          "descriptors": [
+            {
+              "handle": 775,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "1853",
+      "type_uuid": "2800",
+      "start_handle": 2816,
+      "end_handle": 2816,
+      "characteristics": []
+    },
+    {
+      "uuid": "1855",
+      "type_uuid": "2800",
+      "start_handle": 2832,
+      "end_handle": 2834,
+      "characteristics": [
+        {
+          "handle": 2833,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 2834,
+            "uuid": "2b51",
+            "data": "2a00",
+            "encryption_required": true,
+            "read_error": "Insufficient Authentication (Pairing Required)",
+            "error_code": 5
+          },
+          "descriptors": []
+        }
+      ]
+    },
+    {
+      "uuid": "fe2c",
+      "type_uuid": "2800",
+      "start_handle": 3072,
+      "end_handle": 3092,
+      "characteristics": [
+        {
+          "handle": 3073,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3074,
+            "uuid": "fe2c1233-8366-4814-8eb0-01de32100bea",
+            "data": "dcda99"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 3075,
+          "uuid": "2803",
+          "properties": 24,
+          "security": 0,
+          "value": {
+            "handle": 3076,
+            "uuid": "fe2c1234-8366-4814-8eb0-01de32100bea",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 3077,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 3078,
+          "uuid": "2803",
+          "properties": 24,
+          "security": 0,
+          "value": {
+            "handle": 3079,
+            "uuid": "fe2c1235-8366-4814-8eb0-01de32100bea",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 3080,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 3081,
+          "uuid": "2803",
+          "properties": 8,
+          "security": 0,
+          "value": {
+            "handle": 3082,
+            "uuid": "fe2c1236-8366-4814-8eb0-01de32100bea",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 3083,
+          "uuid": "2803",
+          "properties": 24,
+          "security": 0,
+          "value": {
+            "handle": 3084,
+            "uuid": "fe2c1237-8366-4814-8eb0-01de32100bea",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 3085,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 3086,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3087,
+            "uuid": "2a26",
+            "data": "5265766973696f6e2035"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 3088,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3089,
+            "uuid": "fe2c1239-8366-4814-8eb0-01de32100bea",
+            "data": "0100f0"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 3090,
+          "uuid": "2803",
+          "properties": 26,
+          "security": 0,
+          "value": {
+            "handle": 3091,
+            "uuid": "fe2c1238-8366-4814-8eb0-01de32100bea",
+            "data": "017ad06afe5b86ef46"
+          },
+          "descriptors": [
+            {
+              "handle": 3092,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "15190001-12f4-c226-88ed-2ac5579f2a85",
+      "type_uuid": "2800",
+      "start_handle": 3093,
+      "end_handle": 3096,
+      "characteristics": [
+        {
+          "handle": 3094,
+          "uuid": "2803",
+          "properties": 44,
+          "security": 0,
+          "value": {
+            "handle": 3095,
+            "uuid": "8e0c0001-1d68-fb92-bf61-48377421680e",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 3096,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "180a",
+      "type_uuid": "2800",
+      "start_handle": 3872,
+      "end_handle": 3880,
+      "characteristics": [
+        {
+          "handle": 3873,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3874,
+            "uuid": "2a50",
+            "data": "0100e000063001"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 3875,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3876,
+            "uuid": "2a29",
+            "data": "476f6f676c65"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 3877,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3878,
+            "uuid": "2a24",
+            "data": "414731"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 3879,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3880,
+            "uuid": "2a25",
+            "data": "31"
+          },
+          "descriptors": []
+        }
+      ]
+    },
+    {
+      "uuid": "180f",
+      "type_uuid": "2800",
+      "start_handle": 3888,
+      "end_handle": 3891,
+      "characteristics": [
+        {
+          "handle": 3889,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 3890,
+            "uuid": "2a19",
+            "data": "64"
+          },
+          "descriptors": [
+            {
+              "handle": 3891,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "devinfo": {
+    "adv_data": "0201020E09506978656C204275647320326109164E1800FF0F43020003164F180416531800051655182A0003194109",
+    "bd_addr": "98:3A:1F:EF:05:07",
+    "addr_type": 0,
+    "pdu_type": "ADV_EXT_IND"
+  }
+}

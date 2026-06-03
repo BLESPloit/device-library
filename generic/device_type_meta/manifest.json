@@ -1,0 +1,14 @@
+{
+  "name": "Device type from appearance and services",
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 10,
+      "scan_conditions": {
+        "has_gap_device_type_hints": true
+      }
+    }
+  },
+  "manifest_version": 1,
+  "version": 1
+}

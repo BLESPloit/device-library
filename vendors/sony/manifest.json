@@ -1,0 +1,17 @@
+{
+  "name": "Sony",
+  "description": "Just icon",
+  "version": 1,
+  "assets": {
+    "icon": "assets/sony.svg"
+  },
+  "roles": {
+    "observer": {
+      "priority": 20,
+      "scan_conditions": {
+        "company_id": "012D"
+      }
+    }
+  },
+  "manifest_version": 1
+}

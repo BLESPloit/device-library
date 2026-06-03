@@ -1,0 +1,20 @@
+{
+  "profiles": [
+    {
+      "id": "main",
+      "enabled": true,
+      "legacy_pdu": true,
+      "connectable": true,
+      "scannable": true,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": 127,
+      "adv_interval_ms": 250,
+      "addr_type": "public_hardware",
+      "bd_addr": "E4:FA:5B:92:E9:C2",
+      "adv_data_hex": "0201061aff4c00021574278bdab64445208f0c720eaf059935000099bdc5",
+      "scan_rsp_hex": "030222111309533463313830333738303231653835373043"
+    }
+  ]
+}

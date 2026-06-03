@@ -1,0 +1,25 @@
+{
+  "name": "ELinkSmart lock",
+  "author": "Slawomir Jasek",
+  "author_link": "https://blesplo.it",
+  "description": "ElinkSmart-compatible (YL-P10BF, YL-P8BF, YL-P5BF)  BLE smart lock simulator: AES-128-ECB hardcoded key, chunked ATT framing, auth + challenge proofs.",
+  "notes": "Note: the current application checks online the lock's MAC address and it will not work with the simulation - use old version 1.2.0 apk, or create own: https://app.hextree.io/courses/android-bluetooth-reversing/bluetooth-basics. See more: https://labs.reversec.com/posts/2024/02/multiple-vulnerabilities-in-elinksmart-padlocks https://www.youtube.com/watch?v=1JDqhzQCtAA https://www.youtube.com/watch?v=PmokIaUQvXs https://lehack.org/2023/track/vulnerability-analysis-of-a-bluetooth-low-energy-padlock/ ",
+  "version": 1,
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "vars": "vars.json",
+  "assets": {
+    "icon": "assets/lock.svg",
+    "icon_tint": "#096eab",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic_peripheral.lua",
+      "interface": "peripheral/interface.json",
+      "show_adv_address": false
+    }
+  },
+  "manifest_version": 1
+}
