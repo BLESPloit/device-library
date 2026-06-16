@@ -1,14 +1,15 @@
 {
   "name": "Samsung",
-  "description": "Just icon",
-  "version": 1,
+  "description": "Samsung BLE (0x0075): icon for all matches; VD power state tint for TVs, soundbars, and monitors when decodable.",
+  "author": "Slawomir Jasek",
+  "version": 2,
   "assets": {
     "icon": "assets/samsung.svg"
   },
   "roles": {
     "observer": {
       "entry": "observer/adv_decode.lua",
-      "priority": 20,
+      "priority": 25,
       "scan_conditions": {
         "one_of": [
           {
