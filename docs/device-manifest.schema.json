@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blesplo.it/schema/device-manifest.schema.json",
+  "title": "Device library manifest.json",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "author": { "type": "string" },
+    "notes": { "type": "string" },
+    "author_url": { "type": "string", "format": "uri" },
+    "model_url": { "type": "string", "format": "uri" },
+    "source_url": { "type": "string", "format": "uri" },
+    "apps": { "$ref": "#/$defs/companionApps" },
+    "manifest_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Manifest file format version understood by BLESPloit."
+    },
+    "manifest_version_note": {
+      "type": "string",
+      "description": "Optional. Short label when bumping manifest_version (e.g. first manifest format); omit if not needed."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Pack content revision; bumped on edit and compared for ESP32 sync."
+    },
+    "profile": { "type": "string" },
+    "uuids": { "type": "string" },
+    "assets": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "icon": { "type": "string" },
+        "graphics": { "type": "string" },
+        "icon_tint": { "type": "string", "description": "Optional SVG tint (#RRGGBB or CSS color); exposed as Lua assets.icon_tint and scan-row custom_icon_tint." }
+      }
+    },
+    "roles": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "observer": { "$ref": "#/$defs/observerRole" },
+        "central": { "$ref": "#/$defs/centralRole" },
+        "peripheral": { "type": "object", "additionalProperties": true }
+      }
+    }
+  },
+  "$defs": {
+    "storeAppEntry": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "version_note": { "type": "string" }
+      }
+    },
+    "directAppEntry": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "label": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "version_note": { "type": "string" }
+      }
+    },
+    "companionApps": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "google": { "$ref": "#/$defs/storeAppEntry" },
+        "apple": { "$ref": "#/$defs/storeAppEntry" },
+        "direct": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/directAppEntry" }
+        }
+      }
+    },
+    "scanConditionStringOrStrings": {
+      "description": "A single string or an array of alternatives; if an array, any value may match (OR).",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      ]
+    },
+    "scanConditionIntOrInts": {
+      "description": "A single AD type byte (decimal or 0x hex) or an array of types; any may match with ad_type_data_hex.",
+      "oneOf": [
+        { "type": "integer" },
+        {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 1
+        }
+      ]
+    },
+    "fingerprintEntryAttributes": {
+      "type": "object",
+      "description": "All key/value pairs must match attributes on the fingerprint entry whose id is in fingerprint_has_entry_id. Values are compared as strings.",
+      "additionalProperties": { "type": "string" },
+      "minProperties": 1
+    },
+    "scanConditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "one_of": {
+          "description": "OR over alternative condition groups. Together with the other properties on the same object: (all top-level property checks) AND (at least one one_of item must match, each item is ANDed internally; items may nest one_of).",
+          "type": "array",
+          "items": { "$ref": "#/$defs/scanConditions" }
+        },
+        "company_id": {
+          "description": "Bluetooth SIG Company Identifier (16-bit). Prefer four hex digits (e.g. \"0006\", \"05A7\"); decimal integers and 0x-prefixed hex are also accepted.",
+          "oneOf": [
+            { "type": "integer" },
+            { "type": "string" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "oneOf": [{ "type": "integer" }, { "type": "string" }]
+              }
+            }
+          ]
+        },
+        "manufacturer_data_prefix_hex": { "$ref": "#/$defs/scanConditionStringOrStrings" },
+        "service_uuid_128": { "$ref": "#/$defs/scanConditionStringOrStrings" },
+        "service_uuid_16": { "$ref": "#/$defs/scanConditionStringOrStrings" },
+        "service_data_uuid_128": { "$ref": "#/$defs/scanConditionStringOrStrings" },
+        "service_data_uuid_16": { "$ref": "#/$defs/scanConditionStringOrStrings" },
+        "device_name_contains": {
+          "allOf": [
+            { "$ref": "#/$defs/scanConditionStringOrStrings" },
+            {
+              "description": "Case-sensitive substring match on the advertised BLE device name (Complete/Short Local Name). OR across array values."
+            }
+          ]
+        },
+        "device_name_regex": {
+          "allOf": [
+            { "$ref": "#/$defs/scanConditionStringOrStrings" },
+            {
+              "description": "Kotlin regex on the advertised BLE device name. Uses containsMatchIn; anchor with ^ and $ for full-string match. Case-sensitive unless (?i) is used. Invalid patterns do not match. OR across array values."
+            }
+          ]
+        },
+        "fingerprint_has_entry_id": { "$ref": "#/$defs/scanConditionStringOrStrings" },
+        "fingerprint_entry_attributes": { "$ref": "#/$defs/fingerprintEntryAttributes" },
+        "ad_type": { "$ref": "#/$defs/scanConditionIntOrInts" },
+        "ad_type_data_hex": { "$ref": "#/$defs/scanConditionStringOrStrings" },
+        "has_gap_device_type_hints": { "type": "boolean" }
+      }
+    },
+    "observerRole": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "entry": { "type": "string" },
+        "priority": { "type": "integer" },
+        "scan_conditions": { "$ref": "#/$defs/scanConditions" }
+      }
+    },
+    "centralFingerprintValueOrValues": {
+      "description": "Allowed fingerprint attribute value(s). OR across array values.",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      ]
+    },
+    "centralScriptMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fingerprint": {
+          "type": "object",
+          "description": "Per-key allowed fingerprint values. All keys must match (AND); each key ORs its allowed values.",
+          "additionalProperties": { "$ref": "#/$defs/centralFingerprintValueOrValues" }
+        },
+        "services": {
+          "type": "array",
+          "description": "GATT service UUIDs (16/32/128-bit) that must all be present on the connection.",
+          "items": { "type": "string" }
+        },
+        "require_discovered_services": {
+          "type": "boolean",
+          "default": true,
+          "description": "When true (default) and services is non-empty, service UUID rules require a real GATT discovery snapshot on the Inspect sheet. Set false only to match optimistically before discovery."
+        },
+        "fingerprint_or_services": {
+          "type": "boolean",
+          "default": false,
+          "description": "When false (default), non-empty fingerprint and services must both match. When true, match if either branch matches."
+        }
+      }
+    },
+    "centralScript": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": ["full_menu", "fullmenu", "quick_action", "quickaction", "action"]
+        },
+        "entry": { "type": "string" },
+        "menu": { "type": "string" },
+        "priority": { "type": "integer" },
+        "auto_run_on_connect": { "type": "boolean" },
+        "vars": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "match": { "$ref": "#/$defs/centralScriptMatch" }
+      },
+      "required": ["id", "entry"]
+    },
+    "centralRole": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "scripts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/centralScript" }
+        }
+      }
+    }
+  }
+}
