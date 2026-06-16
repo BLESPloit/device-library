@@ -1,7 +1,7 @@
 -- Swapfiets bike lock: company 0x020F, service UUID 0x1580, local name "Swapfiets".
 -- Manufacturer payload (after company id) is 8 bytes; content varies per device.
 
-local COMPANY_ID = "527" -- 0x020F
+local COMPANY_ID = "020F"
 local ENTRY_ID = "swapfiets"
 local PROTOCOL = "swapfiets"
 

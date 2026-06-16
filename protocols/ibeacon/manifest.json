@@ -1,6 +1,6 @@
 {
   "name": "iBeacon",
-  "version": 1,
+  "version": 2,
   "vars": "vars.json",
   "assets": {
     "icon": "assets/ibeacon.svg",

@@ -1,7 +1,7 @@
 -- OrangeCon 2026 Badge: manufacturer data (company 0xBAD0) is <1B type><4B id> (id little-endian).
 -- Example payload 0144332211: type 01 ("regular"), id 0x11223344.
 
-local COMPANY_ID = "47824" -- 0xBAD0
+local COMPANY_ID = "BAD0"
 
 local TYPE_NAMES = {
   [0x01] = "regular",

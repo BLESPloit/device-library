@@ -1,5 +1,5 @@
 -- Microsoft Nearby Advertising Beacon fingerprint script.
--- Input: table with manufacturer_data[company_id] = hex string of payload.
+-- Input: manufacturer_data["0006"] = hex payload (4-digit SIG company id keys).
 -- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-cdp/77b446d0-8cea-4821-ad21-fabdf4d9a569
 -- Microsoft (0x0006 = 6) payload (24 bytes):
 --   Byte 0  : Scenario_Type (0x01 = Bluetooth)
@@ -29,7 +29,7 @@ function parse(input)
   local mfg = input.manufacturer_data
   if not mfg then return entries end
   -- Company ID 6 = Microsoft (0x0006)
-  local data = mfg["6"]
+  local data = mfg["0006"]
   if not data or type(data) ~= "string" then return entries end
   data = data:gsub("%s+", ""):lower()
   -- 24 bytes = 48 hex chars minimum

@@ -114,7 +114,7 @@ function parse(input)
         payload_hex = table.concat(parts, "")
     else
         local mfg = input.manufacturer_data
-        local raw_hex = mfg and mfg["76"]
+        local raw_hex = mfg and mfg["004C"]
         if raw_hex and #raw_hex > 0 then
             local data = hex_to_bytes(raw_hex)
             scan_continuity_tlv_types(data, ordered_types, has_type)

@@ -1,7 +1,7 @@
 {
   "name": "OrangeCon 2026 Badge",
   "description": "Simple match for advertising",
-  "version": 1,
+  "version": 2,
   "assets": {
     "icon": "assets/orangecon.svg"
   },

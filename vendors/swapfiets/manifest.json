@@ -2,7 +2,7 @@
   "name": "Swapfiets bike",
   "description": "Swapfiets smart bike lock (BLE advertising fingerprint)",
   "author": "BLESPloit",
-  "version": 1,
+  "version": 2,
   "notes": "Observed on adv with local name Swapfiets, company ID 0x020F, and service UUID 0x1580. Manufacturer payload is 8 bytes and varies per bike.",
   "assets": {
     "icon": "assets/swapfiets.svg"

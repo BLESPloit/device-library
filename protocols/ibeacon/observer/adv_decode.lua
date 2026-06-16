@@ -1,13 +1,12 @@
--- Input: table with manufacturer_data[company_id] = hex string of payload.
--- Apple (0x004C = 76) iBeacon: payload starts 02 15 (subtype, length), then 16-byte UUID, 2-byte major, 2-byte minor, 1-byte TX power.
+-- Input: manufacturer_data["004C"] = hex payload (4-digit SIG company id keys).
+-- Apple iBeacon: payload starts 02 15 (subtype, length), then 16-byte UUID, 2-byte major, 2-byte minor, 1-byte TX power.
 -- Returns array of fingerprint entries: { id, display_name, attributes = { uuid, major, minor, tx_power } }.
 
 function parse(input)
   local entries = {}
   local mfg = input.manufacturer_data
   if not mfg then return entries end
-  -- Company ID 76 = Apple (0x004C)
-  local data = mfg["76"]
+  local data = mfg["004C"]
   if not data or type(data) ~= "string" then return entries end
   data = data:gsub("%s+", ""):lower()
   -- iBeacon prefix: 02 15 (4 hex chars)
