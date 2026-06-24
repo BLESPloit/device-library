@@ -1,0 +1,89 @@
+{
+  "OCLEAN_SERVICE": {
+    "type": "service",
+    "uuid": "8082caa841a6402191c656f9b954cc18",
+    "name": "Oclean Main Service",
+    "description": "Primary Oclean toothbrush command and notify channel (bb85/bb86)"
+  },
+  "SVC_DG": {
+    "type": "service",
+    "uuid": "a6ed0401d344460a8075b9e8ec90d71b",
+    "name": "Oclean DG Service",
+    "description": "Optional data-gateway service on Y3/Y3L-class models"
+  },
+  "OCLEAN_WRITE": {
+    "type": "characteristic",
+    "uuid": "9d84b9a3000c49d89183855b673fbb85",
+    "name": "Oclean Write (bb85)",
+    "description": "Main command channel. Subscribe to OCLEAN_READ_NOTIFY first; write hex opcode (+ optional payload); read replies on notify.",
+    "structure": [
+      {
+        "field": "Opcode",
+        "type": "hex",
+        "size": 2,
+        "description": "Big-endian command word, e.g. 0303 battery query, 030201 device info, 022201 pause"
+      },
+      {
+        "field": "Payload",
+        "type": "hex",
+        "description": "Optional trailing bytes for settings commands (0203 voice, 0216 language, etc.)"
+      }
+    ],
+    "write_presets": [
+      {
+        "label": "Get battery (0303)",
+        "hex": "0303"
+      },
+      {
+        "label": "Get device info (030201)",
+        "hex": "030201"
+      },
+      {
+        "label": "Pause brushing (022201)",
+        "hex": "022201"
+      },
+      {
+        "label": "Resume brushing (022200)",
+        "hex": "022200"
+      },
+      {
+        "label": "Set language English (021603)",
+        "hex": "021603"
+      },
+      {
+        "label": "Clear brushing history (0202)",
+        "hex": "0202"
+      }
+    ]
+  },
+  "OCLEAN_READ_NOTIFY": {
+    "type": "characteristic",
+    "uuid": "5f78df94798c46f5990a855b673fbb86",
+    "name": "Oclean Notify (bb86)",
+    "description": "Subscribe (CCCD 0x0100) before writing OCLEAN_WRITE. Query replies arrive as notifications: 0303 battery, 0302 device info (often 2 chunks on Y3L)."
+  },
+  "CHR_BRUSH_WRITE": {
+    "type": "characteristic",
+    "uuid": "5f78df94798c46f5990a855b673fbb89",
+    "name": "Oclean Brush Write (bb89)",
+    "description": "Brush history sync write channel (0306 / 0307)"
+  },
+  "CHR_BRUSH_NOTIFY": {
+    "type": "characteristic",
+    "uuid": "5f78df94798c46f5990a855b673fbb90",
+    "name": "Oclean Brush Notify (bb90)",
+    "description": "Brush history chunks and live brushing telemetry"
+  },
+  "BATTERY_SERVICE": {
+    "type": "service",
+    "uuid": "180f",
+    "name": "Battery Service",
+    "description": "Standard GATT battery service; optional read alongside 0303 query"
+  },
+  "BATTERY_LEVEL": {
+    "type": "characteristic",
+    "uuid": "2a19",
+    "name": "Battery Level",
+    "description": "Standard battery level characteristic (0–100%)"
+  }
+}

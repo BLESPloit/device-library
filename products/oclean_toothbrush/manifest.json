@@ -1,0 +1,54 @@
+{
+  "name": "Oclean smart toothbrush",
+  "description": "Oclean smart toothbrush BLE protocol (Y3/Y3L and related models). Observer fingerprint, device-info quick action, and Y3L peripheral simulator.",
+  "author": "Slawomir Jasek",
+  "manifest_version": 1,
+  "version": 5,
+  "notes": "Subscribe OCLEAN_READ_NOTIFY (bb86) before writing OCLEAN_WRITE (bb85). Manual writes: use presets on bb85 (0303 battery, 030201 device info, 022201 pause). Manufacturer AD (type 0xFF) carries the 6-byte device address, not a Bluetooth SIG company ID. Peripheral sim sets that field from get_adv_bd_addr().",
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "vars": "vars.json",
+  "assets": {
+    "icon": "assets/oclean_logo.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "one_of": [
+          {
+            "device_name_contains": "Oclean"
+          },
+          {
+            "service_uuid_128": "a6ed0401d344460a8075b9e8ec90d71b"
+          }
+        ]
+      }
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "get_oclean_info",
+          "title": "Get toothbrush info",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/quick_get_device_info.lua",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["oclean"]
+            },
+            "services": ["8082caa841a6402191c656f9b954cc18"]
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic.lua"
+    }
+  }
+}

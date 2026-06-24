@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "toothbrush",
+      "type": "png",
+      "file": "oclean_toothbrush.png",
+      "size": 80,
+      "align": "center"
+    }
+  ]
+}
