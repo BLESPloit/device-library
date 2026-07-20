@@ -1,3 +1,4 @@
+-- blesploit-kbp-probe:2
 -- Quick action: first Key-based Pairing write (anti-spoofing / WhisperPair-style probe).
 -- UUIDs come from manifest uuids.json as globals uuids.* (LuaDeviceGlobals).
 -- Uses fp_get("fast_pair_wp_toolkit_public_key_hex") when already enriched; otherwise reads
@@ -37,6 +38,49 @@ local function strip_04_if_present(as_bin)
     return string.sub(as_bin, 2)
   end
   return as_bin
+end
+
+--- True when [gatt_address] is a 6-octet BD_ADDR (not iOS CoreBluetooth UUID).
+local function gatt_address_has_mac()
+  if gatt_address_is_mac then
+    return gatt_address_is_mac()
+  end
+  local addr = gatt_address()
+  if not addr or addr == "" then
+    return false
+  end
+  local n = 0
+  for part in addr:gmatch("[^:-]+") do
+    part = part:match("^%s*(.-)%s*$")
+    if part ~= "" then
+      if #part ~= 2 or not part:match("^[%x][%x]$") then
+        return false
+      end
+      n = n + 1
+    end
+  end
+  return n == 6
+end
+
+local function log_kbp_unavailable_no_mac()
+  log(
+    "Fast Pair KBP probe needs a 6-octet Bluetooth MAC in the encrypted payload. "
+      .. "iOS local scan only exposes CoreBluetooth peripheral UUIDs (privacy), not BD_ADDR — "
+      .. "use Remote (ESP32) for WhisperPair KBP probe, or Android local."
+  )
+  fp_append(
+    "google_fast_pair_kbp_probe",
+    {
+      kb_probe_verdict = "no_mac_address",
+      kb_whisper_pair_confirmed = false,
+      kb_write_ok = false,
+      kb_notify_hex = "",
+      kb_flags = FLAGS,
+      gatt_mac = gatt_address(),
+      kb_skip_reason = "ios_no_bd_addr",
+    },
+    "Fast Pair KBP probe"
+  )
 end
 
 local function read_model_id_hex6(svc, chr_model_id)
@@ -126,6 +170,11 @@ function run()
       "Anti-spoofing public key must be 64 octets (128 hex) after optional 04 strip, got length "
         .. bin_len(as_pub)
     )
+    return
+  end
+
+  if not gatt_address_has_mac() then
+    log_kbp_unavailable_no_mac()
     return
   end
 

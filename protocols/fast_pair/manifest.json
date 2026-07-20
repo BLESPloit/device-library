@@ -2,7 +2,7 @@
   "name": "Google Fast Pair",
   "description": "Google Nearby Fast Pair over BLE — service UUID 0xFE2C (discoverable model ID ads and non-discoverable account key bloom payloads), plus canonical Fast Pair GATT profile.",
   "author": "Google (spec)",
-  "version": 1,
+  "version": 2,
   "model_url": "https://developers.google.com/nearby/fast-pair/specifications/service/provider",
   "source_url": "https://developers.google.com/nearby/fast-pair/specifications/characteristics",
   "catalog": "fast_pair/fast_pair_models.json",
