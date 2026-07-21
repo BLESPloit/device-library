@@ -40,17 +40,5 @@
     "uuid": "fe2c1238-8366-4814-8eb0-01de32100bea",
     "name": "Beacon actions (Find Hub Network / FMDN)",
     "description": "Find Hub Network (FHN) extension to Fast Pair — also referred to in Google docs as Find My Device Network (FMDN) for tracker-style accessories. Read + write + notify. Read returns protocol major (0x01) + 8‑byte one-time nonce; writes use HMAC‑authenticated requests for beacon provisioning (Data IDs 0x00–0x04), ringing (0x05–0x06), unwanted tracking protection (0x07–0x08), Precision Finding / ranging (0x0A–0x0D), etc. Spec: https://developers.google.com/nearby/fast-pair/specifications/extensions/fmdn"
-  },
-  "SVC_DEVICE_INFORMATION": {
-    "type": "service",
-    "uuid": "180a",
-    "name": "Device Information Service",
-    "description": "Bluetooth SIG Device Information Service; Fast Pair recommends Firmware Revision characteristic for seekers."
-  },
-  "CHR_FIRMWARE_REVISION": {
-    "type": "characteristic",
-    "uuid": "2a26",
-    "name": "Firmware Revision",
-    "description": "Read utf8 firmware string. Spec allows status-updating / status-abnormal sentinel values; Provider should gate reads to bonded devices or discoverable state to reduce tracking."
   }
 }
