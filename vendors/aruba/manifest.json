@@ -1,0 +1,41 @@
+{
+  "name": "HPE Aruba Access Point",
+  "description": "HPE Aruba AP BLE advertising: BluConsole manufacturer data (company 0x011B) and Aruba iBeacon UUID.",
+  "author": "Slawomir Jasek",
+  "manifest_version": 1,
+  "version": 1,
+  "notes": "BluConsole payload derived from Aruba Utilities app. Manufacturer AD rotates a Wi-Fi channel hint byte every ~1 s.",
+  "source_url": "https://github.com/blesploit/device-library",
+  "assets": {
+    "icon": "assets/aruba_ap.svg"
+  },
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.arubanetworks.arubautilities",
+      "version_note": "Aruba Utilities (Android)"
+    }
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 45,
+      "scan_conditions": {
+        "one_of": [
+          {
+            "company_id": "011B",
+            "manufacturer_data_prefix_hex": "08"
+          },
+          {
+            "fingerprint_has_entry_id": "ibeacon",
+            "fingerprint_entry_attributes": {
+              "uuid": "4152554e-f99b-4a3b-86d0-947070693a78"
+            }
+          },
+          {
+            "device_name_regex": "^(?i)AP-[0-9a-f]{12}$"
+          }
+        ]
+      }
+    }
+  }
+}
