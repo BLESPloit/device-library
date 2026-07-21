@@ -1,7 +1,7 @@
 {
   "name": "Tesla",
-  "description": "iBeacon-format vehicle proximity token (18-char local name starting with S).",
-  "version": 1,
+  "description": "Vehicle proximity token: iBeacon (0xFF) or 18-char name starting with S plus service UUID 0x1122 (AD 0x02 2211 on air; iOS strips manufacturer data).",
+  "version": 2,
   "profile": "ble.json",
   "assets": {
     "icon": "assets/tesla.svg",
@@ -11,9 +11,17 @@
     "observer": {
       "entry": "observer/adv_decode.lua",
       "priority": 45,
-      "_comment": "After devices/ibeacon (40); requires decoded iBeacon entry, then filters by BLE name.",
+      "_comment": "After devices/ibeacon (40). Match iBeacon decode OR iOS-stripped name + 0x1122 incomplete UUID list.",
       "scan_conditions": {
-        "fingerprint_has_entry_id": "ibeacon"
+        "one_of": [
+          {
+            "fingerprint_has_entry_id": "ibeacon"
+          },
+          {
+            "device_name_regex": "^S.{17}$",
+            "service_uuid_16": "1122"
+          }
+        ]
       }
     },
     "peripheral": {
