@@ -1,7 +1,11 @@
 {
   "name": "Sony",
-  "description": "Just icon",
-  "version": 1,
+  "description": "Sony Sound Connect / SongPal proprietary BLE (5b833e**/5b833c**)",
+  "author": "BLESPlo.it",
+  "version": 2,
+  "manifest_version": 1,
+  "notes": "UUID catalog from Sony Sound Connect (SongPal) ServiceUuid / CharacteristicUuid. Manufacturer company id 012D = Sony Corporation.",
+  "uuids": "uuids.json",
   "assets": {
     "icon": "assets/sony.svg"
   },
@@ -9,9 +13,14 @@
     "observer": {
       "priority": 20,
       "scan_conditions": {
-        "company_id": "012D"
+        "one_of": [
+          { "company_id": "012D" },
+          { "service_uuid_128": "5b833e05-6bc7-4802-8e9a-723ceca4bd8f" },
+          { "service_uuid_128": "5b833e26-6bc7-4802-8e9a-723ceca4bd8f" },
+          { "service_uuid_128": "5b833e28-6bc7-4802-8e9a-723ceca4bd8f" },
+          { "service_uuid_128": "5b833e20-6bc7-4802-8e9a-723ceca4bd8f" }
+        ]
       }
     }
-  },
-  "manifest_version": 1
+  }
 }

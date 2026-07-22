@@ -1,0 +1,730 @@
+{
+  "SVC_WIFI_CONNECTION": {
+    "type": "service",
+    "uuid": "5b833e00-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Wi‑Fi Connection",
+    "description": "SongPal BLE Wi‑Fi setup (SSID/password/IP/DMR). Used by speakers and similar products; present in Sound Connect’s shared BLE SDK."
+  },
+  "SVC_BT_CONNECTION": {
+    "type": "service",
+    "uuid": "5b833e01-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony BT Connection",
+    "description": "Legacy Bluetooth connection control over BLE (connection + mode). Newer headphone OOBE prefers dedicated pairing services instead."
+  },
+  "SVC_BT_MULTI_AUDIO": {
+    "type": "service",
+    "uuid": "5b833e02-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony BT Multi Audio",
+    "description": "Multi-room / multi-player audio group control (master capability, join/leave group, role, player count)."
+  },
+  "SVC_BT_BROADCAST_AUDIO": {
+    "type": "service",
+    "uuid": "5b833e03-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony BT Broadcast Audio",
+    "description": "Broadcast / Party-connect style group control (broadcast capability and group status variants)."
+  },
+  "SVC_NW_SETTING_EXT_APP": {
+    "type": "service",
+    "uuid": "5b833e04-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Network Setting",
+    "description": "Network setup status when assisted by an external app path."
+  },
+  "SVC_BLUETOOTH_PAIRING": {
+    "type": "service",
+    "uuid": "5b833e05-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Bluetooth Pairing",
+    "description": "Classic BR/EDR pairing arming over BLE."
+  },
+  "SVC_BLUETOOTH_IAP_CONNECTION": {
+    "type": "service",
+    "uuid": "5b833e06-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Bluetooth iAP Connection",
+    "description": "iOS MFi / iAP-oriented Bluetooth connection control and status."
+  },
+  "SVC_MODEL_INFORMATION": {
+    "type": "service",
+    "uuid": "5b833e07-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Model Information",
+    "description": "Exposes model feature flags (Spotify, GVA, Chromecast, Alexa, DLNA, etc.)."
+  },
+  "SVC_WIFI_CONNECTION2": {
+    "type": "service",
+    "uuid": "5b833e08-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Wi‑Fi Connection 2",
+    "description": "Second-generation Wi‑Fi setup service (same Wi‑Fi characteristics plus Key Information)."
+  },
+  "SVC_PARTY_CONNECT": {
+    "type": "service",
+    "uuid": "5b833e09-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Party Connect",
+    "description": "Party Connect / broadcast-group pairing (shares broadcast group characteristics)."
+  },
+  "SVC_BLUETOOTH_IAP_CONNECTION_MC": {
+    "type": "service",
+    "uuid": "5b833e0a-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Bluetooth iAP Connection (MC)",
+    "description": "iAP connection path for Music Center–class products."
+  },
+  "SVC_SSH_DEVICE_REGISTRATION": {
+    "type": "service",
+    "uuid": "5b833e0b-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony SSH Device Registration",
+    "description": "Sony Home / soundbar-TV registration and OOBE (versions, OOB, seeds signing, HDMI/ACS/TV power triggers). Optional characteristics tolerated at discovery."
+  },
+  "SVC_BLE_PAIRING_HBS_HPC": {
+    "type": "service",
+    "uuid": "5b833e0c-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony BLE Pairing HBS (HPC)",
+    "description": "LE pairing assist for over-ear (HBS) headphones: LE mode, LE ad packet id, target-announcement LE ad."
+  },
+  "SVC_BLE_PAIRING_TWS_HPC": {
+    "type": "service",
+    "uuid": "5b833e0d-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony BLE Pairing TWS (HPC)",
+    "description": "LE pairing assist for true-wireless (TWS) buds: LE mode, L/R ad packet ids, target-announcement LE ad (Sound Connect writes Target Announcement = REQUEST)."
+  },
+  "SVC_SSH_WIFI_SHARING": {
+    "type": "service",
+    "uuid": "5b833e0e-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony SSH Wi‑Fi Sharing",
+    "description": "Wi‑Fi credential sharing for SSH products (control/SSID/password, IP info, RSA key, connection status)."
+  },
+  "SVC_SSH_TV_PRODUCT_CODE": {
+    "type": "service",
+    "uuid": "5b833e0f-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony SSH TV Product Code",
+    "description": "TV product-code trigger/status pair (Sound Connect 13.x)."
+  },
+  "SVC_SSH_LAUNCH_TV_FUNCTION": {
+    "type": "service",
+    "uuid": "5b833e10-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony SSH Launch TV Function",
+    "description": "Write trigger to open a TV function/screen (e.g. BCA usage setting)."
+  },
+  "SVC_TANDEM_V2_HPC": {
+    "type": "service",
+    "uuid": "5b833e20-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Tandem V2 (HPC)",
+    "description": "Post-bond MDR control pipe for headphones over BLE (Tandem). Init: DETERMINE_MTU notify → read WRITABLE_VALUE_LENGTH → write TO_ACC / notify FROM_ACC with opaque MDR frames."
+  },
+  "SVC_TANDEM_V2_MC": {
+    "type": "service",
+    "uuid": "5b833e21-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Tandem V2 (MC)",
+    "description": "Tandem V2 pipe for Music Center–class accessories (MC TO/FROM ACC)."
+  },
+  "SVC_TANDEM_V1_MC": {
+    "type": "service",
+    "uuid": "5b833e23-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Tandem V1 (MC)",
+    "description": "Older Tandem V1 Music Center pipe; may include Ready-To-Start-Initial-Communication."
+  },
+  "SVC_TANDEM_V1_FIESTABLE": {
+    "type": "service",
+    "uuid": "5b833e24-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Tandem V1 (Fiestable)",
+    "description": "Tandem V1 pipe for Fiestable products."
+  },
+  "SVC_TANDEM_SSH": {
+    "type": "service",
+    "uuid": "5b833e25-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Tandem SSH",
+    "description": "Tandem pipe for soundbar/SSH devices; may expose Optimal MTU."
+  },
+  "SVC_BLUETOOTH_PAIRING_COMPLETE_NAME": {
+    "type": "service",
+    "uuid": "5b833e26-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Bluetooth Pairing (Complete Name)",
+    "description": "Classic pairing arming when the ad capability requires a long/complete friendly name: Inquiry Scan + chunked name via COMPLETE_NAME notify and SYNC index write."
+  },
+  "SVC_LE_AUDIO_CAPABILITY_HPC": {
+    "type": "service",
+    "uuid": "5b833e27-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony LE Audio Capability (HPC)",
+    "description": "LE Audio switch / compatibility probe for headphones (Sound Connect 13.x). App reads LE_AUDIO_SWITCH_SUPPORTED_COMPATIBILITY."
+  },
+  "SVC_BLUETOOTH_CTKD_PAIRING": {
+    "type": "service",
+    "uuid": "5b833e28-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Bluetooth CTKD Pairing",
+    "description": "Cross-transport key derivation pairing (Sound Connect 13.x). Same Inquiry Scan arming, then reads Bluetooth Public Address for createBond/CTKD."
+  },
+  "SVC_BLANC_FOTA": {
+    "type": "service",
+    "uuid": "5b833e30-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Blanc / SSS FOTA",
+    "description": "Firmware-over-the-air sink/request/notification characteristics (Blanc and SSS command paths). Codec’d in the app; headphone UI often updates via other transports."
+  },
+
+  "CHR_CONNECTION_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833c00-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Connection Status",
+    "description": "Wi‑Fi (or similar) connection status / result. Parent: Wi‑Fi Connection / Wi‑Fi Connection 2."
+  },
+  "CHR_CONNECTION_CONTROL": {
+    "type": "characteristic",
+    "uuid": "5b833c01-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sony Connection Control",
+    "description": "Start/end Wi‑Fi setting (0 = START_WIFI_SETTING, 1 = END_WIFI_SETTING). Parent: Wi‑Fi services / SSH Wi‑Fi Sharing.",
+    "structure": [
+      {
+        "field": "control",
+        "type": "u8",
+        "size": 1,
+        "description": "0 = start Wi‑Fi setting, 1 = end Wi‑Fi setting"
+      }
+    ],
+    "write_presets": [
+      { "label": "Start Wi‑Fi setting", "hex": "00" },
+      { "label": "End Wi‑Fi setting", "hex": "01" }
+    ]
+  },
+  "CHR_DMR_UUID": {
+    "type": "characteristic",
+    "uuid": "5b833c02-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "DMR UUID",
+    "description": "DLNA DMR UUID bytes for Wi‑Fi / renderer discovery."
+  },
+  "CHR_SSID_INFORMATION": {
+    "type": "characteristic",
+    "uuid": "5b833c03-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSID Information",
+    "description": "Write target Wi‑Fi SSID (string)."
+  },
+  "CHR_PASSWORD_INFORMATION": {
+    "type": "characteristic",
+    "uuid": "5b833c04-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Password Information",
+    "description": "Write target Wi‑Fi password (string)."
+  },
+  "CHR_IPV4_ADDRESS": {
+    "type": "characteristic",
+    "uuid": "5b833c05-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "IPv4 Address",
+    "description": "Device IPv4 after Wi‑Fi join."
+  },
+  "CHR_IPV6_ADDRESS": {
+    "type": "characteristic",
+    "uuid": "5b833c06-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "IPv6 Address",
+    "description": "Device IPv6 after Wi‑Fi join."
+  },
+  "CHR_KEY_INFORMATION": {
+    "type": "characteristic",
+    "uuid": "5b833c07-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Key Information",
+    "description": "Wi‑Fi Connection 2 key material / KeyInformationValue."
+  },
+
+  "CHR_BLUETOOTH_CONNECTION": {
+    "type": "characteristic",
+    "uuid": "5b833c10-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Bluetooth Connection",
+    "description": "Bluetooth connect/control write on BT Connection and iAP connection services."
+  },
+  "CHR_BLUETOOTH_MODE": {
+    "type": "characteristic",
+    "uuid": "5b833c11-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Bluetooth Mode",
+    "description": "Write Bluetooth radio mode. Sound Connect OOBE writes 0x01 = INQUIRY_SCAN to put the headset into classic discoverable/pairing-ready mode (parents: Pairing / Complete Name / CTKD / also BT Connection).",
+  },
+  "CHR_BLUETOOTH_CONNECTION_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833c12-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Bluetooth Connection Status",
+    "description": "Status for iAP Bluetooth connection services."
+  },
+  "CHR_BLUETOOTH_MODE_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833c13-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Bluetooth Mode Status",
+    "description": "Notify after Bluetooth Mode write. 0x00 = SUCCESS, 0x01 = FAIL (BooleanStatus). Enable CCCD before writing Inquiry Scan."
+  },
+  "CHR_BLUETOOTH_FRIENDLY_NAME": {
+    "type": "characteristic",
+    "uuid": "5b833c14-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Bluetooth Friendly Name",
+    "description": "Read short classic BT friendly name (UTF‑8, typically ≤20) after successful Inquiry Scan on BLUETOOTH_PAIRING_SERVICE; used to filter CompanionDeviceManager associate."
+  },
+  "CHR_BLUETOOTH_LE_MODE": {
+    "type": "characteristic",
+    "uuid": "5b833c15-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Bluetooth LE Mode",
+    "description": "LE pairing mode write for HBS/TWS HPC pairing services."
+  },
+  "CHR_BLUETOOTH_LE_MODE_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833c16-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Bluetooth LE Mode Status",
+    "description": "Notify status for LE mode changes (BooleanStatus)."
+  },
+  "CHR_LE_AD_PACKET_IDENTIFIER": {
+    "type": "characteristic",
+    "uuid": "5b833c17-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "LE Ad Packet Identifier",
+    "description": "LE advertisement packet identifier (HBS pairing service)."
+  },
+  "CHR_LE_AD_PACKET_IDENTIFIER_LEFT": {
+    "type": "characteristic",
+    "uuid": "5b833c18-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "LE Ad Packet Identifier (L)",
+    "description": "Left-bud LE advertisement packet identifier (TWS)."
+  },
+  "CHR_LE_AD_PACKET_IDENTIFIER_RIGHT": {
+    "type": "characteristic",
+    "uuid": "5b833c19-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "LE Ad Packet Identifier (R)",
+    "description": "Right-bud LE advertisement packet identifier (TWS)."
+  },
+  "CHR_TARGET_ANNOUNCEMENT_LE_AD": {
+    "type": "characteristic",
+    "uuid": "5b833c1a-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Target Announcement LE Ad",
+    "description": "Ask the Provider which LE advertisement to emit for pairing. Sound Connect TWS path writes 0x01 = REQUEST.",
+    "structure": [
+      {
+        "field": "announcement",
+        "type": "u8",
+        "size": 1,
+        "description": "1 = REQUEST"
+      }
+    ],
+    "write_presets": [
+      { "label": "Request target LE advertisement", "hex": "01" }
+    ]
+  },
+  "CHR_COMPLETE_BLUETOOTH_FRIENDLY_NAME": {
+    "type": "characteristic",
+    "uuid": "5b833c1b-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Complete Bluetooth Friendly Name",
+    "description": "Notify of full/long friendly-name chunks (complete-name pairing service)."
+  },
+  "CHR_SYNC_BLUETOOTH_FRIENDLY_NAME_INDEX": {
+    "type": "characteristic",
+    "uuid": "5b833c1c-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Sync Bluetooth Friendly Name Index",
+    "description": "Write which name chunk index to deliver next during complete-name pairing."
+  },
+  "CHR_BLUETOOTH_PUBLIC_ADDRESS": {
+    "type": "characteristic",
+    "uuid": "5b833c1d-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Bluetooth Public Address",
+    "description": "Read classic BD_ADDR (public) after CTKD Inquiry Scan success; used for address-targeted createBond."
+  },
+
+  "CHR_MASTER_CAPABILITY": {
+    "type": "characteristic",
+    "uuid": "5b833c20-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Master Capability",
+    "description": "Multi-audio master capability bitmap."
+  },
+  "CHR_GROUP_CONTROL": {
+    "type": "characteristic",
+    "uuid": "5b833c21-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Group Control",
+    "description": "Multi-audio group command: 1=GROUP, 2=JOIN, 3=LEAVE, 4=END.",
+    "structure": [
+      {
+        "field": "command",
+        "type": "u8",
+        "size": 1,
+        "description": "1 GROUP, 2 JOIN, 3 LEAVE, 4 END"
+      }
+    ],
+    "write_presets": [
+      { "label": "GROUP", "hex": "01" },
+      { "label": "JOIN", "hex": "02" },
+      { "label": "LEAVE", "hex": "03" },
+      { "label": "END", "hex": "04" }
+    ]
+  },
+  "CHR_GROUP_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833c22-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Group Status",
+    "description": "Multi-audio group state machine status (+ result)."
+  },
+  "CHR_ROLE_OF_DEVICE": {
+    "type": "characteristic",
+    "uuid": "5b833c23-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Role of Device",
+    "description": "SINGLE / MASTER / PLAYER role for multi or broadcast audio."
+  },
+  "CHR_NUMBER_OF_PLAYER": {
+    "type": "characteristic",
+    "uuid": "5b833c24-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Number of Player",
+    "description": "Player count in a multi/broadcast group."
+  },
+  "CHR_MASTER_BROADCAST_CAPABILITY": {
+    "type": "characteristic",
+    "uuid": "5b833c30-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Master Broadcast Capability",
+    "description": "Broadcast/Party master capability."
+  },
+  "CHR_GROUP_CONTROL_BROADCAST": {
+    "type": "characteristic",
+    "uuid": "5b833c31-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Group Control Broadcast",
+    "description": "Broadcast variant of group control commands."
+  },
+  "CHR_GROUP_STATUS_BROADCAST": {
+    "type": "characteristic",
+    "uuid": "5b833c32-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Group Status Broadcast",
+    "description": "Broadcast variant of group status."
+  },
+  "CHR_NW_SETTING_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833c40-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "NW Setting Status",
+    "description": "Network setup status for NW_SETTING_WITH_EXT_APP_SERVICE."
+  },
+  "CHR_MODEL_FEATURES": {
+    "type": "characteristic",
+    "uuid": "5b833c50-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Model Features",
+    "description": "Feature bit set (Spotify Connect, Google Voice Assistant, Chromecast, Alexa master/follower, DLNA DMR, …)."
+  },
+
+  "CHR_TANDEM_HPC_TO_ACC": {
+    "type": "characteristic",
+    "uuid": "5b833c60-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Tandem HPC → Acc",
+    "description": "Write-without-response opaque MDR frames from phone to headset (Tandem V2 HPC)."
+  },
+  "CHR_TANDEM_HPC_FROM_ACC": {
+    "type": "characteristic",
+    "uuid": "5b833c61-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Tandem HPC ← Acc",
+    "description": "Notify opaque MDR frames from headset to phone (Tandem V2 HPC)."
+  },
+  "CHR_TANDEM_MC_TO_ACC": {
+    "type": "characteristic",
+    "uuid": "5b833c62-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Tandem MC → Acc",
+    "description": "Write MDR frames to Music Center–class accessory (Tandem V1/V2 MC)."
+  },
+  "CHR_TANDEM_MC_FROM_ACC": {
+    "type": "characteristic",
+    "uuid": "5b833c63-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Tandem MC ← Acc",
+    "description": "Notify MDR frames from Music Center–class accessory."
+  },
+  "CHR_TANDEM_FIESTABLE_TO_ACC": {
+    "type": "characteristic",
+    "uuid": "5b833c64-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Tandem Fiestable → Acc",
+    "description": "Write MDR frames to Fiestable accessory."
+  },
+  "CHR_TANDEM_FIESTABLE_FROM_ACC": {
+    "type": "characteristic",
+    "uuid": "5b833c65-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Tandem Fiestable ← Acc",
+    "description": "Notify MDR frames from Fiestable accessory."
+  },
+  "CHR_TANDEM_SSH_TO_ACC": {
+    "type": "characteristic",
+    "uuid": "5b833c66-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Tandem SSH → Acc",
+    "description": "Write MDR frames to SSH/soundbar accessory."
+  },
+  "CHR_TANDEM_SSH_FROM_ACC": {
+    "type": "characteristic",
+    "uuid": "5b833c67-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Tandem SSH ← Acc",
+    "description": "Notify MDR frames from SSH/soundbar accessory."
+  },
+  "CHR_LE_AUDIO_SWITCH_COMPATIBILITY": {
+    "type": "characteristic",
+    "uuid": "5b833c68-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "LE Audio Switch Compatibility",
+    "description": "Read 1-byte LE Audio switch supported compatibility version (LE_AUDIO_CAPABILITY_FOR_HPC)."
+  },
+
+  "CHR_BLANC_FOTA_DATA_SINK": {
+    "type": "characteristic",
+    "uuid": "5b833c80-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Blanc FOTA Data Sink",
+    "description": "Write firmware chunk blob (Blanc FOTA)."
+  },
+  "CHR_BLANC_FOTA_READY_TRANSFER": {
+    "type": "characteristic",
+    "uuid": "5b833c81-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Blanc FOTA Ready Transfer",
+    "description": "Blanc FOTA ready/handshake (empty or short status)."
+  },
+  "CHR_BLANC_FOTA_DATA_SIZE": {
+    "type": "characteristic",
+    "uuid": "5b833c82-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Blanc FOTA Data Size",
+    "description": "Preferred FOTA chunk size enum (e.g. 4 KB … 2 MB)."
+  },
+  "CHR_SSS_FOTA_DATA_SINK": {
+    "type": "characteristic",
+    "uuid": "5b833c83-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSS FOTA Data Sink",
+    "description": "Alternate SSS FOTA data sink (opaque)."
+  },
+  "CHR_SSS_FOTA_REQUEST": {
+    "type": "characteristic",
+    "uuid": "5b833c84-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSS FOTA Request",
+    "description": "SSS FOTA request command write."
+  },
+  "CHR_SSS_FOTA_NOTIFICATION": {
+    "type": "characteristic",
+    "uuid": "5b833c85-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSS FOTA Notification",
+    "description": "SSS FOTA status notify."
+  },
+
+  "CHR_READY_TO_START_INITIAL_COMMUNICATION": {
+    "type": "characteristic",
+    "uuid": "5b833c90-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Ready To Start Initial Communication",
+    "description": "Tandem V1 ready handshake (ReadyStatus)."
+  },
+  "CHR_WRITABLE_VALUE_LENGTH": {
+    "type": "characteristic",
+    "uuid": "5b833c91-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Writable Value Length",
+    "description": "Read uint16 fragment size used for Tandem write-without-response framing."
+  },
+  "CHR_BEACON_INFO": {
+    "type": "characteristic",
+    "uuid": "5b833c92-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Beacon Info",
+    "description": "Optional Tandem beacon payload."
+  },
+  "CHR_DETERMINE_MTU": {
+    "type": "characteristic",
+    "uuid": "5b833c93-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Determine MTU",
+    "description": "Notify MtuStatus during Tandem BLE init (enable notify, wait, then disable)."
+  },
+  "CHR_OPTIMAL_MTU": {
+    "type": "characteristic",
+    "uuid": "5b833c94-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Optimal MTU",
+    "description": "Optimal MTU hint on Tandem SSH service."
+  },
+
+  "CHR_SSH_NETWORK_SETTINGS_CAPABILITY": {
+    "type": "characteristic",
+    "uuid": "5b833ca0-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH Network Settings Capability",
+    "description": "SSH registration: network-settings capability flags."
+  },
+  "CHR_DESTINATION": {
+    "type": "characteristic",
+    "uuid": "5b833ca1-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Destination",
+    "description": "SSH registration destination field."
+  },
+  "CHR_SSH_INTERFACE_VERSION": {
+    "type": "characteristic",
+    "uuid": "5b833ca2-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH Interface Version",
+    "description": "SSH BLE interface version string/bytes."
+  },
+  "CHR_OUT_OF_BAND_MODE": {
+    "type": "characteristic",
+    "uuid": "5b833ca4-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Out of Band Mode",
+    "description": "SSH OOB mode value."
+  },
+  "CHR_SSH_SERVICE_VERSION": {
+    "type": "characteristic",
+    "uuid": "5b833ca5-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH Service Version",
+    "description": "SSH service version."
+  },
+  "CHR_SSH_FIRMWARE_VERSION": {
+    "type": "characteristic",
+    "uuid": "5b833ca6-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH Firmware Version",
+    "description": "UTF‑8 firmware version string on SSH_DEVICE_REGISTRATION (soundbar/TV class — not used on the headphone pairing GATT path)."
+  },
+  "CHR_OUT_OF_BAND_PREPARATION": {
+    "type": "characteristic",
+    "uuid": "5b833ca7-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Out of Band Preparation",
+    "description": "SSH OOB preparation BEGIN/END."
+  },
+  "CHR_SSH_SETUP_COMPLETION_FLAG": {
+    "type": "characteristic",
+    "uuid": "5b833ca8-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH Setup Completion Flag",
+    "description": "Marks SSH setup complete."
+  },
+  "CHR_IP_INFORMATION": {
+    "type": "characteristic",
+    "uuid": "5b833cb0-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "IP Information",
+    "description": "Composite IP/status for SSH Wi‑Fi Sharing."
+  },
+  "CHR_SEEDS_SIGNING_DEVICE_INFORMATION": {
+    "type": "characteristic",
+    "uuid": "5b833cb2-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Seeds Signing Device Information",
+    "description": "SSH seeds-signing device information payload."
+  },
+  "CHR_SEEDS_SIGNING_AND_DEVICE_REGISTRATION": {
+    "type": "characteristic",
+    "uuid": "5b833cb3-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Seeds Signing and Device Registration",
+    "description": "SSH seeds signing / device registration write."
+  },
+  "CHR_SEEDS_SIGNING_AND_DEVICE_REGISTRATION_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833cb4-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Seeds Signing Status",
+    "description": "SSH seeds signing status (NOT_STARTED … FAIL_*)."
+  },
+  "CHR_SSH_DEVICE_ID": {
+    "type": "characteristic",
+    "uuid": "5b833cb5-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH Device ID",
+    "description": "SSH device identifier."
+  },
+  "CHR_SSH_PAIRING_CHECK": {
+    "type": "characteristic",
+    "uuid": "5b833cb7-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH Pairing Check",
+    "description": "SSH pairing-check characteristic."
+  },
+  "CHR_NOTIFICATION_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833cb8-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "Notification Trigger",
+    "description": "Write which SSH/Wi‑Fi status characteristic to push (IP_INFORMATION, seeds, device id, …)."
+  },
+  "CHR_SSH_CONNECTION_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833cb9-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH Connection Status",
+    "description": "SSH Wi‑Fi Sharing connection status."
+  },
+  "CHR_SSH_RSA_PUBLIC_KEY_GENERATION_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833cc0-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH RSA Public Key Generation Trigger",
+    "description": "Trigger generation of SSH RSA public key material."
+  },
+  "CHR_SSH_RSA_PUBLIC_KEY_INFORMATION": {
+    "type": "characteristic",
+    "uuid": "5b833cc1-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH RSA Public Key Information",
+    "description": "SSH RSA public key bytes/info."
+  },
+  "CHR_SSH_HDMI_CONNECTED_DEVICE_HASH_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833cca-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH HDMI Connected Device Hash Trigger",
+    "description": "Trigger HDMI connected-device hash query."
+  },
+  "CHR_SSH_HDMI_CONNECTED_DEVICE_HASH_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833ccb-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH HDMI Connected Device Hash Status",
+    "description": "HDMI connected-device hash status/result."
+  },
+  "CHR_SSH_OOBE_MODE_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833ccc-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH OOBE Mode Status",
+    "description": "SSH out-of-box experience mode status."
+  },
+  "CHR_SSH_OOBE_MODE_CHANGE_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833ccd-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH OOBE Mode Change Trigger",
+    "description": "Trigger SSH OOBE mode change."
+  },
+  "CHR_SSH_TV_POWER_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833ccf-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH TV Power Trigger",
+    "description": "Trigger TV power action."
+  },
+  "CHR_SSH_TV_POWER_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833cd0-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH TV Power Status",
+    "description": "TV power status."
+  },
+  "CHR_SSH_HDMI_ARC_CONNECTION_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833cd1-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH HDMI ARC Connection Trigger",
+    "description": "Trigger HDMI ARC connect/check."
+  },
+  "CHR_SSH_HDMI_ARC_CONNECTION_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833cd2-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH HDMI ARC Connection Status",
+    "description": "HDMI ARC connection status."
+  },
+  "CHR_SSH_ACS_SUPPORT_INFO_GET_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833cd3-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH ACS Support Info Get Trigger",
+    "description": "Trigger Acoustic Center Sync (ACS) support-info fetch."
+  },
+  "CHR_SSH_ACS_SUPPORT_INFO": {
+    "type": "characteristic",
+    "uuid": "5b833cd4-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH ACS Support Info",
+    "description": "ACS support information payload."
+  },
+  "CHR_SSH_ACS_CABLE_CONNECTION_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833cd5-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH ACS Cable Connection Trigger",
+    "description": "Trigger ACS cable-connection check."
+  },
+  "CHR_SSH_ACS_CABLE_CONNECTION_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833cd6-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH ACS Cable Connection Status",
+    "description": "ACS cable connection status."
+  },
+  "CHR_SSH_ACS_TV_SPEAKER_SETTING_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833cd7-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH ACS TV Speaker Setting Trigger",
+    "description": "Trigger ACS TV speaker setting."
+  },
+  "CHR_SSH_ACS_TV_SPEAKER_STATUS": {
+    "type": "characteristic",
+    "uuid": "5b833cd8-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH ACS TV Speaker Status",
+    "description": "ACS TV speaker status."
+  },
+  "CHR_SSH_ACS_TEST_TONE_PLAYBACK_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833cd9-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH ACS Test Tone Playback Trigger",
+    "description": "Trigger ACS test-tone playback."
+  },
+  "CHR_SSH_TV_PRODUCT_CODE_TRIGGER": {
+    "type": "characteristic",
+    "uuid": "5b833cda-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH TV Product Code Trigger",
+    "description": "Trigger TV product-code read."
+  },
+  "CHR_SSH_TV_PRODUCT_CODE": {
+    "type": "characteristic",
+    "uuid": "5b833cdb-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH TV Product Code",
+    "description": "TV product code value/status."
+  },
+  "CHR_SSH_LAUNCH_TV_FUNCTION": {
+    "type": "characteristic",
+    "uuid": "5b833cdc-6bc7-4802-8e9a-723ceca4bd8f",
+    "name": "SSH Launch TV Function",
+    "description": "Write launch-TV-function trigger (e.g. open settings screen)."
+  }
+}
