@@ -1,6 +1,6 @@
 # Lua API mobile
 
-On mobile, Lua does **not** run in the same environment as the ESP32 firmware Lua VM. There are **two mobile Lua contexts** documented here: **Central** and **Observer**. Peripheral scripts are edited and synced on mobile, but they are executed on the ESP32 firmware and are documented separately in [ESP32 Lua API]({{< relref "lua-esp32" >}}).
+On mobile, Lua does **not** run in the same environment as the ESP32 firmware Lua VM. There are **three mobile Lua contexts** documented here: **Central**, **Observer**, and **Local Sim (peripheral)**. Peripheral scripts can also be executed on the ESP32 firmware; see [ESP32 Lua API]({{< relref "lua-esp32" >}}).
 
 Do not assume one script sees every function listed in the ESP32 documentation. Mobile Central and mobile Observer have different globals, different entry points, and different available helpers.
 
@@ -29,20 +29,107 @@ The following concepts appear on mobile, though not always in every context.
 |--------|------------------|
 | `vars` | Loaded from `vars.json` plus manifest path handling; in Central there may also be a per-script overlay from `roles.central.scripts[].vars`, and overlay values win on key collisions. |
 | `uuids` | Loaded from the mobile UUID index for the pack folder id. |
-| `assets` | Mobile-only table with fields such as `icon`, `graphics`, and `icon_tint`. Not available in ESP32 peripheral scripts. |
+| `assets` | Mobile-only table with fields such as `icon` (`.svg` or `.png`), `graphics`, and `icon_tint` (SVG only). Not available in ESP32 peripheral scripts. |
 
 ---
 
 ## Common mobile helpers
 
-### Hex
+These helpers are installed in **Observer**, **Central**, and **Local Sim**. Firmware peripheral/central Lua installs the same `bits` / `hex` tables and lowercase `bin_to_hex` — see [ESP32 Lua API]({{< relref "lua-esp32" >}}).
+
+### Hex payloads (lowercase emit)
+
+`bin_to_hex`, `bits.tohex`, and `hex.*` packers emit **lowercase** hex on mobile, Local Sim, and ESP32. Decoders still accept mixed case. BLE write/notify hex is case-insensitive.
+
+Company-id map keys and `first_company_id` stay **4-digit uppercase** identifiers (e.g. `"004C"`); those are not payload encode.
 
 | Function | Behavior |
 |----------|----------|
-| `bin_to_hex(binary)` | Returns uppercase hex. |
+| `bin_to_hex(binary)` | Returns lowercase hex. |
 | `hex_to_bin(hex)` | Strips whitespace; invalid input returns an empty string instead of raising a Lua error. Input must be handled as raw `byte[]` in Luaj so bytes `>= 0x80` remain one octet. |
 
-This differs from the ESP32 firmware behavior, where invalid hex may hard-fail instead of returning an empty string. [file:1]
+### `hex` table
+
+Pack integer arguments **wrap** to the field width (same mask policy as `bits.tohex` / `n % 256` for `u8`), then emit lowercase hex. Non-numbers raise via `checkint`.
+
+| Function | Behavior |
+|----------|----------|
+| `hex.u8(n)` | Pack 8-bit; width 2. `hex.u8(0x123)` → `"23"`; `hex.u8(-1)` → `"ff"`. |
+| `hex.le16(n)` / `hex.be16(n)` | Pack 16-bit little/big endian; width 4. `hex.le16(0x10000)` → `"0000"`. |
+| `hex.le32(n)` / `hex.be32(n)` | Pack 32-bit little/big endian; width 8. |
+| `hex.norm(s)` | Strip whitespace, lowercase; non-string → `""`. |
+| `hex.byte(h, i)` | Alias of `bits.byte_at` (1-based byte index into the hex string as given). Packing one octet is `hex.u8`, not `hex.byte`. |
+| `hex.len(h)` | Octet count after `norm`. |
+| `hex.slice(h, from, n)` | `n` octets from 1-based `from` after `norm`; out of bounds → `""`. |
+| `hex.to_ascii(h)` | **Lossy display helper:** keep bytes `0x20`–`0x7E`, drop NULs and other non-printables. Not a safe round-trip with `hex.from_ascii` for arbitrary BLE payloads. |
+| `hex.from_ascii(s)` | Each octet → two lowercase hex digits (includes non-printables if present in the Lua string). |
+
+### `bits` table
+
+Bitwise ops use `checkint` (Lua error on non-number). Unpackers take `(hex, offset)` where **offset is a 1-based byte index** into the hex string as given (not `hex.norm`'d). Mixed case is OK; short, odd, or invalid slices return `0`.
+
+- `band`, `bor`, `bxor`, `bnot`, `rshift`, `lshift`, `arshift`
+- `byte_at(hex, index)`
+- `tohex(n [, width])` — lowercase
+- `fromhex(hex)`
+- `le16` / `be16` / `le32` / `be32`
+
+### `adv` / `uuid` (Observer + Central only)
+
+These are **not** installed on Local Sim or ESP32 (peripheral Lua must stay firmware-portable). The global table `adv` does **not** replace `adv_set_data` / `adv_enable`.
+
+Walk BLE GAP TLV `[len][type][value…]` after `hex.norm` (whitespace + lowercase only). Odd length or a non-hex nibble stops and keeps records already found (`"0x020106"` is not valid AD hex). `len == 0` stops. `len == 1` is `{ type = n, data = "" }`.
+
+`adv.find` always returns a **table** (empty is truthy — use `#t > 0` or `[1]`).
+
+| Function | Behavior |
+|----------|----------|
+| `adv.structures(hex)` | 1-based `{ {type=n, data=hex}, … }`. `data` is the AD value after type. |
+| `adv.find(hex, type)` | **All** AD values of `type` (`checkint`, e.g. `0xFF`). Raw value — **includes** the 2-byte CID on `0xFF`. Non-number `type` raises. |
+| `adv.manufacturer(hex [, cid])` | `0xFF` only; **always strips** the 2-byte LE CID. `cid` is a hex string (`"004C"`, `"4c"`, `"0x004c"`). Omitted or non-string → no filter. Unparsable string → empty list. |
+| `adv.has_uuid(input, uuid)` | Not an AD walker. Compact-equals string cells/keys in `service_uuids`, `service_uuids_16`, `service_data` keys, and `first_service_uuid_16`. Non-string `uuid` → `false`. |
+| `uuid.compact(s)` | Lowercase; strip whitespace, `-`, leading `0x`. Non-string → `""`. |
+
+There is no `adv.local_name`. Use `hex.to_ascii(adv.find(h, 0x09)[1] or adv.find(h, 0x08)[1] or "")`.
+
+### `mac` (Observer, Central, Local Sim)
+
+Also on ESP32 firmware. Invalid / not exactly 6 octets → `""`. Colons, dashes, and spaces are ignored when collecting octets.
+
+| Function | Behavior |
+|----------|----------|
+| `mac.format(hex12)` | `AA:BB:CC:DD:EE:FF` uppercase. |
+| `mac.reverse_octets(hex12)` | 12 lowercase hex, octet-reversed. |
+| `mac.from_reversed(hex12)` | `mac.format(mac.reverse_octets(hex12))`. |
+
+### When to use `bin_to_hex` / `hex_to_bin` vs `hex.*` / `bits.*`
+
+Central ATT values (`ble_write`, `ble_read`, `on_notify`) are **hex text**. Stay in hex unless you need a binary Lua string.
+
+| Use | For |
+|-----|-----|
+| `hex.u8` / `hex.le16` / `hex.be16` / `hex.le32` / `hex.be32` | Pack a **field** (integer → 2/4/8 hex chars). Concatenate into a wire hex string for `ble_write`. |
+| `bits.byte_at` / `bits.le16` / `bits.be16` / `bits.le32` / `bits.be32` | Unpack a **field** from hex (`ble_read`, `on_notify`, adv hex) at a 1-based byte offset. |
+| `hex.norm` / `hex.slice` / `hex.len` | Navigate hex text without converting to binary. |
+| `hex.from_ascii` | Plain ASCII → hex when `ble_write` needs text (`hex.from_ascii("1")` → `"31"`). |
+| `bin_to_hex` / `hex_to_bin` | Whole **blob**: binary Lua string ↔ hex text. Use at crypto edges (`aes_*`, `sha256`, `random_bytes`) and firmware peripheral `on_write(input)` (binary). Invalid hex → `""` (soft-fail). |
+
+Do **not**:
+
+- Use `bits.tohex` to encode a blob — it formats one integer, not a byte string.
+- Convert to binary just to read or pack fields — stay in hex.
+- Pass `hex_to_bin(...)` to `ble_write` — write wants hex.
+- Wrap `ble_read` / `on_notify` with `bin_to_hex` — they are already hex.
+
+```lua
+-- fields: stay in hex
+local n = bits.le16(hex, 1)
+ble_write(SVC, CHR, hex.le16(n) .. hex.u8(0x03))
+
+-- blob: binary only at the crypto edge
+local digest_hex = bin_to_hex(sha256(hex_to_bin(payload_hex)))
+ble_write(SVC, CHR, digest_hex)
+```
 
 ---
 
@@ -63,29 +150,15 @@ Observer has no crypto helpers, no `ble_*` client functions, and no menu functio
 
 | Global | Description |
 |--------|-------------|
-| `bits` | Full Observer bits library. |
+| `bits` | Shared bits library (same as Central / Local Sim). |
+| `hex` | Shared hex packers and string helpers (same as Central / Local Sim). |
+| `adv` / `uuid` | AD walk and UUID helpers (Observer + Central only). |
+| `mac` | MAC format / reverse (also Local Sim + ESP32). |
 | `hex_to_bin` | Same mobile hex decoder behavior as above. |
-| `bin_to_hex` | Same mobile hex encoder behavior as above. |
+| `bin_to_hex` | Same mobile hex encoder behavior as above (lowercase). |
 | `vars` | Vars table. |
 | `uuids` | UUID map. |
 | `assets` | Mobile assets table. |
-
-### bits library in Observer
-
-Observer exposes a richer bits library than Central:
-
-- `band`
-- `bor`
-- `bxor`
-- `bnot`
-- `rshift`
-- `lshift`
-- `arshift`
-- `byte_at(hex, index)`
-- `tohex(n [, width])`
-- `fromhex(hex)`
-- `be16(hex, offset)`
-- `be32(hex, offset)`
 
 ### `parse(input)` fields
 
@@ -106,7 +179,7 @@ The `input` table built for Observer parsing may include:
 | `cod_major` | Class-of-device major value. |
 | `cod_name` | Class-of-device name. |
 | `first_company_id` | First manufacturer company id as 4-digit uppercase hex string (e.g. `"0075"`), or absent. |
-| `first_service_uuid_16` | First 16-bit service UUID. |
+| `first_service_uuid_16` | First 16-bit service UUID as 4-digit uppercase hex string (e.g. `"FE2C"`), or absent. |
 | `fingerprint_entries` | Prior entries from higher-priority observers. |
 
 ### Observer return value
@@ -129,8 +202,8 @@ You may also return a second `ui` table with optional keys such as:
 
 - `device_type`
 - `beacon_format`
-- `custom_icon`
-- `custom_icon_tint`
+- `custom_icon` — pack-relative `.svg` or `.png` (e.g. `assets/icon.svg`). PNG is shown with intrinsic colors.
+- `custom_icon_tint` — hex tint for SVG only (`#RRGGBB` / `#AARRGGBB`); ignored for PNG.
 - `display_name`
 - `display_info`
 
@@ -174,8 +247,8 @@ Mobile Central BLE API details.
 | Function | Description |
 |----------|-------------|
 | `ble_connected()` → bool | Returns whether GATT is ready. |
-| `ble_read(svc, chr)` | Returns lowercase hex string or `nil`; also triggers `on_ble_read_result(svc, chr, hex, err)`. |
-| `ble_write(svc, chr, data, write_without_resp?)` | Accepts hex string or "binary-ish" string; optional 4th arg sends write without response; returns `bool` only. |
+| `ble_read(svc, chr)` | Returns lowercase hex string or `nil` (same on firmware); also triggers `on_ble_read_result(svc, chr, hex, err)`. Empty characteristic → `""`. |
+| `ble_write(svc, chr, hex [, no_resp])` → ok [, err] | Strict non-empty even hex (`0-9a-fA-F`); no binary / UTF-8 fallback. Optional `no_resp` is Lua-truthy Write Command. `ble_write(svc, chr, ble_read(...))` works for any **non-empty** value; empty `ble_read` → `""` is not writable. |
 | `ble_subscribe(svc, chr)` | Subscribe for notifications; returns `bool` only. |
 | `ble_unsubscribe(svc, chr)` | Unsubscribe; returns `bool` only. |
 | `get_mtu()` | Returns ATT MTU, default 23 when unknown. |
@@ -219,17 +292,25 @@ Mobile Central BLE API details.
 | `data.load_json(path)` | Load JSON from pack assets or an on-disk library and return a Lua value. |
 | `data.fast_pair_catalog_lookup(id)` | Look up a row in the bundled Fast Pair catalog. |
 
-### bits library in Central
+### bits / hex / adv / mac in Central
 
-Central exposes a limited subset:
-
-- `bits.band`
-- `bits.bor`
-
-Do not assume the full Observer `bits.*` API is present in Central.
+Central installs the same `bits` / `hex` / `adv` / `uuid` / `mac` tables as Observer (see Common mobile helpers).
 
 ---
 
-## Peripheral note
+## Peripheral note (Local Sim)
 
-Peripheral runtime APIs such as `gfx_set_background`, `gfx_render_text`, `ble_notify`, `ble_notify_raw`, `adv_set_data`, `adv_enable`, `adv_disable`, and dynamic GATT hooks are **currently not available in mobile Lua**. Those belong to ESP32 peripheral scripts and remain documented in [ESP32 Lua API]({{< relref "lua-esp32" >}}).
+Peripheral runtime APIs (`gfx_*`, `ble_notify`, `ble_notify_raw`, `adv_set_data`, `adv_enable`, `adv_disable`, `ble_connected`, `ble_disconnect`, `get_mtu`, `set_preferred_mtu`, `delay`, crypto helpers, and `ble.json` dynamic hooks) run on this phone when you start **Local → Sim**.
+
+Local Sim and ESP32 firmware both install the shared `bits` / `hex` / `mac` tables and lowercase `bin_to_hex`. They do **not** install `adv` / `uuid`. Peripheral scripts may use `bits` / `hex` / `mac` on Remote Sim and Local Sim.
+
+On-phone simulation cannot match ESP32 Remote Sim or real hardware in every respect:
+
+- The OS only accepts structured advertising fields (service UUIDs, and on Android also service data / manufacturer data). Raw `adv_data_hex` PDUs are reconstructed, not replayed.
+- iOS advertising is limited to local name + service UUIDs. Service data and manufacturer data are dropped; the Sim canvas shows an OS-limit banner.
+- `ble_disconnect` can cancel the central on Android only. iOS has no public API to kick a connected central.
+- `get_adv_bd_addr` is often unavailable (the OS hides the adapter address).
+- `gpio_set` / `gpio_get` are not applicable on a phone, Local Sim returns `ok [, err]` / `nil [, err]`, not a Lua error.
+- Simulation runs only while the app is in the foreground. Background advertising is not enabled in this version.
+
+The same peripheral Lua also runs on ESP32 Remote Sim; prefer that path when you need full advertising fidelity. Details remain in [ESP32 Lua API]({{< relref "lua-esp32" >}}).

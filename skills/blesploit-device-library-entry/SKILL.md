@@ -1,55 +1,75 @@
 ---
 name: blesploit-device-library-entry
 description: >-
-  Creates BLESPloit device library entry (manifest.json, observer/central/peripheral Lua, uuids, assets). 
-  Use when adding a device, creating a library entry, writing a Lua adv decoder, or generating
-  a manifest for a BLE device.
+  Creates a BLESPloit device library entry (manifest.json, observer/central/peripheral
+  Lua, uuids, assets) and a .zip for in-app import. Use when adding a device,
+  creating a library entry, writing a Lua adv decoder, or generating a manifest
+  for a BLE device.
 ---
 
 # BLESPloit device library entry
 
-> **Best results with the `device-library` (https://github.com/blesploit/device-library) repo open in the workspace.**  
-> Reference entry: `products/blesploit_lightbulb/` (all three roles, full asset layout).  
-> Attach for full detail: `docs/device-manifest.schema.json`, `docs/lua-mobile.md`,  
-> `docs/lua-esp32.md` (peripheral runs on ESP32).  
-> Full schema: https://blesplo.it/docs/device-library
+Default: a **user** entry the owner imports in the app as a zip. Do not assume KMP sources or `bundled/devices/` exist.
 
+This skill may run standalone. A clone of [blesploit/device-library](https://github.com/blesploit/device-library) (or similar) is optional reference only.
+
+## Discover docs and samples
+
+If present in the workspace, read before writing (any matching path):
+
+- `**/docs/device-manifest.schema.json`
+- `**/docs/lua-mobile.md` (observer, central — phone)
+- `**/docs/lua-esp32.md` (peripheral — ESP32 simulator)
+
+If those files are missing, use the snippets in this skill. If sample entries exist, match the nearest one with the same roles — do not invent a `bundled/` tree.
+
+---
 
 ## Workflow
 
-1. Classify entry: `products/<id>/` (specific product), `vendors/<id>/` (vendor-wide), `protocols/<id>/` (cross-vendor), `generic/<id>/` (fallback).
+1. Pick a **flat slug** for the entry folder: lowercase `[a-z0-9_-]`, max 64 (`my_lock`, `acme_sensor`). This is the runtime id after import.
 2. Derive `scan_conditions` from advertisement captures; tighten with AND keys before adding Lua.
-3. Write `manifest.json` (`manifest_version: 1`, `version: 1` on new entries).
+3. Write files under `<slug>/` (`manifest.json` with `manifest_version: 1`, `version: 1` on new entries).
 4. Add role scripts only for requested capabilities. Omit unused roles entirely.
-5. Store reference captures in `sample_scans/` (not loaded at runtime).
-6. Validate JSON against schema; match naming/style of nearest existing entry.
+5. Validate JSON against the schema when available; match naming/style of a nearby sample if one exists.
+6. Zip the folder and tell the user to **Import** that zip in the device library.
 
-Entry folder id (e.g. `products/blesploit_lightbulb`) is the runtime device id. All manifest paths are relative to that folder.
+Do **not** put the entry under `products/`, `vendors/`, `protocols/`, or `generic/` unless the user asked to contribute to the official catalog. User entries live as a single folder; import uses the last path segment as the folder id, so a `products/` prefix is discarded.
+
+Do **not** create `sample_scans/` (or any capture dump) inside the entry. Use scan input to derive filters/scripts only.
+
+All manifest paths are relative to the entry folder.
+
+### Official catalog (optional)
+
+Only when contributing to the shipped library: `products/<id>/` (specific product), `vendors/<id>/` (vendor-wide), `protocols/<id>/` (cross-vendor), `generic/<id>/` (fallback). Folder id then includes the category (e.g. `products/oclean_toothbrush`).
 
 ---
 
 ## Inputs
 
-| Input | Required for | Use |
-|-------|-------------|-----|
-| Device name, vendor, product model | all roles | `name`, entry folder id, observer `display_name` |
-| Roles needed | all roles | determines which files to generate; only include declared roles |
-| Advertisement scan(s) — `adv.json`, raw hex, or app capture | observer | derive `scan_conditions`, decode logic |
-| Known advertisement filters (company id, name, service data) | observer | prefer manifest filters over Lua-only matching |
-| Observer match pattern | observer | `scan_conditions`; mirror in Lua guard if non-trivial |
-| GATT service/characteristic UUID map | central, peripheral | `uuids.json`, `ble.json`, `match.services` |
-| Protocol syntax (opcode layout, notify framing) | central, peripheral | central Lua, peripheral `dynamic` hooks |
-| Sample GATT log / `ble.json` capture | peripheral (required), central (recommended) | peripheral GATT profile, central scripts |
-| Icon / graphics | observer without `entry` (required), any (recommended) | `assets.icon`; `assets.graphics` for sim UI |
-| Chained-decode dependency | observer (if chaining) | `fingerprint_has_entry_id` when decoding after another observer |
+| Input | Required | Use |
+|-------|----------|-----|
+| Device name, vendor, product model | **yes** | `name`, entry slug, observer `display_name` |
+| Advertisement scan(s) — `adv.json`, raw hex, or app capture | **yes** (observer) | Derive `scan_conditions`, decode logic — do not copy into the entry |
+| GATT service/characteristic UUID map | if central/peripheral | Vendor UUIDs only in `uuids.json`; `ble.json`, `match.services` |
+| Protocol syntax (opcode layout, notify framing) | if central/peripheral | Central Lua, peripheral `dynamic` hooks |
+| Observer match pattern | **yes** (observer) | `scan_conditions`; mirror in Lua guard if non-trivial |
+| Known advertisement filters (company id, name, service data) | **yes** (observer) | Prefer manifest filters over Lua-only matching |
 | Companion app links | optional | `apps.google`, `apps.apple`, `apps.direct[]` |
+| Icon / graphics | optional (required for manifest-only observer) | `assets.icon`; `assets.graphics` for sim UI. No `icon_tint` by default |
 | Provenance / testing notes | optional | `notes`, `author`, `source_url` |
+| Roles needed | **yes** | `observer`, `central`, `peripheral` — only include those requested |
+| Sample GATT log / `ble.json` capture | optional | Central scripts, peripheral GATT profile — do not store as `sample_scans/` |
+| Chained-decode dependency | optional | `fingerprint_has_entry_id` when decoding after another observer |
 
-Ask for missing required inputs **for the declared roles** before generating files.
+Ask for missing **required** inputs before generating files.
 
 ---
 
 ## Output file set
+
+Write everything under `<slug>/`:
 
 | File | When | Purpose |
 |------|------|---------|
@@ -60,15 +80,53 @@ Ask for missing required inputs **for the declared roles** before generating fil
 | `peripheral/dynamic.lua` or `peripheral.lua` | peripheral role | ESP32 GATT/adv simulation hooks |
 | `peripheral/adv.json` | peripheral role | Advertising profile(s) for simulator |
 | `peripheral/interface.json` | peripheral with UI | LVGL layout ids for simulator screen |
-| `uuids.json` | GATT scripts | Symbolic name → service/characteristic UUID map |
+| `uuids.json` | GATT scripts | Vendor/proprietary symbolic UUID map only |
 | `vars.json` | peripheral or configurable central | Default state merged into Lua `vars` |
 | `ble.json` | peripheral / GATT-heavy central | Full GATT profile (`profile` in manifest) |
-| `assets/icon.svg` | scan UI branding | Scan-row icon; required if observer has no `entry` |
+| `assets/icon.svg` or `assets/icon.png` | scan UI branding | Scan-row icon; required if observer has no `entry`. PNG is not tinted; prefer square 128–256 px with alpha. |
 | `assets/graphics.json` | peripheral UI | Icon/element definitions for simulator |
-| `assets/*.svg` | optional | Extra icons referenced by Lua or graphics |
-| `sample_scans/**` | optional | Reference `adv.json`, `ble.json`, `meta.json` captures |
+| `assets/*.svg`, `assets/*.png` | optional | Extra icons referenced by Lua or graphics |
+| `<slug>.zip` | **always** (user entry) | Importable archive — see below |
 
-Do not add files for roles not declared in the manifest.
+Do not add files for roles not declared in the manifest. Do not add `sample_scans/`.
+
+### Deliverable zip
+
+Create `<slug>.zip` with a **single top-level folder** named `<slug>` (same as the entry directory). Official import looks for a directory that contains `manifest.json`. Loose files at the zip root make the proposed folder id the unpack directory name (`unpacked`) — always wrap.
+
+```
+my_lock/manifest.json
+my_lock/observer/adv_decode.lua
+my_lock/uuids.json
+my_lock/assets/icon.svg
+```
+
+Zip the folder, not its contents. Example:
+
+```bash
+# Unix
+zip -r my_lock.zip my_lock
+
+# PowerShell (folder as root entry)
+Compress-Archive -Path my_lock -DestinationPath my_lock.zip
+```
+
+Tell the user: Device library → **Import** → pick `<slug>.zip`. The app slug-normalizes the inner folder name (`[a-z0-9_-]`, max 64) and can rename on conflict.
+
+### `uuids.json` — vendor UUIDs only
+
+The app already names Bluetooth SIG 16-bit services/characteristics from the bundled SIG catalog (GAP, GATT, Battery `180f`/`2a19`, Device Information `180a`, CCCD `2902`, etc.).
+
+- Put **only proprietary / vendor** UUIDs in the entry `uuids.json`.
+- Do **not** re-declare standard SIG UUIDs already in that catalog.
+- SIG-base keys (`0000XXXX-0000-1000-8000-00805f9b34fb` / short `2a19`) are excluded from the global UUID index anyway.
+- Convention: `SVC_*` services, `CHR_*` characteristics. Entry shape: `type`, `uuid`, `name`, optional `structure` / `write_presets`.
+
+### Icons — no default tint
+
+Omit `assets.icon_tint` and observer `custom_icon_tint` unless the SVG is a **monochrome glyph** that must follow a brand color.
+
+`icon_tint` is SVG-only (`#RRGGBB` / `#AARRGGBB`). The UI applies `SrcIn`, which replaces every non-transparent pixel with one color and **often breaks multi-color logos**. PNG is never tinted. Prefer an SVG (or PNG) that already looks correct with no tint. Do not copy `icon_tint` from `blesploit_lightbulb` into new entries.
 
 ---
 
@@ -88,7 +146,7 @@ Do not add files for roles not declared in the manifest.
   "profile": "ble.json",
   "uuids": "uuids.json",
   "vars": "vars.json",
-  "assets": { "icon": "assets/icon.svg", "graphics": "assets/graphics.json", "icon_tint": "#RRGGBB" },
+  "assets": { "icon": "assets/icon.svg", "graphics": "assets/graphics.json" },
   "apps": {
     "google": { "url": "https://…", "version_note": "…" },
     "apple": { "url": "https://…", "version_note": "…" },
@@ -102,7 +160,7 @@ Do not add files for roles not declared in the manifest.
 }
 ```
 
-**`assets.icon_tint`** — omit unless the icon is a monochrome/silhouette SVG. Applying a tint to a logo or multi-color SVG repaints it as a flat color square.
+`assets.icon` may be `.svg` or `.png`. For PNG, use a square 128–256 px image with alpha (preferably as small as possible); entries are synced wholesale to ESP32.
 
 ### Observer (`roles.observer`)
 
@@ -193,19 +251,20 @@ If both `device_name_contains` and `device_name_regex` are set, **both** must pa
 
 ```json
 // Vendor icon only (AND)
-{ "company_id": "0075", "device_name_contains": "Samsung" }
+{ "company_id": "0075", "device_name_contains": "HUAWEI" }
 
-// Specific product (AND all three)
-{ "device_name_contains": "Samsung Soundbar Q990B", "company_id": "0075", "manufacturer_data_prefix_hex": "420483" }
-
-// Alternatives (OR)
+// Vendor family + decode (vendors/samsung @ 25): icon for all matches;
+// Lua decodes VD 0x42/0x04 power state (on/standby/off) for TVs, soundbars, monitors
 { "one_of": [{ "company_id": "0075" }, { "service_data_uuid_16": "fd69" }] }
+
+// Product name or service (oclean_toothbrush)
+{ "one_of": [{ "device_name_contains": "Oclean" }, { "service_uuid_128": "a6ed0401d344460a8075b9e8ec90d71b" }] }
 
 // Chained after apple_meta @ priority 20
 { "fingerprint_has_entry_id": "apple_meta", "fingerprint_entry_attributes": { "continuity_has_nearbyinfo": "true" } }
 ```
 
-Tighten `scan_conditions` in the manifest; use Lua for payload parsing, not for broad filtering.
+Tighten `scan_conditions` in the manifest; use Lua for payload parsing, not for broad filtering. Do not add a separate product entry for Samsung soundbar on/off — that lives in `vendors/samsung`.
 
 ---
 
@@ -216,16 +275,17 @@ Lower observer `priority` runs **first**. Higher-priority observers see `input.f
 | Range | Meaning | Examples |
 |-------|---------|----------|
 | **10** | Generic meta / GAP inference | `generic/device_type_meta` |
-| **20** | Broad vendor or protocol dispatcher | `vendors/apple/apple_dispatcher`, `vendors/samsung`, `protocols/fast_pair` (25) |
+| **20** | Broad vendor or protocol dispatcher | `vendors/apple/apple_dispatcher`, `vendors/jabra` |
+| **25** | Vendor/protocol with decode (not just icon) | `vendors/samsung` (VD power state), `protocols/fast_pair` |
 | **30** | Protocol sub-decode chained on prior entry | Apple continuity TLV decoders |
 | **40** | Protocol instance after dispatcher | `protocols/ibeacon` (after Apple @ 20/30) |
 | **45** | Vendor family with decode logic | `vendors/lime`, `vendors/tesla` |
-| **50** | Default; name- or UUID-specific product | `products/pixel_buds_2a`, `products/happy_lighting` |
+| **50** | Default; name- or UUID-specific product | `pixel_buds_2a`, `happy_lighting`, `oclean_toothbrush` (catalog: under `products/`) |
 | **100** | Late / catch-all | `vendors/microsoft_nearby` |
 
 Central script `priority`: higher first; put `quick_action` at 55–60, `full_menu` at 50 or lower.
 
-When adding a chained observer, set priority **after** the dependency (e.g. iBeacon 40 after `apple_meta` @ 20).
+When adding a chained observer, set priority **after** the dependency (e.g. iBeacon 40 after `apple_meta` @ 20). User product entries usually use **50**.
 
 ---
 
@@ -236,12 +296,13 @@ When adding a chained observer, set priority **after** the dependency (e.g. iBea
 - Entry: `function parse(input)` → `entries` or `entries, ui`.
 - Return `{}` or `{}, {}` when no match (even if `scan_conditions` passed — Lua can still reject).
 - Entry shape: `{ id, display_name?, attributes = { key = "string_value", … } }`.
-- UI overlay keys: `device_type`, `beacon_format`, `custom_icon`, `custom_icon_tint`, `display_name`, `display_info`.
-- Globals: `vars`, `uuids`, `assets`, `bits.*`, `hex_to_bin`, `bin_to_hex`.
+- UI overlay keys: `device_type`, `beacon_format`, `custom_icon` (`.svg` or `.png`), `custom_icon_tint` (SVG only — omit unless monochrome glyph), `display_name`, `display_info`.
+- Globals: `vars`, `uuids`, `assets`, full `bits.*` / `hex.*`, `adv.*` / `uuid.compact` / `mac.*`, `hex_to_bin`, lowercase `bin_to_hex`.
 - No `ble_*`, crypto, or menu APIs.
 - Put stable match keys in `attributes` (`protocol`, product-specific fields) for central `match.fingerprint`.
 - `manufacturer_data` keys are **4-digit uppercase hex** SIG company ids (`"0075"`, `"004C"`) — same as manifest `scan_conditions.company_id`. Values are lowercase hex payloads (company id bytes omitted).
 - `first_company_id` uses the same hex string format when present.
+- `first_service_uuid_16` is a 4-digit uppercase hex string (e.g. `"FE2C"`), or absent.
 
 ### Central (mobile only)
 
@@ -251,13 +312,16 @@ When adding a chained observer, set priority **after** the dependency (e.g. iBea
 - Use `ble_read` / `ble_write` / `ble_subscribe`, `start_notify_wait` + `finish_notify_wait` for request/notify protocols.
 - Use `fp_get`, `fp_set`, `push_fingerprint` to enrich after GATT reads.
 - `delay_ms(ms)` max 10000. `hex_to_bin` returns `""` on invalid input (no error).
+- Same full `bits.*` / `hex.*` / `adv.*` / `uuid.*` / `mac.*` as Observer; `bin_to_hex` emits lowercase.
+- Hex vs binary: `hex.*` / `bits.*` pack and unpack **fields** (stay in hex for `ble_write` / `ble_read` / `on_notify`). `bin_to_hex` / `hex_to_bin` convert a whole **blob** at crypto edges (and firmware `on_write` binary). Do not use `bits.tohex` as blob encode; do not `bin_to_hex(ble_read())`.
 
-### Peripheral (ESP32 only)
+### Peripheral (ESP32 firmware; also Local Sim preview)
 
-- Edited on mobile, **executed on ESP32** — use `ble_notify`, `adv_enable`/`adv_disable`, `gfx_*`, `vars_save`.
-- Restricted stdlib: `_G`, `string`, `math`, `table` only.
+- Edited on mobile, **executed on ESP32** (and on-phone Local Sim) — use `ble_notify`, `adv_enable`/`adv_disable`, `gfx_*`, `vars_save`.
+- Restricted stdlib on firmware: `_G`, `string`, `math`, `table` only.
 - GATT `on_read` / `on_write` hooks referenced from `ble.json`.
 - Persist sim state in `vars`; defaults from `vars.json`.
+- Same `bits.*` / `hex.*` / `mac.*` as Observer/Central on firmware and Local Sim; **no** `adv` / `uuid`. `bin_to_hex` emits lowercase. `hex_to_bin` returns `""` on invalid input (no error). Peripheral `on_write(input)` is binary — `bin_to_hex(input)` before field unpack.
 
 Do not mix mobile and ESP32 APIs in one script file.
 
@@ -267,7 +331,7 @@ Do not mix mobile and ESP32 APIs in one script file.
 
 ### Minimal observer-only manifest (manifest-only icon)
 
-Based on `vendors/jabra` — no Lua, icon overlay only:
+Based on `vendors/jabra` — no Lua, icon overlay only, **no tint**:
 
 ```json
 {
@@ -287,7 +351,7 @@ Based on `vendors/jabra` — no Lua, icon overlay only:
 
 ### Full three-role manifest (annotated)
 
-Based on `products/blesploit_lightbulb`:
+Based on `blesploit_lightbulb`. Omit `icon_tint` on new entries (this example does not include it):
 
 ```json
 {
@@ -298,6 +362,7 @@ Based on `products/blesploit_lightbulb`:
   "version": 1,
   "profile": "ble.json",
   "uuids": "uuids.json",
+  "vars": "vars.json",
   "assets": {
     "icon": "assets/blesploit_logo.svg",
     "graphics": "assets/graphics.json"
@@ -336,7 +401,7 @@ Based on `products/blesploit_lightbulb`:
 }
 ```
 
-Improve central scripts by adding `"fingerprint": { "protocol": ["blesploit_lightbulb"] }` once observer sets that attribute.
+Observer decodes 4-byte service data (on/off + RGB); central matches on discovered GATT service UUIDs. `uuids.json` lists only the custom `a70x…` UUIDs — not SIG Battery/GAP. Add `"fingerprint": { "state": ["on"] }` (or a `protocol` attr) to central `match` when observer sets stable attrs worth reusing.
 
 ### Minimal observer Lua
 
@@ -360,6 +425,8 @@ function parse(input)
   }
 end
 ```
+
+Do not set `custom_icon_tint` in the UI overlay unless the SVG is a monochrome glyph.
 
 ### Minimal central quick_action Lua
 
@@ -402,8 +469,12 @@ end
 
 ## Checklist before finishing
 
-- [ ] Entry path matches category (`products/`, `vendors/`, `protocols/`, `generic/`)
+- [ ] Flat slug folder (`[a-z0-9_-]`, max 64) — catalog `products/` / `vendors/` / … only if contributing to the official library
 - [ ] `manifest_version: 1`, sensible `priority`, tight `scan_conditions`
+- [ ] `<slug>.zip` wraps a single top-level `<slug>/` (not loose files at zip root)
+- [ ] No `sample_scans/` (or other capture dumps) in the entry
+- [ ] `uuids.json` has vendor/proprietary UUIDs only — no standard SIG UUIDs already in the catalog
+- [ ] No `icon_tint` / `custom_icon_tint` unless the SVG is a monochrome glyph
 - [ ] Observer `attributes.protocol` (or equivalent) set for central fingerprint matching
 - [ ] Central quick actions prefer `match.fingerprint` over services-only when observer provides attrs
 - [ ] `uuids.json` symbols used consistently in Lua; `ble.json` matches GATT capture

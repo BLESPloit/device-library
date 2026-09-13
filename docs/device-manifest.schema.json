@@ -33,9 +33,15 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "icon": { "type": "string" },
+        "icon": {
+          "type": "string",
+          "description": "Relative path to the scan/library icon (.svg or .png). PNG is not tinted; prefer a square 128–256 px image with alpha, preferably as small as possible"
+        },
         "graphics": { "type": "string" },
-        "icon_tint": { "type": "string", "description": "Optional SVG tint (#RRGGBB or CSS color); exposed as Lua assets.icon_tint and scan-row custom_icon_tint." }
+        "icon_tint": {
+          "type": "string",
+          "description": "Optional SVG-only tint (#RRGGBB or #AARRGGBB). Ignored for PNG. Exposed as Lua assets.icon_tint and scan-row custom_icon_tint."
+        }
       }
     },
     "roles": {
