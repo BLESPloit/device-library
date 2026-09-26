@@ -1,0 +1,27 @@
+{
+  "states": [
+    { "key": "lights", "name": "Lights" },
+    { "key": "turbo", "name": "Turbo" },
+    { "key": "last", "name": "Last command" }
+  ],
+  "initial_menu": "main",
+  "menus": [
+    {
+      "id": "main",
+      "title": "Shell Racing Legends",
+      "on_enter": "on_main_enter",
+      "items": [
+        { "id": "drive_forward", "label": "Forward" },
+        { "id": "drive_reverse", "label": "Reverse" },
+        { "id": "drive_left", "label": "Left" },
+        { "id": "drive_right", "label": "Right" },
+        { "id": "drive_stop", "label": "Stop" },
+        { "id": "cmd_spin", "label": "Spin / special" },
+        { "id": "cmd_lights_on", "label": "Lights on" },
+        { "id": "cmd_lights_off", "label": "Lights off" },
+        { "id": "cmd_turbo_on", "label": "Turbo on" },
+        { "id": "cmd_turbo_off", "label": "Turbo off" }
+      ]
+    }
+  ]
+}

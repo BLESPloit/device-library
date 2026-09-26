@@ -1,0 +1,32 @@
+{
+  "SVC_VENDOR_6936": {
+    "type": "service",
+    "uuid": "6936",
+    "name": "Vendor service 6936",
+    "description": "Advertised incomplete 16-bit UUID; characteristic FE01 (write / write-without-response / notify)."
+  },
+  "CHR_VENDOR_FE01": {
+    "type": "characteristic",
+    "uuid": "fe01",
+    "name": "Vendor FE01",
+    "description": "Present on service 6936; role unclear from sample (not used for drive in capture)."
+  },
+  "SVC_CONTROL": {
+    "type": "service",
+    "uuid": "fff0",
+    "name": "Control service",
+    "description": "Primary control service (also used by older Shell SuperCars with different chars)."
+  },
+  "CHR_DRIVE": {
+    "type": "characteristic",
+    "uuid": "fff1",
+    "name": "Drive control",
+    "description": "8-byte plaintext Write Command: 01 fwd rev left right light turbo special."
+  },
+  "CHR_NOTIFY": {
+    "type": "characteristic",
+    "uuid": "fff2",
+    "name": "Control notify",
+    "description": "Notify-only characteristic on FFF0 (unused in sample drive session)."
+  }
+}

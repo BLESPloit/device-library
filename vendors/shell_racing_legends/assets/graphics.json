@@ -1,0 +1,18 @@
+{
+  "elements": [
+    {
+      "id": "car",
+      "type": "svg",
+      "file": "shell_racing_legends.svg",
+      "size": 80,
+      "align": "center"
+    },
+    {
+      "id": "status",
+      "type": "text",
+      "text": "Shell Racing Legends",
+      "size": 8,
+      "align": "bottom_center"
+    }
+  ]
+}

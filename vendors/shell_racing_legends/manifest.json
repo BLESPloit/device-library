@@ -1,0 +1,64 @@
+{
+  "name": "Shell Racing Legends",
+  "description": "Shell Bluetooth RC cars (Shell Racing Legends app). Plain 8-byte drive writes on FFF1.",
+  "author": "Slawomir Jasek",
+  "author_url": "https://blesplo.it",
+  "version": 4,
+  "notes": "Observed on SL-SF-24 (adv name + incomplete 16-bit service 0x6936). Drive packets are Write Command (no response) to FFF1: 01 | fwd | rev | left | right | light | turbo | special. Other models may have different advertising names with the same GATT layout. Peripheral sim: plaintext FFF1 writes update status UI (movement, lights, turbo, spin).",
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.TDF.ShellRacingLegends",
+      "version_note": ""
+    },
+    "apple": {
+      "url": "https://apps.apple.com/us/app/shell-racing-legends/id1578287269",
+      "version_note": ""
+    }
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "one_of": [
+          {
+            "device_name_regex": "(?i)^SL-"
+          },
+          {
+            "service_uuid_16": "6936"
+          }
+        ]
+      }
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic_peripheral.lua"
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "main",
+          "title": "Shell Racing Legends",
+          "kind": "full_menu",
+          "entry": "central/dynamic_central.lua",
+          "menu": "central/menu.json",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["shell_racing_legends"]
+            },
+            "services": ["fff0", "6936"],
+            "require_discovered_services": true
+          }
+        }
+      ]
+    }
+  },
+  "assets": {
+    "icon": "assets/shell_racing_legends.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "manifest_version": 1
+}

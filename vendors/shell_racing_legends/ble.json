@@ -1,0 +1,129 @@
+{
+    "services": [
+        {
+            "uuid": "1800",
+            "type_uuid": "2800",
+            "start_handle": 1,
+            "end_handle": 3,
+            "characteristics": [
+                {
+                    "handle": 2,
+                    "uuid": "2803",
+                    "properties": 10,
+                    "security": 0,
+                    "value": {
+                        "handle": 3,
+                        "uuid": "2a00",
+                        "data": "534c2d53462d3234"
+                    },
+                    "descriptors": []
+                }
+            ]
+        },
+        {
+            "uuid": "6936",
+            "type_uuid": "2800",
+            "start_handle": 4,
+            "end_handle": 7,
+            "characteristics": [
+                {
+                    "handle": 5,
+                    "uuid": "2803",
+                    "properties": 28,
+                    "security": 0,
+                    "value": {
+                        "handle": 6,
+                        "uuid": "fe01",
+                        "data": ""
+                    },
+                    "descriptors": [
+                        {
+                            "handle": 7,
+                            "uuid": "2902",
+                            "data": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "uuid": "fff0",
+            "type_uuid": "2800",
+            "start_handle": 8,
+            "end_handle": 14,
+            "characteristics": [
+                {
+                    "handle": 9,
+                    "uuid": "2803",
+                    "properties": 28,
+                    "security": 0,
+                    "value": {
+                        "handle": 10,
+                        "uuid": "fff1",
+                        "data": ""
+                    },
+                    "descriptors": [
+                        {
+                            "handle": 11,
+                            "uuid": "2902",
+                            "data": ""
+                        }
+                    ],
+                    "dynamic": {
+                        "on_write": "on_write_drive"
+                    }
+                },
+                {
+                    "handle": 12,
+                    "uuid": "2803",
+                    "properties": 16,
+                    "security": 0,
+                    "value": {
+                        "handle": 13,
+                        "uuid": "fff2",
+                        "data": ""
+                    },
+                    "descriptors": [
+                        {
+                            "handle": 14,
+                            "uuid": "2902",
+                            "data": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "uuid": "180f",
+            "type_uuid": "2800",
+            "start_handle": 15,
+            "end_handle": 18,
+            "characteristics": [
+                {
+                    "handle": 16,
+                    "uuid": "2803",
+                    "properties": 18,
+                    "security": 0,
+                    "value": {
+                        "handle": 17,
+                        "uuid": "2a19",
+                        "data": "50"
+                    },
+                    "descriptors": [
+                        {
+                            "handle": 18,
+                            "uuid": "2902",
+                            "data": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "devinfo": {
+        "adv_data": "020106030336690909534c2d53462d3234",
+        "bd_addr": "13:05:AA:01:2D:FD",
+        "addr_type": 0,
+        "scan_rsp": "0909534c2d53462d3234"
+    }
+}
