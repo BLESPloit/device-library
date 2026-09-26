@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "oura_ring",
+      "type": "svg",
+      "file": "oura.svg",
+      "size": 110,
+      "align": "center"
+    }
+  ]
+}

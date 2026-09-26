@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "KARR_logo",
+      "type": "svg",
+      "file": "KARR.svg",
+      "size": 100,
+      "align": "center"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "name": "KARR vehicle security",
+  "description": "KARR / Quantam / Gridtraq vehicle-security units (QT/DR): advertisement decode from real old-format MSD captures, Transparent UART peripheral sim, and central lock/unlock menu.",
+  "author": "BLESPloit device library",
+  "manifest_version": 1,
+  "version": 7,
+  "notes": "Based on KARR Security (com.whgos.swdscustomerapp) and real field captures. Real units use legacy ADV with Complete Local Name + Flags + 6-byte old MSD (not 26-byte extended). GATT profile cloned from 60:8A:10:26:E9:B0 capture (ISSC Transparent UART 49535343-FE7D-… / 49535343-1E4D-… plus unused ISSC airpatch/EEPROM services). Observer requires QT/DR name or company 5451/5244; recovers GAP name from raw ADV when device_name is empty (fixes icon-only empty decode on peripheral sim). Peripheral sim: QtProtocol 0xAA auth + lock/unlock; updates armed bit in 6-byte MSD and name from BD addr (QT + last 4 octets). Central quick_auth uses vars.auth_key (Base64/hex), vars.auth_mode (OldHash), vars.serial; 8-byte challenge→OldHash, 32-byte→AES-128-CBC NewHash.",
+  "apps": {
+    "direct": [
+      {
+        "label": "KARR Security",
+        "url": "https://play.google.com/store/apps/details?id=com.whgos.swdscustomerapp"
+      }
+    ]
+  },
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "vars": "vars.json",
+  "assets": {
+    "icon": "assets/KARR.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "one_of": [
+          {
+            "device_name_regex": "^(DR|QT) [A-F0-9]{7,8}$"
+          },
+          {
+            "company_id": ["5451", "5244"]
+          }
+        ]
+      }
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic.lua"
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "quick_auth",
+          "title": "Auth with key",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/quick_auth.lua",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["karr"]
+            },
+            "services": [
+              "49535343-fe7d-4ae5-8fa9-9fafd205e455"
+            ]
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "main",
+          "title": "KARR",
+          "kind": "full_menu",
+          "priority": 55,
+          "entry": "central/main.lua",
+          "menu": "central/menu.json",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["karr"]
+            },
+            "services": [
+              "49535343-fe7d-4ae5-8fa9-9fafd205e455"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

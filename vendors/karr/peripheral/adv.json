@@ -1,0 +1,52 @@
+{
+  "profiles": [
+    {
+      "id": "karr_old_armed",
+      "enabled": true,
+      "legacy_pdu": true,
+      "connectable": true,
+      "scannable": true,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": 127,
+      "adv_interval_ms": 250,
+      "addr_type": "public",
+      "bd_addr": "44:B7:D0:6B:D6:55",
+      "adv_data_hex": "0c09515420443036424436353502010607ff7130f4b732d1",
+      "scan_rsp_hex": ""
+    },
+    {
+      "id": "karr_old_unarmed",
+      "enabled": true,
+      "legacy_pdu": true,
+      "connectable": true,
+      "scannable": true,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": 127,
+      "adv_interval_ms": 250,
+      "addr_type": "public",
+      "bd_addr": "40:84:32:6B:4A:6F",
+      "adv_data_hex": "0c09515420333236423441364602010607ff7036367834e4",
+      "scan_rsp_hex": ""
+    },
+    {
+      "id": "karr_old_nosale",
+      "enabled": true,
+      "legacy_pdu": true,
+      "connectable": true,
+      "scannable": true,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": 127,
+      "adv_interval_ms": 250,
+      "addr_type": "public",
+      "bd_addr": "2C:FE:8B:11:DA:D6",
+      "adv_data_hex": "0c09515420384231314441443602010607ff7133337432ed",
+      "scan_rsp_hex": ""
+    }
+  ]
+}

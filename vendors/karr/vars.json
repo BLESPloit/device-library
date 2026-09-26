@@ -1,0 +1,14 @@
+{
+  "unit_name": "QT D06BD655",
+  "display_label": "KARR QT sim",
+  "authenticated": false,
+  "armed": true,
+  "auth_required": true,
+  "accept_any_auth": true,
+  "vbat_raw": 209,
+  "msd_hex": "7130f4b732d1",
+  "auth_key": "AAECAwQFBgcICQoLDA0ODw==",
+  "auth_key_encoding": "base64",
+  "auth_mode": 0,
+  "serial": ""
+}

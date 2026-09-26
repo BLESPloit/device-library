@@ -1,0 +1,77 @@
+{
+  "SVC_TDS": {
+    "type": "service",
+    "uuid": "49535343-fe7d-4ae5-8fa9-9fafd205e455",
+    "name": "Microchip Transparent UART (TDS)",
+    "description": "ISSC/Microchip Transparent Data Service (from real QT unit GATT capture)"
+  },
+  "CHR_TDC": {
+    "type": "characteristic",
+    "uuid": "49535343-1e4d-4bd9-ba61-23c647249616",
+    "name": "Transparent Data (TDC)",
+    "description": "Bidirectional QtProtocol channel: write framed commands, receive notifies. Properties 0x1C (write/WNR/notify).",
+    "structure": [
+      {
+        "field": "Sync",
+        "type": "uint8",
+        "size": 1,
+        "description": "0xAA Original, 0xBB Counter, 0x55 Encrypted"
+      },
+      {
+        "field": "Length",
+        "type": "uint16_be",
+        "size": 2,
+        "description": "1 + payload length (command byte counted)"
+      },
+      {
+        "field": "Command",
+        "type": "uint8",
+        "size": 1,
+        "description": "EnumQtCommand (e.g. 0x0B Lock, 0x0C Unlock, 0x0F ProvideAuth)"
+      },
+      {
+        "field": "Payload",
+        "type": "hex",
+        "description": "Optional command data"
+      },
+      {
+        "field": "Checksum",
+        "type": "uint8",
+        "size": 1,
+        "description": "Two's complement; sync summed as 0 during generate"
+      }
+    ],
+    "write_presets": [
+      { "label": "Lock doors (AA)", "hex": "aa00010bf4" },
+      { "label": "Unlock doors (AA)", "hex": "aa00010cf3" },
+      { "label": "Silent lock (AA)", "hex": "aa000125da" },
+      { "label": "Silent unlock (AA)", "hex": "aa000126d9" },
+      { "label": "ProvideAuth zeros×32 (sim)", "hex": "aa00210f0000000000000000000000000000000000000000000000000000000000000000d0" },
+      { "label": "AckOk (AA)", "hex": "aa000100ff" }
+    ]
+  },
+  "CHR_TDC_RW": {
+    "type": "characteristic",
+    "uuid": "49535343-8841-43f4-a8d4-ecbe34729bb3",
+    "name": "Transparent UART secondary (write)",
+    "description": "Additional ISSC characteristic on real units (properties 0x0C); unused by KARR app protocol"
+  },
+  "CHR_TDC_CTRL": {
+    "type": "characteristic",
+    "uuid": "49535343-4c8a-39b3-2f49-511cff073b7e",
+    "name": "Transparent UART control",
+    "description": "Additional ISSC characteristic on real units (properties 0x18); unused by KARR app protocol"
+  },
+  "SVC_ISSC_AIRPATCH": {
+    "type": "service",
+    "uuid": "49535343-5d82-6099-9348-7aac4d5fbc51",
+    "name": "ISSC Air Patch",
+    "description": "Present on real Microchip/ISSC modules; not used by Quantam session protocol"
+  },
+  "SVC_ISSC_EEPROM": {
+    "type": "service",
+    "uuid": "49535343-c9d0-cc83-a44a-6fe238d06d33",
+    "name": "ISSC EEPROM",
+    "description": "Present on real Microchip/ISSC modules; not used by Quantam session protocol"
+  }
+}

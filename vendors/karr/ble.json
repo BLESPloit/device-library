@@ -1,0 +1,268 @@
+{
+  "services": [
+    {
+      "uuid": "1800",
+      "type_uuid": "2800",
+      "start_handle": 1,
+      "end_handle": 5,
+      "characteristics": [
+        {
+          "handle": 2,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3,
+            "uuid": "2a00",
+            "data": "5154204430364244363535"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 4,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 5,
+            "uuid": "2a01",
+            "data": "0000"
+          },
+          "descriptors": []
+        }
+      ]
+    },
+    {
+      "uuid": "180a",
+      "type_uuid": "2800",
+      "start_handle": 16,
+      "end_handle": 32,
+      "characteristics": [
+        {
+          "handle": 17,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 18,
+            "uuid": "2a29",
+            "data": "4d6963726f63686970"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 19,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 20,
+            "uuid": "2a24",
+            "data": "515436"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 21,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 22,
+            "uuid": "2a25",
+            "data": "4430364244363535"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 23,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 24,
+            "uuid": "2a27",
+            "data": "31"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 25,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 26,
+            "uuid": "2a26",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 27,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 28,
+            "uuid": "2a28",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 29,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 30,
+            "uuid": "2a23",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 31,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 32,
+            "uuid": "2a2a",
+            "data": ""
+          },
+          "descriptors": []
+        }
+      ]
+    },
+    {
+      "uuid": "49535343-5d82-6099-9348-7aac4d5fbc51",
+      "type_uuid": "2800",
+      "start_handle": 48,
+      "end_handle": 51,
+      "characteristics": [
+        {
+          "handle": 49,
+          "uuid": "2803",
+          "properties": 24,
+          "security": 0,
+          "value": {
+            "handle": 50,
+            "uuid": "49535343-026e-3a9b-954c-97daef17e26e",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 51,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "49535343-c9d0-cc83-a44a-6fe238d06d33",
+      "type_uuid": "2800",
+      "start_handle": 64,
+      "end_handle": 67,
+      "characteristics": [
+        {
+          "handle": 65,
+          "uuid": "2803",
+          "properties": 24,
+          "security": 0,
+          "value": {
+            "handle": 66,
+            "uuid": "49535343-aca3-481c-91ec-d85e28a60318",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 67,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "49535343-fe7d-4ae5-8fa9-9fafd205e455",
+      "type_uuid": "2800",
+      "start_handle": 80,
+      "end_handle": 88,
+      "characteristics": [
+        {
+          "handle": 81,
+          "uuid": "2803",
+          "properties": 28,
+          "security": 0,
+          "value": {
+            "handle": 82,
+            "uuid": "49535343-1e4d-4bd9-ba61-23c647249616",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 83,
+              "uuid": "2902",
+              "data": ""
+            }
+          ],
+          "dynamic": {
+            "on_write": "on_write_tdc"
+          }
+        },
+        {
+          "handle": 84,
+          "uuid": "2803",
+          "properties": 12,
+          "security": 0,
+          "value": {
+            "handle": 85,
+            "uuid": "49535343-8841-43f4-a8d4-ecbe34729bb3",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 86,
+          "uuid": "2803",
+          "properties": 24,
+          "security": 0,
+          "value": {
+            "handle": 87,
+            "uuid": "49535343-4c8a-39b3-2f49-511cff073b7e",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 88,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pairing_info": {
+    "response": {
+      "io_capability": 3,
+      "auth_req": 1,
+      "oob_data_flag": 0,
+      "max_key_size": 16,
+      "init_key_dist": 1,
+      "resp_key_dist": 1
+    },
+    "initiate_pairing_on_connection": false
+  },
+  "devinfo": {
+    "adv_data": "0c09515420443036424436353502010607ff7130f4b732d1",
+    "bd_addr": "44:B7:D0:6B:D6:55",
+    "addr_type": 0,
+    "pdu_type": "ADV_IND"
+  }
+}

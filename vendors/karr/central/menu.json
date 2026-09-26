@@ -1,0 +1,39 @@
+{
+  "states": [
+    { "key": "auth", "name": "Auth" },
+    { "key": "doors", "name": "Doors" }
+  ],
+  "initial_menu": "main",
+  "menus": [
+    {
+      "id": "main",
+      "title": "KARR",
+      "on_enter": "on_main_enter",
+      "items": [
+        { "id": "on_authenticate", "label": "Authenticate (sim)" },
+        { "id": "on_lock", "label": "Lock doors" },
+        { "id": "on_unlock", "label": "Unlock doors" },
+        { "id": "on_silent_menu", "label": "Silent lock/unlock →" },
+        { "id": "on_secure_menu", "label": "Secure arm/disarm →" }
+      ]
+    },
+    {
+      "id": "silent",
+      "title": "Silent",
+      "items": [
+        { "id": "on_silent_lock", "label": "Silent lock" },
+        { "id": "on_silent_unlock", "label": "Silent unlock" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    },
+    {
+      "id": "secure",
+      "title": "Secure",
+      "items": [
+        { "id": "on_secure_arm", "label": "Secure arm" },
+        { "id": "on_secure_disarm", "label": "Secure disarm" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    }
+  ]
+}
