@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "faucet",
+      "type": "svg",
+      "file": "faucet.svg",
+      "size": 80,
+      "align": "center"
+    }
+  ]
+}

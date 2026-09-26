@@ -1,0 +1,34 @@
+{
+  "FAUCET_SERVICE": {
+    "type": "service",
+    "uuid": "d0aba888fb104dc99b17bdd8f490c900",
+    "name": "Sloan AD - BD Information",
+    "description": "Gen1 Sloan Optima primary faucet service (advertised in AD type 0x06)"
+  },
+  "DIAGNOSTIC_SERVICE": {
+    "type": "service",
+    "uuid": "d0aba888fb104dc99b17bdd8f490c960",
+    "name": "Sloan Diagnostics / Water Dispense",
+    "description": "Gen1 diagnostic results and remote water dispense"
+  },
+  "WATER_DISPENSE": {
+    "type": "characteristic",
+    "uuid": "d0aba888fb104dc99b17bdd8f490c965",
+    "name": "Sloan Water Dispense",
+    "description": "Write Request with ASCII '1' (0x31) triggers a remote dispense. Properties: Read | Write (ATT Write Request 0x12).",
+    "structure": [
+      {
+        "field": "Command",
+        "type": "hex",
+        "size": 1,
+        "description": "0x31 ('1') = dispense"
+      }
+    ],
+    "write_presets": [
+      {
+        "label": "Dispense water (0x31)",
+        "hex": "31"
+      }
+    ]
+  }
+}

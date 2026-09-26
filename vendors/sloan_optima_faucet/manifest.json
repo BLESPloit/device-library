@@ -1,0 +1,67 @@
+{
+  "name": "Sloan Optima faucet",
+  "description": "Sloan Optima / control-box Gen1 BLE faucet (Sloan Connect). Observer fingerprint, Gen1 GATT peripheral simulator from a real scan, and a quick action to remotely dispense water.",
+  "author": "Slawomir Jasek",
+  "author_url": "https://blesplo.it",
+  "model_url": "https://www.sloan.com/",
+  "manifest_version": 1,
+  "version": 2,
+  "notes": "Devices typically advertise only after 3-hand activation or control-box button. Gen1 remote dispense: Write Request to Water Dispense (…c965) with ASCII '1' (0x31). Peripheral sim uses a cloned GATT profile and shows a toast on dispense writes. Gen2 packed Device Data / session-key path is a separate GATT model and is not covered by this dispense script.",
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "vars": "vars.json",
+  "assets": {
+    "icon": "assets/faucet.svg",
+    "icon_tint": "#0B6E99",
+    "graphics": "assets/graphics.json"
+  },
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.mp.sloanconnect",
+      "version_note": "Sloan Connect"
+    },
+    "apple": {
+      "url": "https://apps.apple.com/us/app/sloan-connect/id1326968605",
+      "version_note": "Sloan Connect"
+    }
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "one_of": [
+          {
+            "device_name_regex": "(?i)^FAUCET\\b"
+          },
+          {
+            "service_uuid_128": "d0aba888-fb10-4dc9-9b17-bdd8f490c900"
+          }
+        ]
+      }
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "dispense_water",
+          "title": "Dispense water",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/dispense_water.lua",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["sloan_optima"]
+            },
+            "services": ["d0aba888fb104dc99b17bdd8f490c960"]
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic.lua"
+    }
+  }
+}
