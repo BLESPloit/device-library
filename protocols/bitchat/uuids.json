@@ -1,0 +1,20 @@
+{
+  "BITCHAT_SERVICE_MAINNET": {
+    "type": "service",
+    "uuid": "f47b5e2d4a9e4c5a9b3f8e1d2c3a4b5c",
+    "name": "bitchat mainnet",
+    "description": "Release / mainnet mesh service UUID (BLEService.serviceUUID #else branch)."
+  },
+  "BITCHAT_SERVICE_TESTNET": {
+    "type": "service",
+    "uuid": "f47b5e2d4a9e4c5a9b3f8e1d2c3a4b5a",
+    "name": "bitchat testnet",
+    "description": "DEBUG / testnet mesh service UUID (BLEService.serviceUUID #if DEBUG)."
+  },
+  "BITCHAT_CHAR": {
+    "type": "characteristic",
+    "uuid": "a1b2c3d4e5f64a5b8c9d0e1f2a3b4c5d",
+    "name": "bitchat mesh pipe",
+    "description": "Single GATT characteristic (notify / write / writeWithoutResponse / read) carrying BinaryProtocol frames. Subscribe to receive signed announce (0x01) and other mesh packets."
+  }
+}

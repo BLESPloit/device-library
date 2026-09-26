@@ -1,0 +1,57 @@
+{
+  "name": "bitchat",
+  "description": "bitchat BLE mesh peer — fingerprints mainnet/testnet from the advertised 128-bit service UUID; central quick action reads signed announce identity after GATT subscribe.",
+  "author": "BLESPlo.it",
+  "manifest_version": 1,
+  "version": 2,
+  "notes": "Source: permissionlesstech/bitchat BLEService.buildAdvertisementData() advertises only CBAdvertisementDataServiceUUIDsKey. Mainnet F47B5E2D-4A9E-4C5A-9B3F-8E1D2C3A4B5C (release), testnet …4B5A (DEBUG). GATT characteristic A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D (notify/write/writeWithoutResponse/read) carries BinaryProtocol packets; MessageType.announce (0x01) TLVs hold nickname, Noise/Ed25519 keys, neighbors, capabilities. Central: subscribe then wait for announce (~0.4s; rate-limited under reconnect churn). Signature verification not performed.",
+  "model_url": "https://bitchat.free",
+  "source_url": "https://github.com/permissionlesstech/bitchat",
+  "uuids": "uuids.json",
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.bitchat.droid"
+    },
+    "apple": {
+      "url": "https://apps.apple.com/us/app/bitchat-mesh/id6748219622"
+    }
+  },
+  "assets": {
+    "icon": "assets/bitchat.svg",
+    "icon_tint": "#1A1A1A"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "service_uuid_128": [
+          "f47b5e2d-4a9e-4c5a-9b3f-8e1d2c3a4b5c",
+          "f47b5e2d-4a9e-4c5a-9b3f-8e1d2c3a4b5a"
+        ]
+      }
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "read_peer_identity",
+          "title": "Read peer identity",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/quick_read_peer_identity.lua",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["bitchat"]
+            },
+            "services": [
+              "f47b5e2d4a9e4c5a9b3f8e1d2c3a4b5c"
+            ],
+            "require_discovered_services": true
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    }
+  }
+}
