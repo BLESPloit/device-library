@@ -1,9 +1,11 @@
 {
   "name": "BLESPlo.it Light",
-  "description": "Example lightbulb: on/off (notify), RGB color, and an optional write-only secret-challenge characteristic for peripheral Lua.",
+  "description": "Example lightbulb: on/off (notify), RGB color, optional secret-challenge, and optional disconnect if no on/off switch write in time.",
   "author": "Slawomir Jasek",
   "author_url": "https://blesplo.it",
-  "version": 1,
+  "version": 7,
+  "notes": "vars.device_name is the GAP Device Name and the advertised Complete Local Name (default BLESPlo.it light, 1–29 bytes). A write to Device Name (2A00) updates it and persists with vars_save. Set vars.disconnect_without_switch to true to drop the central if no on/off (CHR_ONOFF) write arrives within vars.disconnect_without_switch_seconds (default 3) of connect.",
+  "vars": "vars.json",
   "assets": {
     "icon": "assets/blesploit_logo.svg",
     "icon_tint": "#4b96cb",

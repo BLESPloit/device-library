@@ -14,7 +14,11 @@
 						"uuid":	"2a00",
 						"data":	"424c4553506c6f2e6974206c69676874"
 					},
-					"descriptors":	[]
+					"descriptors":	[],
+					"dynamic":	{
+						"on_read":	"on_read_name",
+						"on_write":	"on_write_name"
+					}
 				}, {
 					"handle":	4,
 					"uuid":	"2803",
@@ -232,7 +236,8 @@
 							"data":	"4c454420524742"
 						}],
 					"dynamic":	{
-						"on_write":	"on_write_color"
+						"on_write":	"on_write_color",
+						"on_read":	"on_read_color"
 					}
 				}, {
 					"handle":	44,

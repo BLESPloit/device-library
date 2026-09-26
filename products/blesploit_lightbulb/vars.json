@@ -1,0 +1,5 @@
+{
+  "device_name": "BLESPlo.it light",
+  "disconnect_without_switch": false,
+  "disconnect_without_switch_seconds": 3
+}

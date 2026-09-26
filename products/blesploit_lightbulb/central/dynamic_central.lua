@@ -54,7 +54,7 @@ end
 function on_select_on()
   local SVC, CHR_ON, _ = svc_rgb()
   if not SVC or not CHR_ON then return end
-  local ok, err = ble_write(SVC, CHR_ON, "\x01")
+  local ok, err = ble_write(SVC, CHR_ON, "01")
   if ok then
     set_title("Light ON")
     set_state("power", "ON")
@@ -64,7 +64,7 @@ end
 function on_select_off()
   local SVC, CHR_ON, _ = svc_rgb()
   if not SVC or not CHR_ON then return end
-  local ok, err = ble_write(SVC, CHR_ON, "\x00")
+  local ok, err = ble_write(SVC, CHR_ON, "00")
   if ok then
     set_title("Light OFF")
     set_state("power", "OFF")

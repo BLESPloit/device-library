@@ -2,13 +2,16 @@
 -- Sets device_type to SMART_HOME and returns parsed protocol for display.
 
 -- Find service data value for a UUID key (key may vary in casing in service_data table).
-local function find_service_data(service_data, uuid)
-  if not service_data or type(service_data) ~= "table" or not uuid or type(uuid) ~= "string" then
+local function find_service_data(service_data, svc_uuid)
+  if not service_data or type(service_data) ~= "table" or not svc_uuid or type(svc_uuid) ~= "string" then
     return nil
   end
-  local target = uuid:lower()
+  local target = uuid.compact(svc_uuid)
+  if target == "" then
+    return nil
+  end
   for key, value in pairs(service_data) do
-    if type(key) == "string" and key:lower() == target then
+    if type(key) == "string" and uuid.compact(key) == target then
       return value
     end
   end
@@ -25,14 +28,14 @@ function parse(input)
   local service_data = input.service_data
   local dataHex = find_service_data(service_data, svc)
   if not dataHex or type(dataHex) ~= "string" then return entries end
-  dataHex = dataHex:gsub("%s+", ""):lower()
-  if #dataHex < 8 then return entries end
+  dataHex = hex.norm(dataHex)
+  if hex.len(dataHex) < 4 then return entries end
 
   -- 4 bytes: [0] = on/off (00 or 01), [1..3] = R, G, B
-  local byte0 = tonumber(dataHex:sub(1, 2), 16)
-  local r = tonumber(dataHex:sub(3, 4), 16)
-  local g = tonumber(dataHex:sub(5, 6), 16)
-  local b = tonumber(dataHex:sub(7, 8), 16)
+  local byte0 = hex.byte(dataHex, 1)
+  local r = hex.byte(dataHex, 2)
+  local g = hex.byte(dataHex, 3)
+  local b = hex.byte(dataHex, 4)
   local state_str = (byte0 == 1) and "on" or "off"
   local parsed_protocol = string.format("state=%s R=%d G=%d B=%d", state_str, r, g, b)
 

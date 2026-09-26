@@ -5,6 +5,15 @@
       "type": "svg",
       "file": "lightbulb.svg",
       "size": 80
+    },
+    {
+      "id": "device_name",
+      "type": "text",
+      "text": "BLESPlo.it light",
+      "align": "bottom_center",
+      "y": -16,
+      "size": 6,
+      "color": "333333"
     }
 ]
 }
