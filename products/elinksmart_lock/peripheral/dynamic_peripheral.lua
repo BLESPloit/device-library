@@ -154,25 +154,11 @@ end
 
 --- Exactly 6 BD octets in **reverse transmit order**: last string octet first (e.g. A4:…:B0 → …B0112438C1A4).
 local function bd_six_octets_reversed_bin(bd_mac)
-  if type(bd_mac) ~= "string" or bd_mac == "" then
+  local rev = mac.reverse_octets(bd_mac)
+  if rev == "" then
     return nil
   end
-  local octets = {}
-  for oct in bd_mac:gmatch("%x%x") do
-    octets[#octets + 1] = oct
-  end
-  if #octets ~= 6 then
-    return nil
-  end
-  local chunks = {}
-  for i = 6, 1, -1 do
-    local v = tonumber(octets[i], 16)
-    if not v then
-      return nil
-    end
-    chunks[#chunks + 1] = string.char(v)
-  end
-  return table.concat(chunks)
+  return hex_to_bin(rev)
 end
 
 --- Returns blob, optional error reason, Complete Local Name used.

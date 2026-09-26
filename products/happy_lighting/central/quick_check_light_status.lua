@@ -33,33 +33,26 @@ local MOD_NAMES = {
   [0x38] = "Rainbow jumping",
 }
 
-local function nint(hex, from, to)
-  return tonumber(hex:sub(from, to), 16)
-end
-
 local function is_effect_mode(mode)
   return MOD_NAMES[mode] ~= nil
 end
 
 --- Parse notify hex (24+ chars): b2 on/off, b3 mode, b5 speed, b6–b8 RGB.
-local function parse_light_state(hex)
-  if not hex or #hex < 24 then
+local function parse_light_state(data)
+  data = hex.norm(data)
+  if hex.len(data) < 12 then
     return nil
   end
-  hex = hex:lower():gsub("%s+", "")
-  if #hex < 24 then
-    return nil
-  end
-  if nint(hex, 1, 2) ~= 0x66 then
+  if hex.byte(data, 1) ~= 0x66 then
     return nil, "unexpected notify type"
   end
-  local b2 = nint(hex, 5, 6)
+  local b2 = hex.byte(data, 3)
   local on = (b2 == 0x23)
-  local mode = nint(hex, 7, 8)
-  local speed = nint(hex, 11, 12)
-  local r = nint(hex, 13, 14)
-  local g = nint(hex, 15, 16)
-  local b = nint(hex, 17, 18)
+  local mode = hex.byte(data, 4)
+  local speed = hex.byte(data, 6)
+  local r = hex.byte(data, 7)
+  local g = hex.byte(data, 8)
+  local b = hex.byte(data, 9)
   return {
     on = on,
     mode = mode,

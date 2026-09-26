@@ -15,7 +15,7 @@ function on_write_speed(input)
         hex_str = hex_str .. string.format("%02X ", string.byte(input, i))
     end
     -- print("Received: " .. hex_str)
-    speed = string.byte(input, 3)
+    speed = hex.byte(bin_to_hex(input), 3)
     print("Speed: " .. speed)
     gfx_update_text("status", "Speed: " .. speed)
     -- pass the value unchanged

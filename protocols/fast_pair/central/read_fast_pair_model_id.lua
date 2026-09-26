@@ -12,11 +12,6 @@ local function fp_uuids()
   return svc, model_chr, nil
 end
 
-local function norm_hex(h)
-  if not h then return "" end
-  return (h:gsub("%s+", "")):lower()
-end
-
 --- Catalog row from Kotlin [FastPairModelsCatalog] via `data.fast_pair_catalog_lookup`, or JSON fallback.
 local function catalog_lookup_row(id6)
   local u = string.upper(id6)
@@ -67,19 +62,18 @@ function run()
     return
   end
 
-  local hex = ble_read(SVC_FP, CHR_MODEL_ID)
-  hex = norm_hex(hex)
-  if hex == "" then
+  local data = hex.norm(ble_read(SVC_FP, CHR_MODEL_ID))
+  if data == "" then
     log("Fast Pair: read Model ID returned empty")
     return
   end
 
-  if #hex < 6 then
-    log("Fast Pair: Model ID value too short (expected ≥3 octets): " .. hex)
+  if hex.len(data) < 3 then
+    log("Fast Pair: Model ID value too short (expected ≥3 octets): " .. data)
     return
   end
 
-  local mid_hex = hex:sub(1, 6)
+  local mid_hex = hex.slice(data, 1, 3)
   local mid_uint24 = tonumber(mid_hex, 16)
   local row = catalog_lookup_row(mid_hex)
   local name = catalog_display_name(row)
@@ -96,7 +90,7 @@ function run()
   local attrs = {
     fast_pair_model_id_hex = mid_hex,
     fast_pair_model_id_uint24 = mid_uint24,
-    read_hex = hex,
+    read_hex = data,
   }
   if name then
     attrs.catalog_display_name = name

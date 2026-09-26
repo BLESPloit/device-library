@@ -10,7 +10,7 @@ local TYPE_NAMES = {
 }
 
 local function type_label(byte)
-  return TYPE_NAMES[byte] or string.format("0x%02X", byte)
+  return TYPE_NAMES[byte] or ("0x" .. bits.tohex(byte, 2))
 end
 
 function parse(input)
@@ -20,21 +20,14 @@ function parse(input)
 
   local data = mfg[COMPANY_ID]
   if not data or type(data) ~= "string" then return entries end
-  data = data:gsub("%s+", ""):lower()
-  if #data < 10 then return entries end
+  data = hex.norm(data)
+  if hex.len(data) < 5 then return entries end
 
-  local type_byte = tonumber(data:sub(1, 2), 16)
-  local b0 = tonumber(data:sub(3, 4), 16)
-  local b1 = tonumber(data:sub(5, 6), 16)
-  local b2 = tonumber(data:sub(7, 8), 16)
-  local b3 = tonumber(data:sub(9, 10), 16)
-  if type_byte == nil or b0 == nil or b1 == nil or b2 == nil or b3 == nil then
-    return entries
-  end
-  local id = b0 + b1 * 256 + b2 * 65536 + b3 * 16777216
+  local type_byte = hex.byte(data, 1)
+  local id = bits.le32(data, 2)
 
   local type_str = type_label(type_byte)
-  local id_str = string.format("%08X", id)
+  local id_str = bits.tohex(id, 8)
   local subtitle = type_str .. " · " .. id_str
 
   entries[1] = {

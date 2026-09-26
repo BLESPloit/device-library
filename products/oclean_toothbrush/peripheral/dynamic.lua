@@ -20,21 +20,11 @@ local function battery_percent()
 end
 
 local function bd_addr_to_mfg_hex(addr)
-  if not addr or addr == "" then
+  local rev = mac.reverse_octets(addr)
+  if rev == "" then
     return nil
   end
-  local parts = {}
-  for byte in addr:lower():gmatch("%x%x") do
-    parts[#parts + 1] = byte
-  end
-  if #parts ~= 6 then
-    return nil
-  end
-  local rev = {}
-  for i = #parts, 1, -1 do
-    rev[#rev + 1] = parts[i]
-  end
-  return table.concat(rev)
+  return rev
 end
 
 local function apply_adv_bdaddr()
@@ -59,16 +49,16 @@ local function apply_adv_bdaddr()
 end
 
 local function hex_prefix(input, n)
-  local hex = bin_to_hex(input)
-  if not hex or #hex < n * 2 then
+  local h = hex.norm(bin_to_hex(input))
+  if hex.len(h) < n then
     return ""
   end
-  return hex:sub(1, n * 2):lower()
+  return hex.slice(h, 1, n)
 end
 
 local function notify_battery()
   local pct = battery_percent()
-  ble_notify(SVC, CHR_NOTIFY, string.format("0303000000%02X", pct))
+  ble_notify(SVC, CHR_NOTIFY, "0303000000" .. hex.u8(pct))
 end
 
 local function notify_device_info()

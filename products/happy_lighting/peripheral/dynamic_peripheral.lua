@@ -46,18 +46,9 @@ local function build_light_state_packet()
     local rgb = is_on and current_color or COLOR_OFF
     local r, g, b = rgb_components(rgb)
     local onoff = is_on and 0x23 or 0x24
-    return string.char(
-        0x66, 0x04, onoff, mode_id, 0x20, speed_param,
-        r, g, b, 0x00, 0x03, 0x99
-    )
-end
-
-local function hex_dump_bytes(bin)
-    local s = ""
-    for i = 1, #bin do
-        s = s .. string.format("%02X ", string.byte(bin, i))
-    end
-    return s:sub(1, -2)
+    return hex.u8(0x66) .. hex.u8(0x04) .. hex.u8(onoff) .. hex.u8(mode_id)
+        .. hex.u8(0x20) .. hex.u8(speed_param)
+        .. hex.u8(r) .. hex.u8(g) .. hex.u8(b) .. hex.u8(0x00) .. hex.u8(0x03) .. hex.u8(0x99)
 end
 
 function turn_on()
@@ -79,23 +70,24 @@ function toggle()
 end
 
 function on_write_command(input)
-    local len = #input
+    local h = hex.norm(bin_to_hex(input))
+    local len = hex.len(h)
 
     -- Build hex dump for debug
     local hex_str = ""
-    for i = 1, len do
+    for i = 1, #input do
         hex_str = hex_str .. string.format("%02X ", string.byte(input, i))
     end
     print("Received: " .. hex_str)
 
-    local b1 = len >= 1 and string.byte(input, 1) or 0
+    local b1 = hex.byte(h, 1)
 
     -- Check PIN: CF d1 d2 d3 d4 FC  (6 bytes); show PIN as decimal digits per byte
-    if len == 6 and b1 == 0xCF and string.byte(input, 6) == 0xFC then
-        local d1 = string.byte(input, 2)
-        local d2 = string.byte(input, 3)
-        local d3 = string.byte(input, 4)
-        local d4 = string.byte(input, 5)
+    if len == 6 and b1 == 0xCF and hex.byte(h, 6) == 0xFC then
+        local d1 = hex.byte(h, 2)
+        local d2 = hex.byte(h, 3)
+        local d3 = hex.byte(h, 4)
+        local d4 = hex.byte(h, 5)
         print(string.format("Command: CHECK PIN  %02X %02X %02X %02X", d1, d2, d3, d4))
         -- Each byte in decimal, concatenated (e.g. bytes 01 02 03 04 -> "1234")
         local pin_dec = string.format("%d%d%d%d", d1, d2, d3, d4)
@@ -104,11 +96,11 @@ function on_write_command(input)
     end
 
     -- Read current light state (write): EF 01 77  — reply payload prepared (raw log for now)
-    if len == 3 and b1 == 0xEF and string.byte(input, 2) == 0x01 and string.byte(input, 3) == 0x77 then
+    if len == 3 and b1 == 0xEF and hex.byte(h, 2) == 0x01 and hex.byte(h, 3) == 0x77 then
         print("Command: READ LIGHT STATE (EF0177)")
         local pkt = build_light_state_packet()
-        print("Light state reply (12 B): " .. hex_dump_bytes(pkt))
-        ble_notify(uuids.SVC_NOTIFY, uuids.CHR_NOTIFY, bin_to_hex(pkt))
+        print("Light state reply (12 B): " .. pkt)
+        ble_notify(uuids.SVC_NOTIFY, uuids.CHR_NOTIFY, pkt)
         return input
     end
 
@@ -118,8 +110,8 @@ function on_write_command(input)
         return input
     end
 
-    local b2 = string.byte(input, 2)
-    local b3 = string.byte(input, 3)
+    local b2 = hex.byte(h, 2)
+    local b3 = hex.byte(h, 3)
 
     -- Turn ON:  CC 23 33
     if b1 == 0xCC and b2 == 0x23 and b3 == 0x33 then
@@ -133,9 +125,9 @@ function on_write_command(input)
 
     -- Set color: 56 RR GG BB 00 F0 AA  (7 bytes)
     elseif b1 == 0x56 and len >= 7 then
-        local red   = string.byte(input, 2)
-        local green = string.byte(input, 3)
-        local blue  = string.byte(input, 4)
+        local red   = hex.byte(h, 2)
+        local green = hex.byte(h, 3)
+        local blue  = hex.byte(h, 4)
         -- bytes 5-7 are 00 F0 AA (footer, ignored)
         local rgb = red * 2^16 + green * 2^8 + blue
         print(string.format("Command: SET COLOR  R=%d G=%d B=%d (0x%06X)", red, green, blue, rgb))
@@ -145,8 +137,8 @@ function on_write_command(input)
 
     -- Special function: BB XX YY 44  (4 bytes)
     elseif b1 == 0xBB and len >= 4 then
-        local cmd_code = string.byte(input, 2)   -- XX (mod / effect id)
-        local speed    = string.byte(input, 3)   -- YY
+        local cmd_code = hex.byte(h, 2)   -- XX (mod / effect id)
+        local speed    = hex.byte(h, 3)   -- YY
         speed_param = speed
         mode_id = cmd_code
         local effect_name = SPECIAL_MOD_NAMES[cmd_code]

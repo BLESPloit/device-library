@@ -30,12 +30,9 @@ end
 local function ble_read_utf8_trim(svc, chr)
   local h = ble_read(svc, chr)
   if not h or h == "" then return nil end
-  local bin = hex_to_bin(h)
-  if not bin then return nil end
-  bin = bin:gsub("%z+", "")
-  bin = (bin:match("^%s*(.-)%s*$") or "")
-  if bin == "" then return nil end
-  return bin
+  local s = hex.to_ascii(h):match("^%s*(.-)%s*$") or ""
+  if s == "" then return nil end
+  return s
 end
 
 local function ble_read_utf8_if_present(svc, chr, label)

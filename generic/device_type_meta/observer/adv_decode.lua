@@ -61,7 +61,7 @@ local function parse_uuid16_cell(cell)
 end
 
 -- Scan full 16-bit UUID list: any 0x1812 => HID; else first non-GENERIC mapping in AD order.
-local function infer_device_type_from_service_uuids(input, to_num)
+local function infer_device_type_from_service_uuids(input)
   local hid = false
   local first_mapped = nil
   local t = input.service_uuids_16
@@ -81,7 +81,7 @@ local function infer_device_type_from_service_uuids(input, to_num)
       i = i + 1
     end
   end
-  local first_only = to_num(input.first_service_uuid_16)
+  local first_only = parse_uuid16_cell(input.first_service_uuid_16)
   if first_only and first_only >= 1 and first_only <= 0xFEFF then
     if first_only == 0x1812 then hid = true end
     if first_mapped == nil then
@@ -113,7 +113,7 @@ function parse(input)
     device_type = cod_major_to_device_type(cod_major) or device_type
   end
 
-  local from_services = infer_device_type_from_service_uuids(input, to_num)
+  local from_services = infer_device_type_from_service_uuids(input)
   if from_services == "HID" then
     device_type = "HID"
   elseif device_type == "GENERIC" and from_services then

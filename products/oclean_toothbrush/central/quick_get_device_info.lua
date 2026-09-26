@@ -22,26 +22,34 @@ local LANGUAGE_NAMES = {
   [14] = "Korean",
 }
 
-local function norm_hex(hex)
-  if not hex then
+local function norm_hex(h)
+  if type(h) ~= "string" then
     return nil
   end
-  return hex:upper():gsub("%s+", "")
+  return hex.norm(h)
 end
 
-local function hex_len(hex)
-  return hex and (#hex / 2) or 0
+local function hex_len(h)
+  return hex.len(h)
 end
 
-local function hex_byte(hex, byte_index)
-  local pos = (byte_index - 1) * 2 + 1
-  return tonumber(hex:sub(pos, pos + 1), 16)
+local function hex_byte(h, byte_index)
+  return hex.byte(h, byte_index)
 end
 
-local function hex_bytes_be(hex, from_byte, to_byte)
+local function hex_bytes_be(h, from_byte, to_byte)
+  if from_byte == to_byte then
+    return hex.byte(h, from_byte)
+  end
+  if to_byte == from_byte + 1 then
+    return bits.be16(h, from_byte)
+  end
+  if to_byte == from_byte + 3 then
+    return bits.be32(h, from_byte)
+  end
   local value = 0
   for i = from_byte, to_byte do
-    value = (value * 256) + hex_byte(hex, i)
+    value = (value * 256) + hex.byte(h, i)
   end
   return value
 end

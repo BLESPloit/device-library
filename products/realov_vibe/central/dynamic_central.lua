@@ -9,7 +9,7 @@ local function speed_arg_to_hex(arg)
     n = math.floor(n + 0.5)
     if n < 0 then n = 0 end
     if n > 255 then n = 255 end
-    return string.format("C555%02XAA", n)
+    return "c555" .. hex.u8(n) .. "aa"
 end
 
 function on_main_enter()

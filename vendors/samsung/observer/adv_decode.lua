@@ -59,18 +59,11 @@ local function bytes_to_hex(bytes, start_idx, count)
 end
 
 local function format_mac(hex6)
-  if not hex6 or #hex6 ~= 12 then
+  local formatted = mac.format(hex6)
+  if formatted == "" then
     return nil
   end
-  return string.upper(string.format(
-    "%s:%s:%s:%s:%s:%s",
-    hex6:sub(1, 2),
-    hex6:sub(3, 4),
-    hex6:sub(5, 6),
-    hex6:sub(7, 8),
-    hex6:sub(9, 10),
-    hex6:sub(11, 12)
-  ))
+  return formatted
 end
 
 local function read_ascii(bytes, start_idx, len)

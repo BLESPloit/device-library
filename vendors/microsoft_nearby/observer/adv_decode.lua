@@ -31,27 +31,26 @@ function parse(input)
   -- Company ID 6 = Microsoft (0x0006)
   local data = mfg["0006"]
   if not data or type(data) ~= "string" then return entries end
-  data = data:gsub("%s+", ""):lower()
-  -- 24 bytes = 48 hex chars minimum
-  if #data < 48 then return entries end
+  data = hex.norm(data)
+  if hex.len(data) < 24 then return entries end
 
-  local scenario_type       = tonumber(data:sub(1,  2),  16)
-  local ver_dev             = tonumber(data:sub(3,  4),  16)
-  local ver_flags           = tonumber(data:sub(5,  6),  16)
-  local flags_status        = tonumber(data:sub(7,  8),  16)
-  local salt                = data:sub(9,  16)   -- 4 bytes
-  local device_hash         = data:sub(17, 54)   -- 19 bytes
+  local scenario_type = hex.byte(data, 1)
+  local ver_dev = hex.byte(data, 2)
+  local ver_flags = hex.byte(data, 3)
+  local flags_status = hex.byte(data, 4)
+  local salt = hex.slice(data, 5, 4)
+  local device_hash = hex.slice(data, 9, 19)
 
-  local device_type_id      = ver_dev % 32
-  local share_flags         = ver_flags % 32
-  local bt_addr_as_id       = math.floor(flags_status / 32) % 2 == 1
-  local ext_status          = flags_status % 16
+  local device_type_id = bits.band(ver_dev, 0x1F)
+  local share_flags = bits.band(ver_flags, 0x1F)
+  local bt_addr_as_id = bits.band(flags_status, 0x20) ~= 0
+  local ext_status = bits.band(flags_status, 0x0F)
 
   local device_type = DEVICE_TYPES[device_type_id] or ("Unknown(" .. device_type_id .. ")")
 
   local ext_parts = {}
   for mask, name in pairs(EXT_STATUS_FLAGS) do
-    if ext_status % (mask * 2) >= mask then
+    if bits.band(ext_status, mask) ~= 0 then
       ext_parts[#ext_parts + 1] = name
     end
   end

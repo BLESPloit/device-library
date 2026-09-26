@@ -2,60 +2,21 @@
 -- Protocol reference: https://github.com/furiousMAC/continuity (Wireshark FIELDS.md, messages/)
 -- iBeacon payload (TLV 0x02) is only flagged here; devices/ibeacon decodes it.
 
-local function hex_to_bytes(hex)
-    if not hex or hex == "" then return {} end
-    local bin = hex_to_bin(hex)
-    if #bin == 0 then return {} end
-    local bytes = {}
-    for i = 1, #bin do
-        bytes[i] = string.byte(bin, i)
-    end
-    return bytes
-end
-
---- Walk BLE AD structures and collect Apple 0x004C manufacturer inner payloads.
-local function extract_apple_manufacturer_inners_from_raw(raw_hex)
-    local out = {}
-    if not raw_hex or #raw_hex < 6 then return out end
-    local raw = hex_to_bytes(raw_hex)
-    local i = 1
-    while i <= #raw do
-        local elen = raw[i] or 0
-        if elen == 0 then break end
-        if i + elen > #raw then break end
-        local ad_type = raw[i + 1] or 0
-        if ad_type == 0xFF and elen >= 4 then
-            local cid = (raw[i + 2] or 0) + bits.lshift(raw[i + 3] or 0, 8)
-            if cid == 0x004C then
-                local inner_start = i + 4
-                local inner_end = i + elen
-                if inner_start <= inner_end then
-                    local chunk = {}
-                    for j = inner_start, inner_end do
-                        chunk[#chunk + 1] = raw[j]
-                    end
-                    out[#out + 1] = chunk
-                end
-            end
-        end
-        i = i + elen + 1
-    end
-    return out
-end
-
 --- Collect unique continuity TLV type bytes in first-seen order; fill type set for flags.
-local function scan_continuity_tlv_types(data, ordered, has)
-    local pos = 1
-    while pos <= #data - 1 do
-        local t = data[pos]
-        local len = data[pos + 1] or 0
-        pos = pos + 2
-        if len == 0 or pos + len - 1 > #data then break end
+local function scan_continuity_tlv_types(payload_hex, ordered, has)
+    local h = hex.norm(payload_hex)
+    local n = hex.len(h)
+    local i = 1
+    while i + 1 <= n do
+        local t = hex.byte(h, i)
+        local len = hex.byte(h, i + 1)
+        i = i + 2
+        if len == 0 or i + len - 1 > n then break end
         if not has[t] then
             has[t] = true
             ordered[#ordered + 1] = t
         end
-        pos = pos + len
+        i = i + len
     end
 end
 
@@ -93,32 +54,24 @@ local function collect_unknown_tlv_types(ordered)
 end
 
 function parse(input)
-    local segments = extract_apple_manufacturer_inners_from_raw(input.raw_adv_hex)
+    local raw = input.raw_adv_hex or input.adv_data_hex_combined or ""
+    local segments = adv.manufacturer(raw, "004C")
     local ordered_types = {}
     local has_type = {}
 
-    if #segments > 0 then
-        for s = 1, #segments do
-            scan_continuity_tlv_types(segments[s], ordered_types, has_type)
+    if #segments == 0 then
+        local mfg = input.manufacturer_data
+        local raw_hex = mfg and mfg["004C"]
+        if type(raw_hex) == "string" and raw_hex ~= "" then
+            segments = { hex.norm(raw_hex) }
         end
     end
 
     local payload_hex = ""
     if #segments > 0 then
-        local parts = {}
-        for _, seg in ipairs(segments) do
-            for _, b in ipairs(seg) do
-                parts[#parts + 1] = string.format("%02x", b)
-            end
-        end
-        payload_hex = table.concat(parts, "")
-    else
-        local mfg = input.manufacturer_data
-        local raw_hex = mfg and mfg["004C"]
-        if raw_hex and #raw_hex > 0 then
-            local data = hex_to_bytes(raw_hex)
-            scan_continuity_tlv_types(data, ordered_types, has_type)
-            payload_hex = raw_hex
+        payload_hex = table.concat(segments, "")
+        for s = 1, #segments do
+            scan_continuity_tlv_types(segments[s], ordered_types, has_type)
         end
     end
 

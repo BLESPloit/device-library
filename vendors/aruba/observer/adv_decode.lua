@@ -13,33 +13,6 @@ local function empty()
   return {}, {}
 end
 
-local function mac_from_reversed_hex(rev12)
-  if not rev12 or #rev12 ~= 12 then
-    return nil
-  end
-  rev12 = rev12:lower()
-  if rev12:match("[^0-9a-f]") then
-    return nil
-  end
-  local octets = {}
-  for i = 1, 12, 2 do
-    table.insert(octets, 1, rev12:sub(i, i + 1))
-  end
-  return table.concat(octets, ":"):upper()
-end
-
-local function le16_hex(hex4)
-  if not hex4 or #hex4 ~= 4 then
-    return nil
-  end
-  local lo = tonumber(hex4:sub(1, 2), 16)
-  local hi = tonumber(hex4:sub(3, 4), 16)
-  if lo == nil or hi == nil then
-    return nil
-  end
-  return hi * 256 + lo
-end
-
 --- modern = byte16 0x01 with fixed trailer; legacy = original + transitional layouts.
 local function classify_bluconsole_profile(data, byte16_hex)
   if byte16_hex == "01" and data:sub(-(#TRAILER_MODERN)) == TRAILER_MODERN then
@@ -49,22 +22,22 @@ local function classify_bluconsole_profile(data, byte16_hex)
 end
 
 local function parse_bluconsole_mfg(data)
-  data = (data or ""):gsub("%s+", ""):lower()
-  if data:sub(1, 2) ~= SUBTYPE_BLUCONSOLE then
+  data = hex.norm(data)
+  if hex.slice(data, 1, 1) ~= SUBTYPE_BLUCONSOLE then
     return nil
   end
-  if #data < 38 then
+  if hex.len(data) < 19 then
     return nil
   end
 
-  local mac = mac_from_reversed_hex(data:sub(3, 14))
-  local identity_hash = data:sub(15, 22)
-  local adv_version = le16_hex(data:sub(23, 26))
-  local channel_pad = data:sub(27, 28)
-  local wifi_channel_hint = tonumber(data:sub(31, 32), 16)
-  local byte5_hex = data:sub(11, 12)
-  local byte16_hex = data:sub(33, 34)
-  local trailer = data:sub(31)
+  local mac = mac.from_reversed(hex.slice(data, 2, 6))
+  local identity_hash = hex.slice(data, 8, 4)
+  local adv_version = bits.le16(data, 12)
+  local channel_pad = hex.slice(data, 14, 1)
+  local wifi_channel_hint = hex.byte(data, 16)
+  local byte5_hex = hex.slice(data, 6, 1)
+  local byte16_hex = hex.slice(data, 17, 1)
+  local trailer = hex.slice(data, 16, hex.len(data) - 15)
 
   if channel_pad ~= "00" then
     return nil
@@ -78,10 +51,10 @@ local function parse_bluconsole_mfg(data)
     bluconsole_profile = profile,
     record_subtype = SUBTYPE_BLUCONSOLE,
     company_id = COMPANY_ID,
-    bd_addr = mac or "",
+    bd_addr = mac,
     identity_hash = identity_hash,
-    adv_version = adv_version and tostring(adv_version) or "",
-    wifi_channel_hint = wifi_channel_hint and tostring(wifi_channel_hint) or "",
+    adv_version = tostring(adv_version),
+    wifi_channel_hint = tostring(wifi_channel_hint),
     byte5 = byte5_hex,
     byte16 = byte16_hex,
     trailer = trailer,
@@ -110,15 +83,11 @@ local function parse_gap_name(name)
   if not mac12 then
     return nil
   end
-  local octets = {}
-  for i = 1, 12, 2 do
-    table.insert(octets, mac12:sub(i, i + 1))
-  end
   return {
     adv_format = "gap_name",
     bluconsole = "unknown",
     device_name = name,
-    bd_addr = table.concat(octets, ":"):upper(),
+    bd_addr = mac.format(mac12),
   }
 end
 

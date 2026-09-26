@@ -26,29 +26,6 @@ local function is_tesla_adv_name(name)
   return #name == 18 and name:sub(1, 1) == "S"
 end
 
-local function has_service_uuid_16(input, want)
-  local t = input.service_uuids_16
-  if not t then
-    return false
-  end
-  local want_norm = want:upper()
-  local i = 1
-  while true do
-    local u = t[i]
-    if not u then
-      break
-    end
-    if type(u) == "string" then
-      local norm = u:gsub("^0x", ""):upper()
-      if norm == want_norm then
-        return true
-      end
-    end
-    i = i + 1
-  end
-  return false
-end
-
 local function build_ui(name, beacon_format)
   local ui = {
     device_type = "VEHICLE",
@@ -88,7 +65,7 @@ function parse(input)
     }, build_ui(name, "I_BEACON")
   end
 
-  if has_service_uuid_16(input, TESLA_SVC_UUID16) then
+  if adv.has_uuid(input, TESLA_SVC_UUID16) then
     return {
       {
         id = "tesla_ibeacon_adv",

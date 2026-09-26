@@ -5,23 +5,11 @@ local SHELL_BY_UUID = {
   ["3083"] = "Transparent",
 }
 
-local function norm_uuid16(cell)
-  if type(cell) == "string" then
-    return cell:gsub("^0x", ""):upper()
-  end
-  return nil
-end
-
 local function detect_shell(input)
-  local t = input.service_uuids_16
-  if not t then return nil end
-  local i = 1
-  while true do
-    local u = norm_uuid16(t[i])
-    if not u then break end
-    local shell = SHELL_BY_UUID[u]
-    if shell then return shell end
-    i = i + 1
+  for uuid16, shell in pairs(SHELL_BY_UUID) do
+    if adv.has_uuid(input, uuid16) then
+      return shell
+    end
   end
   return nil
 end
@@ -32,8 +20,8 @@ function parse(input)
     return {}, { custom_icon = "assets/flipper.svg" }
   end
 
-  local adv = (input.device_name or ""):match("^%s*(.-)%s*$")
-  local display_name = (adv ~= "") and ("Flipper " .. adv) or "Flipper"
+  local adv_name = (input.device_name or ""):match("^%s*(.-)%s*$")
+  local display_name = (adv_name ~= "") and ("Flipper " .. adv_name) or "Flipper"
 
   local entries = {
     {

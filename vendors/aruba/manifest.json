@@ -3,7 +3,7 @@
   "description": "HPE Aruba AP BLE advertising: BluConsole manufacturer data (company 0x011B) and Aruba iBeacon UUID.",
   "author": "Slawomir Jasek",
   "manifest_version": 1,
-  "version": 1,
+  "version": 3,
   "notes": "BluConsole payload derived from Aruba Utilities app. Manufacturer AD rotates a Wi-Fi channel hint byte every ~1 s.",
   "source_url": "https://github.com/blesploit/device-library",
   "assets": {

@@ -3,7 +3,7 @@
   "description": "Oclean smart toothbrush BLE protocol (Y3/Y3L and related models). Observer fingerprint, device-info quick action, and Y3L peripheral simulator.",
   "author": "Slawomir Jasek",
   "manifest_version": 1,
-  "version": 5,
+  "version": 6,
   "notes": "Subscribe OCLEAN_READ_NOTIFY (bb86) before writing OCLEAN_WRITE (bb85). Manual writes: use presets on bb85 (0303 battery, 030201 device info, 022201 pause). Manufacturer AD (type 0xFF) carries the 6-byte device address, not a Bluetooth SIG company ID. Peripheral sim sets that field from get_adv_bd_addr().",
   "profile": "ble.json",
   "uuids": "uuids.json",

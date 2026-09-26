@@ -1,7 +1,7 @@
 {
   "name": "Tesla",
   "description": "Vehicle proximity token: iBeacon (0xFF) or 18-char name starting with S plus service UUID 0x1122 (AD 0x02 2211 on air; iOS strips manufacturer data).",
-  "version": 2,
+  "version": 3,
   "profile": "ble.json",
   "assets": {
     "icon": "assets/tesla.svg",

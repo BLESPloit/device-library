@@ -8,16 +8,13 @@ function parse(input)
   if not mfg then return entries end
   local data = mfg["004C"]
   if not data or type(data) ~= "string" then return entries end
-  data = data:gsub("%s+", ""):lower()
-  -- iBeacon prefix: 02 15 (4 hex chars)
-  if data:sub(1, 4) ~= "0215" then return entries end
-  if #data < 4 + 32 + 4 + 4 + 2 then return entries end
-  local uuidHex = data:sub(5, 36)   -- 32 hex chars
-  local majorHex = data:sub(37, 40) -- 2 bytes big-endian
-  local minorHex = data:sub(41, 44)
+  data = hex.norm(data)
+  if hex.slice(data, 1, 2) ~= "0215" then return entries end
+  if hex.len(data) < 23 then return entries end
+  local uuidHex = hex.slice(data, 3, 16)
   local uuid = uuidHex:sub(1, 8) .. "-" .. uuidHex:sub(9, 12) .. "-" .. uuidHex:sub(13, 16) .. "-" .. uuidHex:sub(17, 20) .. "-" .. uuidHex:sub(21, 32)
-  local major = tonumber(majorHex:sub(1, 2), 16) * 256 + tonumber(majorHex:sub(3, 4), 16)
-  local minor = tonumber(minorHex:sub(1, 2), 16) * 256 + tonumber(minorHex:sub(3, 4), 16)
+  local major = bits.be16(data, 19)
+  local minor = bits.be16(data, 21)
   local txPower = bits.arshift(bits.lshift(bits.byte_at(data, 23), 24), 24)
   entries[1] = {
     id = "ibeacon",
