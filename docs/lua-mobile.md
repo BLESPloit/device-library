@@ -228,17 +228,30 @@ Central Lua runs after GATT connection and is the main mobile GATT-client script
 
 ### Crypto
 
-These are installed in mobile Central only, not in Observer.
+These are installed in mobile Central and Local Sim, not in Observer. Length rules and return values match the [ESP32 crypto table]({{< relref "lua-esp32" >}}).
 
 | Function | Description |
 |----------|-------------|
 | `aes_ecb_encrypt` | Same intended semantics as the ESP32 version. |
 | `aes_ecb_decrypt` | Same intended semantics as the ESP32 version. |
+| `aes_cbc_encrypt` | Same intended semantics as the ESP32 version. Unpadded. |
+| `aes_cbc_decrypt` | Same intended semantics as the ESP32 version. Unpadded. |
 | `sha256` | Same intended semantics as the ESP32 version. |
 | `sha256_first_16` | Same intended semantics as the ESP32 version. |
 | `ecdh_generate_keypair` | Same intended semantics as the ESP32 version. |
 | `ecdh_compute_shared` | Same intended semantics as the ESP32 version. |
+| `x25519_generate_keypair` | Same intended semantics as the ESP32 version. 32-byte public key. |
+| `x25519_compute_shared` | Same intended semantics as the ESP32 version. |
 | `random_bytes` | Same intended semantics as the ESP32 version. |
+| `rsa_pkcs1_encrypt` | Same intended semantics as the ESP32 version. Raw modulus and exponent, not an X.509 key. |
+| `rsa_pkcs1_decrypt` | Same intended semantics as the ESP32 version. Bad PKCS#1 padding raises. |
+| `rsa_sha256_sign` | Same intended semantics as the ESP32 version. |
+| `rsa_sha256_verify` | Same intended semantics as the ESP32 version. Returns a boolean; a wrong length raises. |
+| `hmac_sha256` | Same intended semantics as the ESP32 version. |
+| `aes_cmac` | Same intended semantics as the ESP32 version. |
+| `xor_bytes` | Same intended semantics as the ESP32 version. |
+
+AES-CBC does not add or remove padding. PKCS#5/PKCS#7 stays in the script, as does a leading `0x00` on a longer GATT write. `ecdh_*` is secp256r1 and returns a 64-byte point. X25519 is a separate helper; those keys do not interoperate.
 
 ### BLE client API
 

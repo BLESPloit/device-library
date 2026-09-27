@@ -314,6 +314,7 @@ When adding a chained observer, set priority **after** the dependency (e.g. iBea
 - `delay_ms(ms)` max 10000. `hex_to_bin` returns `""` on invalid input (no error).
 - Same full `bits.*` / `hex.*` / `adv.*` / `uuid.*` / `mac.*` as Observer; `bin_to_hex` emits lowercase.
 - Hex vs binary: `hex.*` / `bits.*` pack and unpack **fields** (stay in hex for `ble_write` / `ble_read` / `on_notify`). `bin_to_hex` / `hex_to_bin` convert a whole **blob** at crypto edges (and firmware `on_write` binary). Do not use `bits.tohex` as blob encode; do not `bin_to_hex(ble_read())`.
+- Crypto arguments are binary strings. Helpers: `aes_cbc_encrypt` / `aes_cbc_decrypt` (16- or 32-byte key, unpadded — PKCS#5/PKCS#7 stays in Lua), `rsa_pkcs1_encrypt` / `rsa_pkcs1_decrypt` / `rsa_sha256_sign` / `rsa_sha256_verify` (raw modulus and exponent, not an X.509 key), `hmac_sha256`, `aes_cmac`, `xor_bytes`, `x25519_generate_keypair` / `x25519_compute_shared` (32-byte little-endian keys; clamping is inside the helper). `ecdh_*` stays secp256r1 and returns a 64-byte point; it does not interoperate with X25519. `rsa_pkcs1_decrypt` raises on bad PKCS#1 padding. `rsa_sha256_verify` returns a boolean and raises on a bad length. Full signatures are in `bundled/devices/docs/lua-mobile.md` and `lua-esp32.md`.
 
 ### Peripheral (ESP32 firmware; also Local Sim preview)
 
@@ -322,6 +323,7 @@ When adding a chained observer, set priority **after** the dependency (e.g. iBea
 - GATT `on_read` / `on_write` hooks referenced from `ble.json`.
 - Persist sim state in `vars`; defaults from `vars.json`.
 - Same `bits.*` / `hex.*` / `mac.*` as Observer/Central on firmware and Local Sim; **no** `adv` / `uuid`. `bin_to_hex` emits lowercase. `hex_to_bin` returns `""` on invalid input (no error). Peripheral `on_write(input)` is binary — `bin_to_hex(input)` before field unpack.
+- Same crypto helpers as Central (`aes_cbc_*`, `rsa_pkcs1_encrypt` / `rsa_pkcs1_decrypt`, `rsa_sha256_sign` / `rsa_sha256_verify`, `hmac_sha256`, `aes_cmac`, `xor_bytes`, `x25519_generate_keypair` / `x25519_compute_shared`), on firmware and Local Sim. Arguments are binary strings. AES-CBC is unpadded (PKCS#5/PKCS#7 stays in Lua). RSA takes a raw modulus and exponent, not an X.509 key. X25519 keys are 32-byte little-endian strings and the helper clamps the scalar; `ecdh_*` stays secp256r1 with a 64-byte point. `rsa_pkcs1_decrypt` raises on bad padding so the script can `pcall` it. `rsa_sha256_verify` returns a boolean and raises on a bad length. A wrong X25519 length raises. Full signatures are in `bundled/devices/docs/lua-esp32.md` and `lua-mobile.md`.
 
 Do not mix mobile and ESP32 APIs in one script file.
 
