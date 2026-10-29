@@ -1,5 +1,5 @@
 -- Tesla vehicle proximity token:
--- (1) iBeacon manufacturer block (0xFF) plus 18-char local name starting with "S".
+-- (1) iBeacon manufacturer block (0xFF) plus local name "S" + 17 hex digits.
 -- (2) iOS / stripped path: same name pattern + incomplete 16-bit service UUID 0x1122 (AD 0x02 2211).
 
 local TESLA_SVC_UUID16 = "1122"
@@ -23,7 +23,7 @@ local function find_entry_by_id(fingerprint_entries, want_id)
 end
 
 local function is_tesla_adv_name(name)
-  return #name == 18 and name:sub(1, 1) == "S"
+  return #name == 18 and name:sub(1, 1) == "S" and name:sub(2):match("^%x+$") ~= nil
 end
 
 local function build_ui(name, beacon_format)
