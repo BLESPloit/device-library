@@ -29,6 +29,14 @@
     },
     "profile": { "type": "string" },
     "uuids": { "type": "string" },
+    "vars": {
+      "type": "string",
+      "description": "Relative path to the Lua vars file (strings, numbers, and booleans). Firmware and the phone load this path."
+    },
+    "vars_fields": {
+      "type": "string",
+      "description": "Relative path to the phone vars-editor field file (labels, hints, ranges, and choices). Firmware does not load it. When omitted, the editor looks for vars_fields.json beside the vars file."
+    },
     "assets": {
       "type": "object",
       "additionalProperties": true,
@@ -50,7 +58,32 @@
       "properties": {
         "observer": { "$ref": "#/$defs/observerRole" },
         "central": { "$ref": "#/$defs/centralRole" },
-        "peripheral": { "type": "object", "additionalProperties": true }
+        "peripheral": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Peripheral simulation on ESP32 and phone Local Sim. observe subscribes after advertising starts on ESP32, Android, and iOS.",
+          "properties": {
+            "entry": { "type": "string" },
+            "interface": { "type": "string" },
+            "advertisement": { "type": "string" },
+            "observe": {
+              "description": "true matches every legacy advertisement and subscribes after advertising starts. An object seeds the filter from scan_conditions (company_id, manufacturer_data_prefix_hex, service_data_uuid_16, device_name_contains) before the script runs. Absent or false does not subscribe. Android and iOS Local Sim call on_adv. Phone reports are not a separate scan response. On iOS, addr is six octets from the peripheral UUID, not the Bluetooth address.",
+              "oneOf": [
+                { "type": "boolean" },
+                {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "scan_conditions": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
       }
     }
   },
@@ -215,9 +248,13 @@
       "properties": {
         "id": { "type": "string" },
         "title": { "type": "string" },
+        "hint": {
+          "type": "string",
+          "description": "Optional display-only subtitle for a quick action or full menu. Not a match key. Omit when the title is enough. Distinct from a fingerprint hint, a vars_fields editor hint, and a menu item input spec."
+        },
         "kind": {
           "type": "string",
-          "enum": ["full_menu", "fullmenu", "quick_action", "quickaction", "action"]
+          "enum": ["full_menu", "quick_action", "gatt_identity"]
         },
         "entry": { "type": "string" },
         "menu": { "type": "string" },

@@ -27,9 +27,11 @@ The following concepts appear on mobile, though not always in every context.
 
 | Global | Mobile behavior |
 |--------|------------------|
-| `vars` | Loaded from `vars.json` plus manifest path handling; in Central there may also be a per-script overlay from `roles.central.scripts[].vars`, and overlay values win on key collisions. |
+| `vars` | Loaded from `vars.json` (strings, numbers, bools) plus manifest path handling. In Central there may also be a per-script overlay from `roles.central.scripts[].vars`, and overlay values win on key collisions. The phone vars editor loads presentation (labels, hints, ranges, and choices) from the manifest key `vars_fields`. When that key is absent it uses `vars_fields.json` beside the vars file. Lua does not read that file. |
 | `uuids` | Loaded from the mobile UUID index for the pack folder id. |
 | `assets` | Mobile-only table with fields such as `icon` (`.svg` or `.png`), `graphics`, and `icon_tint` (SVG only). Not available in ESP32 peripheral scripts. |
+
+The field file is a separate path, the manifest key `vars_fields`, because `vars_save()` rewrites `vars.json` from the Lua `vars` table and keeps only strings, numbers, and booleans. A nested label or option list in `vars.json` is skipped when the table is loaded and deleted on the next save. The phone values editor also treats a nested value as unsupported and opens the raw JSON view. When `vars_fields` is omitted, the editor looks for `vars_fields.json` beside the vars file.
 
 ---
 
@@ -191,12 +193,15 @@ Return an array of entries with shape:
   {
     id = "...",
     display_name = "...", -- optional
+    hint = "...", -- optional, display-only
     attributes = {
       -- key/value attributes
     }
   }
 }
 ```
+
+`hint` is a display sentence shown above the attribute list. It is not part of `attributes` and not a UI overlay key, so it is not used for `match.fingerprint`. A central script does not edit this field on the advertisement entry. It sets its own hint with the optional argument on `fp_append` or `push_fingerprint`, which stores it on a new GATT entry.
 
 You may also return a second `ui` table with optional keys such as:
 
@@ -214,6 +219,16 @@ You may also return a second `ui` table with optional keys such as:
 
 Central Lua runs after GATT connection and is the main mobile GATT-client scripting environment. It includes BLE access, crypto, menu helpers, display helpers, fingerprint helpers, and data helpers.
 
+An optional `hint` on the central script in `manifest.json` is a display-only subtitle under the script title. It is not a fingerprint `hint`, not a `vars_fields.json` editor hint, and not a menu item `input` spec.
+
+### GATT identity
+
+A central script with `"kind": "gatt_identity"` runs after service discovery, and only for packs indexed by a discovered service UUID. A service entry in `uuids.json` — including a 16-bit value such as `fff0` — makes that pack a candidate. Characteristic entries do not.
+
+The script uses the same `parse(input)` entry and the same `entries, ui` return as an observer. `input.service_uuids` and `input.characteristic_uuids` are canonical hex UUID strings. The script decides identity. It does not read GATT and does not compare `ble.json`. The observer role stays advertisement-only.
+
+Returned entries are stored with GATT origin. An advertisement entry with the same `id` is left unchanged, including its hint and UI overlay. The script is not shown as a quick action or a full menu.
+
 ### Central globals and helpers
 
 | Function / global | Description |
@@ -224,7 +239,51 @@ Central Lua runs after GATT connection and is the main mobile GATT-client script
 | `pop_menu()` | Pop the menu stack; returns `bool` indicating whether a menu was popped. |
 | `set_title(text)` | Set the UI title. |
 | `set_state(key, value)` | Store string UI state by key. |
+| `prompt_input(spec, callback_name)` | Ask the user for one or more field values. Does not return a value. After confirm, the engine calls `callback_name` with the field strings in order. Cancel does not call the callback. An empty callback name is ignored. |
 | `log(...)`, `print(...)` | Routed to the script log observer when the central context is set. |
+
+### Menu item input
+
+A full-menu item may declare `input` so a tap opens a dialog instead of calling Lua immediately. Confirm calls the function named by `id` (no parentheses) with the field strings, in order. `keyboard` is `text` (default), `password`, `number`, or `hex`. Any other value is treated as `text`.
+
+```json
+{
+  "id": "set_color",
+  "label": "Custom color…",
+  "input": {
+    "title": "Set color",
+    "fields": [
+      {
+        "key": "color",
+        "label": "RGB hex",
+        "keyboard": "hex",
+        "default": "FF0000",
+        "placeholder": "RRGGBB",
+        "max_length": 6,
+        "required": true
+      }
+    ]
+  }
+}
+```
+
+```lua
+function set_color(color)
+end
+```
+
+An item id `set_color(FF0000)` stays one tap. The Scripts tab adds an edit control that opens the same dialog pre-filled with `FF0000`.
+
+`prompt_input` uses the same spec as a Lua table when the default is known only at runtime:
+
+```lua
+prompt_input({
+  title = "Set color",
+  fields = {
+    { key = "color", label = "RGB hex", keyboard = "hex", default = "FF0000", required = true }
+  }
+}, "set_color")
+```
 
 ### Crypto
 
@@ -236,6 +295,8 @@ These are installed in mobile Central and Local Sim, not in Observer. Length rul
 | `aes_ecb_decrypt` | Same intended semantics as the ESP32 version. |
 | `aes_cbc_encrypt` | Same intended semantics as the ESP32 version. Unpadded. |
 | `aes_cbc_decrypt` | Same intended semantics as the ESP32 version. Unpadded. |
+| `aes_gcm_encrypt` | Same intended semantics as the ESP32 version. AES-128 only. Tag length 12 or 16. |
+| `aes_gcm_decrypt` | Same intended semantics as the ESP32 version. A bad tag returns nil. |
 | `sha256` | Same intended semantics as the ESP32 version. |
 | `sha256_first_16` | Same intended semantics as the ESP32 version. |
 | `ecdh_generate_keypair` | Same intended semantics as the ESP32 version. |
@@ -251,7 +312,7 @@ These are installed in mobile Central and Local Sim, not in Observer. Length rul
 | `aes_cmac` | Same intended semantics as the ESP32 version. |
 | `xor_bytes` | Same intended semantics as the ESP32 version. |
 
-AES-CBC does not add or remove padding. PKCS#5/PKCS#7 stays in the script, as does a leading `0x00` on a longer GATT write. `ecdh_*` is secp256r1 and returns a 64-byte point. X25519 is a separate helper; those keys do not interoperate.
+AES-CBC does not add or remove padding. PKCS#5/PKCS#7 stays in the script, as does a leading `0x00` on a longer GATT write. AES-GCM framing, including the IV and any bytes around the ciphertext, also stays in the script. `ecdh_*` is secp256r1 and returns a 64-byte point. X25519 is a separate helper; those keys do not interoperate.
 
 ### BLE client API
 
@@ -293,8 +354,8 @@ Mobile Central BLE API details.
 | `fp_set(key, value)` | Set overlay fingerprint key. |
 | `fp_clear(key)` | Remove overlay key. |
 | `fp_get(key)` | Read overlay value or `nil`. |
-| `fp_append(id, attrs_table, display_name?)` | Append a GATT-origin fingerprint entry. |
-| `push_fingerprint(attrs_table, ui_table?)` | Append enrichment entry and optional UI overlay keys. |
+| `fp_append(id, attrs_table, display_name?, hint?)` | Append a GATT-origin fingerprint entry. Optional `hint` is display-only on that entry, not an attribute. |
+| `push_fingerprint(attrs_table, ui_table?, hint?)` | Append enrichment entry and optional UI overlay keys. Optional `hint` is display-only on that entry. |
 | `ui_overlay(key, value)` | Alias for `fp_set`. |
 | `fp_apply_fast_pair_post_enrich()` | Run Fast Pair post-processing on the fingerprint. |
 
@@ -320,10 +381,12 @@ Local Sim and ESP32 firmware both install the shared `bits` / `hex` / `mac` tabl
 On-phone simulation cannot match ESP32 Remote Sim or real hardware in every respect:
 
 - The OS only accepts structured advertising fields (service UUIDs, and on Android also service data / manufacturer data). Raw `adv_data_hex` PDUs are reconstructed, not replayed.
-- iOS advertising is limited to local name + service UUIDs. Service data and manufacturer data are dropped; the Sim canvas shows an OS-limit banner.
+- iOS advertising is limited to local name + service UUIDs, plus a pure iBeacon. Service data, manufacturer data, and TX power are not sent. `adv_set_data` returns `false` and the reason. When nothing iOS can send remains, the radio is left unchanged. The Sim canvas also shows the limitation.
 - `ble_disconnect` can cancel the central on Android only. iOS has no public API to kick a connected central.
 - `get_adv_bd_addr` is often unavailable (the OS hides the adapter address).
 - `gpio_set` / `gpio_get` are not applicable on a phone, Local Sim returns `ok [, err]` / `nil [, err]`, not a Lua error.
+- `platform()` returns `"android"` or `"ios"` in Local Sim and `"esp32"` on firmware.
+- Android and iOS Local Sim can receive legacy advertisements while advertising (`scan_enable`, `scan_disable`, `scan_set_filter`, `on_adv`, `on_scan_stopped`). Reports are not split into a scan response, so `is_scan_rsp` is false. On iOS the payload is rebuilt from reported fields, and `addr` is six octets from the peripheral UUID, not the Bluetooth address.
 - Simulation runs only while the app is in the foreground. Background advertising is not enabled in this version.
 
 The same peripheral Lua also runs on ESP32 Remote Sim; prefer that path when you need full advertising fidelity. Details remain in [ESP32 Lua API]({{< relref "lua-esp32" >}}).

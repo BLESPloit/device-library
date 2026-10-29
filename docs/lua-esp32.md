@@ -10,6 +10,7 @@ Peripheral Lua in device packs may run on the ESP32 simulator / firmware **or** 
 - `gpio_set` / `gpio_get` are firmware/board pins only — Local Sim returns `ok [, err]` / `nil [, err]`, not a Lua error.
 - Local Sim runs only in the foreground (no iOS `bluetooth-peripheral` background mode, no Android foreground service in this version).
 - Firmware and Local Sim both install the shared `bits` / `hex` / `mac` tables and lowercase `bin_to_hex` (same API as [Mobile Lua]({{< relref "lua-mobile" >}})). They do **not** install `adv` / `uuid`.
+- Android and iOS Local Sim receive legacy advertisements with `on_adv`, `on_scan_stopped`, `scan_enable`, `scan_disable`, and `scan_set_filter` while advertising. Reports are not split into a scan response, so `is_scan_rsp` is false. On iOS, `payload_hex` is rebuilt from the fields CoreBluetooth reports, and `addr` is six octets taken from the peripheral UUID, not the Bluetooth address. A filter that requires a scan response does not match. `adv_set_data` returns `false` and the drop reason when iOS cannot send part of the packet. The phone central still picks a device from the scan list.
 
 ---
 
@@ -32,7 +33,7 @@ Scripts are loaded by `lua_init_persistent_minimal()` in the firmware Lua VM.
 
 | Global | Source |
 |--------|--------|
-| `vars` | Table loaded from device `vars.json` (strings, numbers, bools). |
+| `vars` | Table loaded from device `vars.json` (strings, numbers, bools). The phone vars editor loads presentation from the manifest key `vars_fields`, or from `vars_fields.json` beside the vars file when that key is absent. This runtime does not load that file, and Lua does not read it. |
 | `uuids` | String map of symbolic names to UUID strings from the device UUID map JSON via `lua_uuids_inject`. |
 
 ---
@@ -47,7 +48,9 @@ These helpers are available in the ESP32 peripheral Lua VM.
 | `bin_to_hex(binary)` → string | Convert binary data to lowercase hex. Non-string → `""`. |
 | `hex_to_bin(hex)` → binary | Strip whitespace; mixed case OK; odd / invalid / non-string → `""` (no Lua error). |
 | `get_time()` → integer | Returns `time(NULL)`. This is only useful if the device has valid wall-clock time set. |
-| `vars_save()` → integer | Serializes the `vars` back to json |
+| `vars_save()` → integer | Serializes the `vars` table back to `vars.json` (strings, numbers, and booleans only). |
+
+The manifest key `vars_fields` is not loaded by this runtime. It stays a separate file because `vars_save()` replaces `vars.json` from the Lua table. A nested label or option list in `vars.json` would be skipped on load and deleted on the next save. The phone values editor also opens nested `vars.json` as raw JSON. When `vars_fields` is omitted, that editor looks for `vars_fields.json` beside the vars file.
 
 `bin_to_hex`, `bits.tohex`, and `hex.*` packers emit **lowercase** hex. Decoders still accept mixed case. BLE write/notify hex is case-insensitive.
 
@@ -132,6 +135,8 @@ end
 | `random_bytes(n)` → binary | Returns hardware RNG output for `n` in the range 1..1024. |
 | `aes_cbc_encrypt(key, iv, data)` → binary | AES-CBC encrypt. Key is 16 or 32 bytes, IV is 16 bytes, data is a non-zero multiple of 16 and at most 4096. No padding. |
 | `aes_cbc_decrypt(key, iv, data)` → binary | AES-CBC decrypt with the same length rules. No padding. |
+| `aes_gcm_encrypt(key, iv, plaintext, aad, tag_len)` → binary | AES-128-GCM encrypt. Key is 16 bytes. IV is 12 bytes and is not generated or prepended. Plaintext is 0..4096 bytes. AAD is 0..4096 bytes; `""` means no AAD. `tag_len` is 12 or 16. Output is ciphertext followed by the tag. A 12-byte tag is the leading 12 bytes of the 16-byte tag. A bad length raises. |
+| `aes_gcm_decrypt(key, iv, data, aad, tag_len)` → binary or nil | AES-128-GCM decrypt. `data` is ciphertext followed by the tag. The ciphertext portion is 0..4096 bytes. A bad tag returns nil and no plaintext. A bad length raises. |
 | `rsa_pkcs1_encrypt(modulus, public_exponent, plaintext)` → binary | PKCS#1 v1.5 type 2 encrypt. Modulus is 64, 128, or 256 raw bytes. Public exponent is big-endian (often 3 bytes `010001`). Plaintext length is 1..modulus−11. Output is one modulus-sized block. |
 | `rsa_pkcs1_decrypt(modulus, public_exponent, private_exponent, ciphertext)` → binary | PKCS#1 v1.5 decrypt. Private exponent and ciphertext lengths equal the modulus. Returns the unpadded plaintext. A bad length or bad padding raises. |
 | `rsa_sha256_sign(modulus, public_exponent, private_exponent, message)` → binary | SHA-256 over the raw message, then RSASSA-PKCS1-v1_5. Message length is 1..4096. Output length equals the modulus. |
@@ -140,7 +145,7 @@ end
 | `aes_cmac(key, data)` → binary | AES-128-CMAC. Key is exactly 16 bytes. Output is 16 bytes. An empty message is valid. |
 | `xor_bytes(a, b)` → binary | Byte-wise XOR of two equal-length strings, 1..4096 bytes. |
 
-AES-CBC does not add or remove padding. PKCS#5/PKCS#7 stays in the script, as does a leading `0x00` on a longer GATT write. RSA helpers take a raw modulus and exponent, not an X.509 key. Store those raw values (for example in `vars.json`). `ecdh_*` is secp256r1 and returns a 64-byte point. X25519 is a separate helper; those keys do not interoperate.
+AES-CBC does not add or remove padding. PKCS#5/PKCS#7 stays in the script, as does a leading `0x00` on a longer GATT write. AES-GCM framing, including the IV and any bytes around the ciphertext, also stays in the script. RSA helpers take a raw modulus and exponent, not an X.509 key. Store those raw values (for example in `vars.json`). `ecdh_*` is secp256r1 and returns a 64-byte point. X25519 is a separate helper; those keys do not interoperate.
 
 ---
 
@@ -171,12 +176,37 @@ These functions are available in the ESP32 peripheral simulation runtime and in 
 |----------|-------------|
 | `ble_notify(svc_uuid, chr_uuid, hex_str)` → `ok [, err]` | Decode `hex_str`, update the characteristic backing value, and notify subscribers.  |
 | `ble_notify_raw(svc_uuid, chr_uuid, hex_str)` → `ok [, err]` | Send a notify PDU without updating the backing store; requires connectivity and does not honor CCCD.  |
-| `adv_set_data(profile_id, adv_hex [, scan_rsp_hex])` → bool | Replace raw advertising data, with optional scan response, for the advertising profile id.  |
+| `adv_set_data(profile_id, adv_hex [, scan_rsp_hex])` → `ok [, err]` | Replace raw advertising data, with optional scan response, for the advertising profile id. On ESP32 this configures the profile from `adv.json` when boot skipped it (`"enabled": false`) and does not start it. A later `adv_enable` does not replace a payload already written here. Operational rejection returns `false` plus an error string. On iOS, a packet that contains manufacturer data, service data, TX power, or an unsupported AD type returns `false` and that reason. The name and service UUIDs are still advertised when any remain. A manufacturer-only packet does not change the radio. |
+| `platform()` → string | `"esp32"` on firmware, `"android"` or `"ios"` in Local Sim. |
 | `get_adv_bd_addr(profile_id)` → `addr | nil [, err]` | Return the resolved TX address string when available.  |
-| `adv_enable(profile_id)` → `ok [, err]` | Start an advertising instance.  |
+| `adv_enable(profile_id)` → `ok [, err]` | Start an advertising instance. Does not replace a payload already written by `adv_set_data`.  |
 | `adv_disable(profile_id)` → `ok [, err]` | Stop an advertising instance.  |
 | `get_mtu()` → int | Return the negotiated ATT MTU, defaulting to 23 if unknown.  |
 | `set_preferred_mtu(mtu)` → `ok [, err]` | Request MTU in the allowed range 23..517.  |
+
+### Receiving advertisements
+
+A peripheral pack opts in with `roles.peripheral.observe` in `manifest.json` (`true`, or an object whose `scan_conditions` seed the filter). Legacy advertising data only. ESP32 also accepts scan responses, and it drops the simulated device's own address and any extended advertisement. Android Local Sim delivers each legacy scan record as one advertisement with `is_scan_rsp` false, including while that phone is advertising. iOS does the same from the fields CoreBluetooth reports, so `addr` is not the Bluetooth address and a separate scan response is not available.
+
+| Function | Description |
+|----------|-------------|
+| `scan_enable()` → `ok [, err]` | Listen on the shared scanner. A manifest `observe` does this after advertising starts. |
+| `scan_disable()` → `ok [, err]` | Stop this simulation's listen. A Remote Scan that is still open keeps running. |
+| `scan_set_filter([rules])` → `ok [, err]` | Replace the filter. No arguments restores the manifest seed. A bad table leaves the previous filter in place. |
+
+`rules` is a table. Omit a key to leave that check out. Keys are AND-ed: `addr` (`AA:BB:CC:DD:EE:FF`), `rssi_min`, `scan_rsp` (`true` or `false`), `interval_ms` (default `0`, capped at 60000), and `bytes` (up to four `{ offset, hex, mask? }` matches on the raw PDU, 16 bytes each). `{}` matches every legacy PDU.
+
+```lua
+function on_adv(addr, addr_type, rssi, payload_hex, is_scan_rsp, seen)
+end
+
+function on_scan_stopped()
+end
+```
+
+`payload_hex` is lowercase raw advertising data. `seen` counts the matching PDUs folded into this call. With `interval_ms` 0 the same payload is delivered only when it changes. A non-zero interval also delivers that payload again once the interval has elapsed. `on_adv` has to be safe to run again on the same body. `on_scan_stopped` runs when the radio is stopped by the system. On ESP32 that is a Remote Scan stop or a central connect. On Android Local Sim it is Bluetooth turning off, permission loss, or a scan failure. Stopping the simulation does not call it. Call `scan_enable()` to listen again. Silence is not an event; use `delay` and a generation counter, and keep that period longer than `interval_ms`.
+
+A central script may call `scan_set_filter` at top level, before the first report, to connect by payload instead of the `ble.json` address. It does not receive `on_adv`.
 
 ---
 

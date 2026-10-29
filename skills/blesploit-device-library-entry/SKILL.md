@@ -57,7 +57,7 @@ Only when contributing to the shipped library: `products/<id>/` (specific produc
 | Observer match pattern | **yes** (observer) | `scan_conditions`; mirror in Lua guard if non-trivial |
 | Known advertisement filters (company id, name, service data) | **yes** (observer) | Prefer manifest filters over Lua-only matching |
 | Companion app links | optional | `apps.google`, `apps.apple`, `apps.direct[]` |
-| Icon / graphics | optional (required for manifest-only observer) | `assets.icon`; `assets.graphics` for sim UI. No `icon_tint` by default |
+| Icon / graphics | optional (required for manifest-only observer) | `assets.icon` glyph on a transparent canvas; `assets.graphics` for sim UI. No `icon_tint` by default |
 | Provenance / testing notes | optional | `notes`, `author`, `source_url` |
 | Roles needed | **yes** | `observer`, `central`, `peripheral` — only include those requested |
 | Sample GATT log / `ble.json` capture | optional | Central scripts, peripheral GATT profile — do not store as `sample_scans/` |
@@ -82,8 +82,9 @@ Write everything under `<slug>/`:
 | `peripheral/interface.json` | peripheral with UI | LVGL layout ids for simulator screen |
 | `uuids.json` | GATT scripts | Vendor/proprietary symbolic UUID map only |
 | `vars.json` | peripheral or configurable central | Default state merged into Lua `vars` |
+| `vars_fields.json` | optional, manifest key `vars_fields` | Phone vars-editor labels, hints, ranges, and choices. Lua does not read it. When the key is absent, the editor uses `vars_fields.json` beside the vars file. |
 | `ble.json` | peripheral / GATT-heavy central | Full GATT profile (`profile` in manifest) |
-| `assets/icon.svg` or `assets/icon.png` | scan UI branding | Scan-row icon; required if observer has no `entry`. PNG is not tinted; prefer square 128–256 px with alpha. |
+| `assets/icon.svg` or `assets/icon.png` | scan UI branding | Scan-row icon; required if observer has no `entry`. Glyph on a transparent canvas — no full-bleed or rounded-square background. PNG is not tinted; square 128–256 px with alpha. |
 | `assets/graphics.json` | peripheral UI | Icon/element definitions for simulator |
 | `assets/*.svg`, `assets/*.png` | optional | Extra icons referenced by Lua or graphics |
 | `<slug>.zip` | **always** (user entry) | Importable archive — see below |
@@ -122,11 +123,19 @@ The app already names Bluetooth SIG 16-bit services/characteristics from the bun
 - SIG-base keys (`0000XXXX-0000-1000-8000-00805f9b34fb` / short `2a19`) are excluded from the global UUID index anyway.
 - Convention: `SVC_*` services, `CHR_*` characteristics. Entry shape: `type`, `uuid`, `name`, optional `structure` / `write_presets`.
 
-### Icons — no default tint
+### Icons
 
-Omit `assets.icon_tint` and observer `custom_icon_tint` unless the SVG is a **monochrome glyph** that must follow a brand color.
+Scan-row icons are drawn at 28dp on the row surface. Author a **glyph on a transparent canvas**, not an app-icon tile.
 
-`icon_tint` is SVG-only (`#RRGGBB` / `#AARRGGBB`). The UI applies `SrcIn`, which replaces every non-transparent pixel with one color and **often breaks multi-color logos**. PNG is never tinted. Prefer an SVG (or PNG) that already looks correct with no tint. Do not copy `icon_tint` from `blesploit_lightbulb` into new entries.
+When writing `assets/icon.svg`:
+
+- No background `<rect>`, rounded square, circle, or root `fill` that covers the viewBox. A square `viewBox` is only the coordinate box.
+- Default authored icon: one filled silhouette. Cut holes with `fill-rule="evenodd"` so interiors stay transparent. A single fill (`#000` or `currentColor`) is enough.
+- Set `assets.icon_tint` or observer `custom_icon_tint` only for that kind of monochrome glyph. The UI applies `SrcIn` (`#RRGGBB` / `#AARRGGBB`), which replaces every non-transparent pixel with one color. A dark plate and a light glyph both become the tint, so the icon turns into a solid square.
+- A supplied multi-color logo keeps its own fills, still with no plate, and omits tint. `SrcIn` flattens every opaque pixel to one color.
+- PNG: square 128–256 px with a transparent background (no opaque backdrop). PNG is never tinted. Prefer as small a file as possible; entries are synced wholesale to ESP32.
+
+Do not copy `icon_tint` from `blesploit_lightbulb` into new entries.
 
 ---
 
@@ -146,6 +155,7 @@ Omit `assets.icon_tint` and observer `custom_icon_tint` unless the SVG is a **mo
   "profile": "ble.json",
   "uuids": "uuids.json",
   "vars": "vars.json",
+  "vars_fields": "vars_fields.json",
   "assets": { "icon": "assets/icon.svg", "graphics": "assets/graphics.json" },
   "apps": {
     "google": { "url": "https://…", "version_note": "…" },
@@ -160,7 +170,7 @@ Omit `assets.icon_tint` and observer `custom_icon_tint` unless the SVG is a **mo
 }
 ```
 
-`assets.icon` may be `.svg` or `.png`. For PNG, use a square 128–256 px image with alpha (preferably as small as possible); entries are synced wholesale to ESP32.
+`assets.icon` may be `.svg` or `.png`. Either format is a glyph on a transparent canvas — no full-bleed or rounded-square background. For PNG, use a square 128–256 px image with alpha (preferably as small as possible); entries are synced wholesale to ESP32.
 
 ### Observer (`roles.observer`)
 
@@ -173,6 +183,7 @@ Omit `assets.icon_tint` and observer `custom_icon_tint` unless the SVG is a **mo
 | Field | Notes |
 |-------|-------|
 | `id`, `title`, `entry` | Required |
+| `hint` | Optional display-only subtitle for a quick action or full menu. Omit when the title is enough. Not a match key. Not the fingerprint `hint`, not a `vars_fields.json` editor hint, and not menu `input` |
 | `kind` | `full_menu` (needs `menu`) or `quick_action` |
 | `priority` | Higher sorts first among matches; quick actions typically 55–60 |
 | `match.fingerprint` | **Preferred** — key → allowed value(s); keys come from observer `attributes` |
@@ -295,8 +306,9 @@ When adding a chained observer, set priority **after** the dependency (e.g. iBea
 
 - Entry: `function parse(input)` → `entries` or `entries, ui`.
 - Return `{}` or `{}, {}` when no match (even if `scan_conditions` passed — Lua can still reject).
-- Entry shape: `{ id, display_name?, attributes = { key = "string_value", … } }`.
-- UI overlay keys: `device_type`, `beacon_format`, `custom_icon` (`.svg` or `.png`), `custom_icon_tint` (SVG only — omit unless monochrome glyph), `display_name`, `display_info`.
+- Entry shape: `{ id, display_name?, hint?, attributes = { key = "string_value", … } }`.
+- `hint` is display-only. Put tips there, not in `attributes` or `display_info`. It is not a match key and not a UI overlay key.
+- UI overlay keys: `device_type`, `beacon_format`, `custom_icon` (`.svg` or `.png`, glyph on a transparent canvas), `custom_icon_tint` (SVG only — omit unless monochrome glyph with no background plate), `display_name`, `display_info`.
 - Globals: `vars`, `uuids`, `assets`, full `bits.*` / `hex.*`, `adv.*` / `uuid.compact` / `mac.*`, `hex_to_bin`, lowercase `bin_to_hex`.
 - No `ble_*`, crypto, or menu APIs.
 - Put stable match keys in `attributes` (`protocol`, product-specific fields) for central `match.fingerprint`.
@@ -306,22 +318,26 @@ When adding a chained observer, set priority **after** the dependency (e.g. iBea
 
 ### Central (mobile only)
 
+- GATT identity: `"kind": "gatt_identity"` with `function parse(input)`. It runs only for packs indexed by a discovered service UUID. A service UUID in `uuids.json`, including a 16-bit value such as `fff0`, makes the pack a candidate. Characteristic entries do not. Return the same `entries, ui` shape as an observer. Identity logic stays in that script. It does not read GATT and does not compare `ble.json`. It is not a quick action or a full menu. The observer role stays advertisement-only.
 - Quick action: define `function run()`; optional `on_connected`, `on_notify`, `on_ble_read_result`.
-- Full menu: menu JSON drives flow; use `push_menu`, `set_title`, `set_state`.
+- Full menu: menu JSON drives flow; use `push_menu`, `set_title`, `set_state`. An item may set `input.fields` so a tap opens a dialog and confirm calls `id` with the field strings. `prompt_input(spec, callback_name)` asks from Lua and does not return a value; confirm calls `callback_name`. Preset ids such as `set_color(FF0000)` stay one tap, with an edit control for the baked-in argument.
 - Prefer `uuids.SYMBOL` over raw UUID strings.
 - Use `ble_read` / `ble_write` / `ble_subscribe`, `start_notify_wait` + `finish_notify_wait` for request/notify protocols.
 - Use `fp_get`, `fp_set`, `push_fingerprint` to enrich after GATT reads.
+- `fp_append(id, attrs, display_name?, hint?)` and `push_fingerprint(attrs, ui?, hint?)` store an optional display-only `hint` on a new GATT entry. Do not rewrite the observer entry's `hint`. `fp_set` does not set `hint`.
 - `delay_ms(ms)` max 10000. `hex_to_bin` returns `""` on invalid input (no error).
 - Same full `bits.*` / `hex.*` / `adv.*` / `uuid.*` / `mac.*` as Observer; `bin_to_hex` emits lowercase.
 - Hex vs binary: `hex.*` / `bits.*` pack and unpack **fields** (stay in hex for `ble_write` / `ble_read` / `on_notify`). `bin_to_hex` / `hex_to_bin` convert a whole **blob** at crypto edges (and firmware `on_write` binary). Do not use `bits.tohex` as blob encode; do not `bin_to_hex(ble_read())`.
-- Crypto arguments are binary strings. Helpers: `aes_cbc_encrypt` / `aes_cbc_decrypt` (16- or 32-byte key, unpadded — PKCS#5/PKCS#7 stays in Lua), `rsa_pkcs1_encrypt` / `rsa_pkcs1_decrypt` / `rsa_sha256_sign` / `rsa_sha256_verify` (raw modulus and exponent, not an X.509 key), `hmac_sha256`, `aes_cmac`, `xor_bytes`, `x25519_generate_keypair` / `x25519_compute_shared` (32-byte little-endian keys; clamping is inside the helper). `ecdh_*` stays secp256r1 and returns a 64-byte point; it does not interoperate with X25519. `rsa_pkcs1_decrypt` raises on bad PKCS#1 padding. `rsa_sha256_verify` returns a boolean and raises on a bad length. Full signatures are in `bundled/devices/docs/lua-mobile.md` and `lua-esp32.md`.
+- Crypto arguments are binary strings. Helpers: `aes_cbc_encrypt` / `aes_cbc_decrypt` (16- or 32-byte key, unpadded — PKCS#5/PKCS#7 stays in Lua), `aes_gcm_encrypt` / `aes_gcm_decrypt` (AES-128, 12-byte IV supplied by the script, tag length 12 or 16; a bad tag returns nil; framing stays in the script), `rsa_pkcs1_encrypt` / `rsa_pkcs1_decrypt` / `rsa_sha256_sign` / `rsa_sha256_verify` (raw modulus and exponent, not an X.509 key), `hmac_sha256`, `aes_cmac`, `xor_bytes`, `x25519_generate_keypair` / `x25519_compute_shared` (32-byte little-endian keys; clamping is inside the helper). `ecdh_*` stays secp256r1 and returns a 64-byte point; it does not interoperate with X25519. `rsa_pkcs1_decrypt` raises on bad PKCS#1 padding. `rsa_sha256_verify` returns a boolean and raises on a bad length. Full signatures are in `bundled/devices/docs/lua-mobile.md` and `lua-esp32.md`.
 
 ### Peripheral (ESP32 firmware; also Local Sim preview)
 
 - Edited on mobile, **executed on ESP32** (and on-phone Local Sim) — use `ble_notify`, `adv_enable`/`adv_disable`, `gfx_*`, `vars_save`.
+- `adv_set_data` configures the profile from `adv.json` if boot skipped it (`"enabled": false`) and does not start it. `adv_enable` starts it. A later `adv_enable` does not replace a payload already written by `adv_set_data`.
 - Restricted stdlib on firmware: `_G`, `string`, `math`, `table` only.
 - GATT `on_read` / `on_write` hooks referenced from `ble.json`.
 - Persist sim state in `vars`; defaults from `vars.json`.
+- Optional field presentation is the manifest key `vars_fields` (usually `vars_fields.json` beside `vars.json`). The phone editor uses that path; when the key is absent it falls back to `vars_fields.json` in the same directory as the vars file. Lua does not read it. Do not put labels, hints, `min`/`max`/`unit`, or `options` inside `vars.json`. `vars_save()` on the ESP32 and in the phone simulator rewrites `vars.json` from the Lua `vars` table and keeps only strings, numbers, and booleans, so a nested label or option list is skipped on load and deleted on the next save. The editor also opens nested `vars.json` as raw JSON. A choice field shows the label and a monospace line with the stored token (`legacy`, `2`, …).
 - Same `bits.*` / `hex.*` / `mac.*` as Observer/Central on firmware and Local Sim; **no** `adv` / `uuid`. `bin_to_hex` emits lowercase. `hex_to_bin` returns `""` on invalid input (no error). Peripheral `on_write(input)` is binary — `bin_to_hex(input)` before field unpack.
 - Same crypto helpers as Central (`aes_cbc_*`, `rsa_pkcs1_encrypt` / `rsa_pkcs1_decrypt`, `rsa_sha256_sign` / `rsa_sha256_verify`, `hmac_sha256`, `aes_cmac`, `xor_bytes`, `x25519_generate_keypair` / `x25519_compute_shared`), on firmware and Local Sim. Arguments are binary strings. AES-CBC is unpadded (PKCS#5/PKCS#7 stays in Lua). RSA takes a raw modulus and exponent, not an X.509 key. X25519 keys are 32-byte little-endian strings and the helper clamps the scalar; `ecdh_*` stays secp256r1 with a 64-byte point. `rsa_pkcs1_decrypt` raises on bad padding so the script can `pcall` it. `rsa_sha256_verify` returns a boolean and raises on a bad length. A wrong X25519 length raises. Full signatures are in `bundled/devices/docs/lua-esp32.md` and `lua-mobile.md`.
 
@@ -365,6 +381,7 @@ Based on `blesploit_lightbulb`. Omit `icon_tint` on new entries (this example do
   "profile": "ble.json",
   "uuids": "uuids.json",
   "vars": "vars.json",
+  "vars_fields": "vars_fields.json",
   "assets": {
     "icon": "assets/blesploit_logo.svg",
     "graphics": "assets/graphics.json"
@@ -428,7 +445,7 @@ function parse(input)
 end
 ```
 
-Do not set `custom_icon_tint` in the UI overlay unless the SVG is a monochrome glyph.
+Do not set `custom_icon_tint` in the UI overlay unless the SVG is a monochrome glyph on a transparent canvas. A background plate becomes a solid square under `SrcIn`.
 
 ### Minimal central quick_action Lua
 
@@ -476,6 +493,7 @@ end
 - [ ] `<slug>.zip` wraps a single top-level `<slug>/` (not loose files at zip root)
 - [ ] No `sample_scans/` (or other capture dumps) in the entry
 - [ ] `uuids.json` has vendor/proprietary UUIDs only — no standard SIG UUIDs already in the catalog
+- [ ] Icon is a glyph on a transparent canvas (no full-bleed or rounded-square background)
 - [ ] No `icon_tint` / `custom_icon_tint` unless the SVG is a monochrome glyph
 - [ ] Observer `attributes.protocol` (or equivalent) set for central fingerprint matching
 - [ ] Central quick actions prefer `match.fingerprint` over services-only when observer provides attrs
