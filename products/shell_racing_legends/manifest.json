@@ -3,7 +3,7 @@
   "description": "Shell Bluetooth RC cars (Shell Racing Legends app). Plain 8-byte drive writes on FFF1.",
   "author": "Slawomir Jasek",
   "author_url": "https://blesplo.it",
-  "version": 4,
+  "version": 5,
   "notes": "Observed on SL-SF-24 (adv name + incomplete 16-bit service 0x6936). Drive packets are Write Command (no response) to FFF1: 01 | fwd | rev | left | right | light | turbo | special. Other models may have different advertising names with the same GATT layout. Peripheral sim: plaintext FFF1 writes update status UI (movement, lights, turbo, spin).",
   "apps": {
     "google": {
@@ -37,13 +37,18 @@
     "central": {
       "scripts": [
         {
+          "id": "gatt_identity",
+          "title": "Shell Racing Legends identity",
+          "kind": "gatt_identity",
+          "entry": "central/gatt_identity.lua"
+        },
+        {
           "id": "main",
           "title": "Shell Racing Legends",
           "kind": "full_menu",
           "entry": "central/dynamic_central.lua",
           "menu": "central/menu.json",
           "match": {
-            "fingerprint_or_services": true,
             "fingerprint": {
               "protocol": ["shell_racing_legends"]
             },

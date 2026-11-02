@@ -1,4 +1,6 @@
 -- Shell Racing Legends: SL-<model> name (e.g. SL-SF-24) and/or vendor service 0x6936.
+-- protocol is set only for an SL- name. Advertised 0x6936 keeps the scan entry
+-- but does not select the central menu; gatt_identity confirms other names.
 
 local ENTRY_ID = "shell_racing_legends"
 local PROTOCOL = "shell_racing_legends"
@@ -36,16 +38,20 @@ function parse(input)
     display_info = display_info .. " · 6936"
   end
 
+  local attributes = {
+    device_name = name,
+    model = model,
+    vendor_service = svc_ok and "true" or "false",
+  }
+  if name_ok then
+    attributes.protocol = PROTOCOL
+  end
+
   return {
     {
       id = ENTRY_ID,
       display_name = display_name,
-      attributes = {
-        protocol = PROTOCOL,
-        device_name = name,
-        model = model,
-        vendor_service = svc_ok and "true" or "false",
-      },
+      attributes = attributes,
     },
   }, {
     device_type = "TOY",

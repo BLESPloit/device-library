@@ -3,7 +3,7 @@
   "description": "Shell Racing toy car (2020 edition)",
   "author": "Slawomir Jasek",
   "author_url": "https://blesplo.it",
-  "version": 1,
+  "version": 2,
   "notes": "Peripheral sim: AES-ECB control writes on FFF1; battery notify on FFF4 (16-byte blocks).",
   "apps": {
     "google": {
@@ -17,6 +17,7 @@
   },
   "roles": {
     "observer": {
+      "entry": "observer/adv_decode.lua",
       "scan_conditions": {
         "device_name_regex": "^QCAR-[0-9A-F]{4}$"
       },
@@ -29,14 +30,24 @@
     "central": {
       "scripts": [
         {
+          "id": "gatt_identity",
+          "title": "Shell SuperCars identity",
+          "kind": "gatt_identity",
+          "entry": "central/gatt_identity.lua"
+        },
+        {
           "id": "main",
           "title": "Shell SuperCars",
           "kind": "full_menu",
           "entry": "central/dynamic_central.lua",
           "menu": "central/menu.json",
           "match": {
+            "fingerprint": {
+              "protocol": ["shell_supercars"]
+            },
             "services": [
-              "fff0"
+              "fff0",
+              "d44bc439-abfd-45a2-b575-925416129600"
             ]
           }
         }
