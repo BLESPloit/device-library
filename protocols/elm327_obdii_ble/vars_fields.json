@@ -1,0 +1,9 @@
+{
+  "advertised_service": {
+    "label": "Advertised service",
+    "options": [
+      { "value": "4353", "label": "0x4353 CEVA" },
+      { "value": "fff0", "label": "0xFFF0" }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "elements": [
+    {
+      "id": "dongle",
+      "type": "svg",
+      "file": "obdii.svg",
+      "size": 100
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "name": "ELM327 OBDII (BLE UART)",
+  "description": "ELM327 clones that speak ASCII over service FFF0 (notify FFF1, write FFF2). Advertises as OBDII with UUID 4353, or as OBDII / OBD BLE with UUID FFF0. Usually no pairing over BLE.",
+  "manifest_version": 1,
+  "version": 1,
+  "author" : "BLESPloit",
+  "notes": "Two advertisement families, one UART. CEVA BT 4.0 (A2:2A:19:05:00:00): name OBDII, incomplete UUID 4353, flags 0x02 in the advertising data and again in the scan response. FFF0 is not advertised. FFF1 is notify only. Device Information is the stock CEVA block (manufacturer CEVA, model BT 4.0, serial 12x07x2012). 66:1E modules: name OBDII or OBD BLE, appearance 0x0240, TX power 0, complete UUID FFF0. FFF1 is read+notify, FFF2 is write and write-without-response, and GAP/GATT are joined by TX Power and Battery. There is no Device Information service. Classic SPP is a different radio and does require pairing. Probe ELM327 sends ATI, ATE0, ATRV (adapter voltage on OBD pin 16, no ECU), then 0100 (mode 01 PID 00). Each command is logged as it is sent and as each reply arrives. NO DATA, UNABLE TO CONNECT, or a 0100 reply that stops at SEARCHING still means the UART answered: the dongle is up, just the control unit is not. Ignition has to be on; some cars also need the engine running. A finished probe points at Car Scanner for further tests. The simulator GATT is the CEVA table. Advertisements use public_hardware so ESP32 sends a public address. vars.advertised_service 4353 (default) or fff0 selects the advertisement; for fff0, vars.gap_name is OBDII or OBD BLE. The 0100 reply is a fixed bitmap. ATZ resets the simulator; the probe uses it only when ATI is silent.",
+  "source_url": "https://www.carscanner.info/choosing-obdii-adapter/",
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "vars": "vars.json",
+  "vars_fields": "vars_fields.json",
+  "assets": {
+    "icon": "assets/obdii.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.ovz.carscanner",
+      "version_note": "Select Bluetooth LE (4.0+). Do not pair this adapter in system Bluetooth settings."
+    },
+    "apple": {
+      "url": "https://apps.apple.com/us/app/car-scanner-elm-obd2/id1259933623"
+    }
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "device_name_regex": ["(?i)^OBDII$", "(?i)^OBD BLE$"],
+        "service_uuid_16": ["4353", "fff0"]
+      }
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "probe_elm",
+          "title": "Probe ELM327",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/probe_elm.lua",
+          "match": {
+            "fingerprint": {
+              "protocol": ["elm327_obdii_ble"]
+            },
+            "require_discovered_services": false
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic.lua"
+    }
+  }
+}

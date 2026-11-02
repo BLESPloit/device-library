@@ -1,0 +1,10 @@
+{
+  "identity": "ELM327 v1.5",
+  "pid0100": "BE3FA813",
+  "echo": true,
+  "spaces": true,
+  "linefeeds": false,
+  "advertised_service": "4353",
+  "gap_name": "OBDII",
+  "voltage": "12.6V"
+}

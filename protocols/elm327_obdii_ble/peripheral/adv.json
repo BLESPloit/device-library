@@ -1,0 +1,36 @@
+{
+  "profiles": [
+    {
+      "id": "adv1",
+      "enabled": true,
+      "legacy_pdu": true,
+      "connectable": true,
+      "scannable": true,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": 127,
+      "adv_interval_ms": 250,
+      "addr_type": "public_hardware",
+      "bd_addr": "A2:2A:19:05:00:00",
+      "adv_data_hex": "0201020302534306094f42444949",
+      "scan_rsp_hex": "020102"
+    },
+    {
+      "id": "adv_fff0",
+      "enabled": false,
+      "legacy_pdu": true,
+      "connectable": true,
+      "scannable": true,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": 127,
+      "adv_interval_ms": 250,
+      "addr_type": "public_hardware",
+      "bd_addr": "66:1E:11:00:17:00",
+      "adv_data_hex": "03194002020102020a000303f0ff06094f42444949",
+      "scan_rsp_hex": ""
+    }
+  ]
+}

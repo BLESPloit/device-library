@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Derived from Arcticons "torque" by Donnnno
+  https://github.com/Arcticons-Team/Arcticons
+  License: CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+  Lettering removed. Body, top bar, and left bar filled.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <path fill="#E09B00" stroke="#1b2838" stroke-width="1.25" stroke-linejoin="round" d="M36.773 25.063h2.3v-3.26h2.11l2.32 7.2l-2.33 7.2h-2.1v-3.14h-2.3l.02 2.05a1.58 1.58 0 0 1-1.58 1.58h-13.56a1.17 1.17 0 0 1-.66-.2l-4.99-3.47h-4.21a1.79 1.79 0 0 1-1.79-1.79v-.041h0v-9.4a1.8 1.8 0 0 1 1.79-1.77h1.4l2.66-2.26a1.13 1.13 0 0 1 .73-.27h15.26a1.59 1.59 0 0 1 1.58 1.53v2.15h1.79a1.59 1.59 0 0 1 1.58 1.59h0Z"/>
+  <path fill="#E09B00" stroke="#1b2838" stroke-width="1.25" stroke-linejoin="round" d="M18.143 14.703a1.7 1.7 0 0 1 0-3.39h12a1.7 1.7 0 1 1 0 3.39Z"/>
+  <path fill="#E09B00" stroke="#1b2838" stroke-width="1.25" stroke-linejoin="round" d="M7.893 31.573a1.7 1.7 0 0 1-3.39 0h0v-10.17a1.7 1.7 0 1 1 3.39 0Z"/>
+  <path fill="none" stroke="#1b2838" stroke-width="1.25" stroke-linecap="round" d="M7.893 26.483h2.109M24.142 17.462v-2.759"/>
+</svg>

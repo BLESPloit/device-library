@@ -1,0 +1,42 @@
+{
+  "SVC_UART": {
+    "type": "service",
+    "uuid": "fff0",
+    "name": "ELM327 UART",
+    "description": "Vendor transparent serial port. Not a Bluetooth SIG service. CEVA ads list 4353 instead; the 66:1E modules advertise this UUID."
+  },
+  "CHR_NOTIFY": {
+    "type": "characteristic",
+    "uuid": "fff1",
+    "name": "UART from adapter",
+    "description": "Notify only. ASCII ELM327 replies. Lines end with CR. The prompt is '>'. Subscribe before writing FFF2."
+  },
+  "CHR_WRITE": {
+    "type": "characteristic",
+    "uuid": "fff2",
+    "name": "UART to adapter",
+    "description": "Write and write without response. One ASCII ELM327 command plus CR (0x0D).",
+    "write_presets": [
+      {
+        "label": "ATI identity",
+        "hex": "4154490d"
+      },
+      {
+        "label": "ATE0 echo off",
+        "hex": "415445300d"
+      },
+      {
+        "label": "ATRV voltage",
+        "hex": "415452560d"
+      },
+      {
+        "label": "0100 supported PIDs",
+        "hex": "303130300d"
+      },
+      {
+        "label": "ATZ reset",
+        "hex": "41545a0d"
+      }
+    ]
+  }
+}
