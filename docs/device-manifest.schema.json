@@ -66,6 +66,10 @@
             "entry": { "type": "string" },
             "interface": { "type": "string" },
             "advertisement": { "type": "string" },
+            "show_adv_address": {
+              "type": "boolean",
+              "description": "Show the simulation advertising address on ESP32 display. Absent or true shows it. false hides it. The phone simulation shows the address on its own and ignores this flag."
+            },
             "observe": {
               "description": "true matches every legacy advertisement and subscribes after advertising starts. An object seeds the filter from scan_conditions (company_id, manufacturer_data_prefix_hex, service_data_uuid_16, device_name_contains) before the script runs. Absent or false does not subscribe. Android and iOS Local Sim call on_adv. Phone reports are not a separate scan response. On iOS, addr is six octets from the peripheral UUID, not the Bluetooth address.",
               "oneOf": [
