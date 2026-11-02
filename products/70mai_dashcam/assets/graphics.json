@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "icon",
+      "type": "svg",
+      "file": "icon.svg",
+      "size": 80,
+      "align": "center"
+    }
+  ]
+}

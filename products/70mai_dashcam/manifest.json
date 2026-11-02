@@ -1,0 +1,35 @@
+{
+  "name": "70mai dash cam",
+  "description": "Identifies 70mai dash cams from the 0x0909 advertisement and shows whether the camera is registered. A peripheral advertises one sample camera from vars.json.",
+  "author": "BLESPloit",
+  "manifest_version": 1,
+  "version": 1,
+  "vars": "vars.json",
+  "notes": "Company id 0x0909 (decimal 2313). Payload is little-endian: uint32 device channel, frame-control byte, version nibble, optional capability byte, optional MAC stored reversed. device channel / 1000000 is the product type and / 1000 is the module. Frame-control bit 1 is the registered flag. The scan icon uses orange when that bit is clear and grey when it is set. Sample modules: 42002 M500, 47002 X200, 69002 A510, 65001 A810, 87002 T800, 109002 T400. Default vars.json matches the M500 capture. Set registered to true to test the grey icon and the registered hint. The radio address stays the one in peripheral/adv.json; vars.bd_addr is the address embedded in the manufacturer payload. Registration is an account bind in the official app and normally needs a confirmation on the camera.",
+  "assets": {
+    "icon": "assets/icon.svg",
+    "icon_tint": "#ea4f16",
+    "graphics": "assets/graphics.json"
+  },
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.banyac.midrive.app.intl",
+      "version_note": "70mai (com.banyac.midrive.app.intl). Use this app to register an unregistered dash cam."
+    }
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "company_id": "0909",
+        "device_name_regex": "^70mai_"
+      }
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic.lua",
+      "interface": "peripheral/interface.json"
+    }
+  }
+}

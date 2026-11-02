@@ -1,0 +1,18 @@
+{
+  "profiles": [
+    {
+      "id": "main",
+      "enabled": true,
+      "legacy_pdu": true,
+      "connectable": true,
+      "scannable": true,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "adv_interval_ms": 250,
+      "addr_type": "random_generated",
+      "adv_data_hex": "0201050f0937306d61695f7430325f33643264",
+      "scan_rsp_hex": "1cff59002d3d1ef8b5c9001e6011201e300a2317300b2310300c5a0000"
+    }
+  ]
+}

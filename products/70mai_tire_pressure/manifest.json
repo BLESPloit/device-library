@@ -1,0 +1,34 @@
+{
+  "name": "70mai tire pressure",
+  "description": "Decodes 70mai tire-pressure receiver advertisements (t01 and t02) and shows the four wheel readings. A peripheral advertises one sample receiver from vars.json.",
+  "author": "BLESPloit",
+  "manifest_version": 1,
+  "version": 1,
+  "vars": "vars.json",
+  "notes": "Company id 0x0059 (Nordic). After the reversed receiver address the payload is four 4-byte wheel records (left front, right front, right rear, left rear), the receiver battery, a flags nibble, and a connection bit. Pressure is tenths of a bar. Temperature is a signed Celsius byte. Wheel status bits are status, fault, sensor battery, invalid, and a mode nibble. The next byte is position plus high/low pressure, high/low temperature, and leak. t01 is the Tire Pressure Monitor and t02 is the Tire Pressure Monitoring System Lite. The profile uses a generated random address. on_startup reads it and uses the last two octets as the name suffix and the reversed address in the manufacturer payload. The simulator shows that address above the icon. The scan icon is orange while the receiver is advertising and grey when the connection bit is set. Live readings are in the advertisement. First registration in the official app may ask for the receiver power button.",
+  "assets": {
+    "icon": "assets/icon.svg",
+    "icon_tint": "#ea4f16",
+    "graphics": "assets/graphics.json"
+  },
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.banyac.midrive.app.intl"
+    }
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "company_id": "0059",
+        "device_name_regex": "^70mai_t0[12]_"
+      }
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic.lua",
+      "interface": "peripheral/interface.json"
+    }
+  }
+}

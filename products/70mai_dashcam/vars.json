@@ -1,0 +1,18 @@
+{
+  "model": "M500",
+  "name_suffix": "80da",
+  "device_channel": 42002001,
+  "bd_addr": "44:27:F3:70:A9:AC",
+  "registered": false,
+  "connected": false,
+  "encrypted": false,
+  "auth_mode": 0,
+  "frame_version": 1,
+  "with_mac": true,
+  "with_capability": true,
+  "connectable": true,
+  "centralable": false,
+  "encryptable": false,
+  "bindable": true,
+  "tx_power": 0
+}
