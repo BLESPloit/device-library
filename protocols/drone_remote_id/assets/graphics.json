@@ -1,0 +1,21 @@
+{
+  "elements": [
+    {
+      "id": "drone_mark",
+      "type": "svg",
+      "file": "drone.svg",
+      "size": 80,
+      "align": "center",
+      "y": 10
+    },
+    {
+      "id": "broadcast_mode",
+      "type": "text",
+      "text": "Bluetooth 4",
+      "align": "bottom_center",
+      "y": -12,
+      "size": 10,
+      "color": "333333"
+    }
+  ]
+}

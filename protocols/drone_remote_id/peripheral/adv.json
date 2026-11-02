@@ -1,0 +1,32 @@
+{
+  "profiles": [
+    {
+      "id": "legacy",
+      "enabled": true,
+      "legacy_pdu": true,
+      "connectable": false,
+      "scannable": false,
+      "channel_map": 7,
+      "primary_phy": "1M",
+      "secondary_phy": "1M",
+      "tx_power": 127,
+      "adv_interval_ms": 100,
+      "addr_type": "random_generated",
+      "adv_data_hex": "1e16faff0d000212544553542d4f4449442d30303031000000000000000000"
+    },
+    {
+      "id": "ble5",
+      "enabled": false,
+      "legacy_pdu": false,
+      "connectable": false,
+      "scannable": false,
+      "channel_map": 7,
+      "primary_phy": "coded",
+      "secondary_phy": "coded",
+      "tx_power": 127,
+      "adv_interval_ms": 200,
+      "addr_type": "random_generated",
+      "adv_data_hex": "5316faff0d00f219030212544553542d4f4449442d3030303100000000000000000012205a2201b49d211f2f36860cbc08c0080c080000ffff0000420190a2211f402d860c010000ffffffff00b008ffffffff00"
+    }
+  ]
+}

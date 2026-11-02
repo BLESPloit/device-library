@@ -1,0 +1,35 @@
+{
+  "name": "Drone Remote ID",
+  "description": "Bluetooth Remote ID advertisements from ASTM F3411 and ASD-STAN EN 4709-002 (required by non-recreational or > 250g drones)",
+  "author": "BLESPloit",
+  "manifest_version": 1,
+  "version": 1,
+  "notes": "Legacy and extended BLE Remote ID: GAP AD type 0x16, UUID 0xFFFA (ASTM Remote ID), application code 0x0D, an 8-bit message counter, then one 25-byte Drone Remote ID message. vars.adv_mode legacy rotates Basic ID, Location, and System as separate Bluetooth 4 advertisements (a pack does not fit in 31 bytes). vars.adv_mode ble5 sends those three messages in one Bluetooth 5 extended advertisement as a message pack (type 0xF) on LE Coded PHY (long range). Both profiles use a static random address generated when the profile starts. The first physical button toggles between those two broadcasts. Protocol version 0 is ASTM F3411-19, version 1 is ASD-STAN prEN 4709-002 P1, version 2 is ASTM F3411-22a. Based on https://github.com/opendroneid/opendroneid-core-c",
+  "model_url": "https://www.astm.org/f3411-22a.html",
+  "vars": "vars.json",
+  "vars_fields": "vars_fields.json",
+  "assets": {
+    "icon": "assets/drone.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=org.opendroneid.android_osm",
+      "version_note": "Reference OpenDroneID receiver"
+    }
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 45,
+      "scan_conditions": {
+        "service_data_uuid_16": "fffa"
+      }
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/drone_remote_id_peripheral.lua",
+      "interface": "peripheral/interface.json"
+    }
+  }
+}

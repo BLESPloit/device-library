@@ -1,0 +1,23 @@
+{
+  "adv_mode": "legacy",
+  "legacy_interval_s": 0.333,
+  "proto_version": 2,
+  "msg_counter": 0,
+  "uas_id": "TEST-ODID-0001",
+  "id_type": 1,
+  "ua_type": 2,
+  "status": 2,
+  "latitude": 52.2296756,
+  "longitude": 21.0122287,
+  "altitude_geo_m": 120.0,
+  "altitude_baro_m": 118.0,
+  "height_m": 30.0,
+  "height_agl": false,
+  "direction_deg": 90,
+  "speed_h_mps": 8.5,
+  "speed_v_mps": 0.5,
+  "operator_location_type": 1,
+  "operator_latitude": 52.2298,
+  "operator_longitude": 21.012,
+  "operator_altitude_m": 112.0
+}

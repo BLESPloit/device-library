@@ -1,0 +1,107 @@
+{
+  "adv_mode": {
+    "label": "Advertisement",
+    "group": "Advertisement",
+    "options": [
+      { "value": "legacy", "label": "Bluetooth 4, rotating messages" },
+      { "value": "ble5", "label": "Bluetooth 5, one message pack" }
+    ]
+  },
+  "legacy_interval_s": {
+    "label": "Rotation interval",
+    "group": "Advertisement",
+    "unit": "s",
+    "min": 0.1,
+    "max": 3,
+    "hint": "How long each Basic ID, Location, and System message stays on the air.",
+    "show_if": { "adv_mode": "legacy" }
+  },
+  "proto_version": {
+    "label": "Protocol",
+    "group": "Advertisement",
+    "options": [
+      { "value": 0, "label": "ASTM F3411-19" },
+      { "value": 1, "label": "EN 4709-002 P1" },
+      { "value": 2, "label": "ASTM F3411-22a" }
+    ]
+  },
+  "msg_counter": {
+    "label": "Message counter",
+    "group": "Advertisement",
+    "hint": "8-bit counter. The sim increments it on every legacy message."
+  },
+  "uas_id": {
+    "label": "UAS id",
+    "group": "Identity",
+    "hint": "Up to 20 characters. Serial number or CAA registration id."
+  },
+  "id_type": {
+    "label": "ID type",
+    "group": "Identity",
+    "options": [
+      { "value": 0, "label": "None" },
+      { "value": 1, "label": "Serial number (ANSI/CTA-2063-A)" },
+      { "value": 2, "label": "CAA registration ID" },
+      { "value": 3, "label": "UTM assigned UUID" },
+      { "value": 4, "label": "Specific session ID" }
+    ]
+  },
+  "ua_type": {
+    "label": "UA type",
+    "group": "Identity",
+    "options": [
+      { "value": 0, "label": "None" },
+      { "value": 1, "label": "Aeroplane" },
+      { "value": 2, "label": "Helicopter or multirotor" },
+      { "value": 3, "label": "Gyroplane" },
+      { "value": 4, "label": "Hybrid lift" },
+      { "value": 5, "label": "Ornithopter" },
+      { "value": 6, "label": "Glider" },
+      { "value": 7, "label": "Kite" },
+      { "value": 8, "label": "Free balloon" },
+      { "value": 9, "label": "Captive balloon" },
+      { "value": 10, "label": "Airship" },
+      { "value": 11, "label": "Free fall / parachute" },
+      { "value": 12, "label": "Rocket" },
+      { "value": 13, "label": "Tethered powered aircraft" },
+      { "value": 14, "label": "Ground obstacle" },
+      { "value": 15, "label": "Other" }
+    ]
+  },
+  "status": {
+    "label": "Status",
+    "group": "Location",
+    "options": [
+      { "value": 0, "label": "Undeclared" },
+      { "value": 1, "label": "Ground" },
+      { "value": 2, "label": "Airborne" },
+      { "value": 3, "label": "Emergency" },
+      { "value": 4, "label": "Remote ID system failure" }
+    ]
+  },
+  "latitude": { "label": "Latitude", "group": "Location", "unit": "°" },
+  "longitude": { "label": "Longitude", "group": "Location", "unit": "°" },
+  "altitude_geo_m": { "label": "Geodetic altitude", "group": "Location", "unit": "m" },
+  "altitude_baro_m": { "label": "Pressure altitude", "group": "Location", "unit": "m" },
+  "height_m": { "label": "Height", "group": "Location", "unit": "m" },
+  "height_agl": {
+    "label": "Height is above ground",
+    "group": "Location",
+    "hint": "Off means the height is above the takeoff point."
+  },
+  "direction_deg": { "label": "Direction", "group": "Location", "unit": "°", "min": 0, "max": 359 },
+  "speed_h_mps": { "label": "Horizontal speed", "group": "Location", "unit": "m/s" },
+  "speed_v_mps": { "label": "Vertical speed", "group": "Location", "unit": "m/s" },
+  "operator_location_type": {
+    "label": "Operator location",
+    "group": "Operator",
+    "options": [
+      { "value": 0, "label": "Takeoff" },
+      { "value": 1, "label": "Live GNSS" },
+      { "value": 2, "label": "Fixed" }
+    ]
+  },
+  "operator_latitude": { "label": "Operator latitude", "group": "Operator", "unit": "°" },
+  "operator_longitude": { "label": "Operator longitude", "group": "Operator", "unit": "°" },
+  "operator_altitude_m": { "label": "Operator altitude", "group": "Operator", "unit": "m" }
+}
