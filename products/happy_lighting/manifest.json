@@ -4,7 +4,7 @@
   "author": "Slawomir Jasek",
   "author_url": "https://blesplo.it",
   "model_url": "https://happylightingapp.com/",
-  "version": 2,
+  "version": 3,
   "notes": "Confirmed working with 'Triones' lightbulb. Other device names extracted from the app (unconfirmed). The device seems to have a PIN authentication, but it is not enforced nor visible anywhere the user interface. The application sends hardcoded '1234', but the device accepts commands without it as well. ",
   "apps": {
     "google": {
@@ -48,6 +48,11 @@
           "entry": "central/dynamic_central.lua",
           "menu": "central/menu.json",
           "match": {
+            "fingerprint": {
+              "protocol": [
+                "happy_lighting"
+              ]
+            },
             "services": [
               "ffd5"
             ]
