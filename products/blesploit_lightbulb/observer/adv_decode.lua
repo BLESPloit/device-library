@@ -49,6 +49,7 @@ function parse(input)
     id = "blesploit_light",
     display_name = "Blesploit Light",
     attributes = {
+      protocol = "blesploit_light",
       state = state_str,
 --      r = r,
 --      g = g,

@@ -25,6 +25,24 @@
                 { "id": "set_color(00FF00)",  "label": "Green"    },
                 { "id": "set_color(0000FF)", "label": "Blue"   },
                 { "id": "set_color(DBDB48)", "label": "Yellow"   },
+                {
+                    "id": "set_color",
+                    "label": "Custom color…",
+                    "input": {
+                        "title": "Set color",
+                        "fields": [
+                            {
+                                "key": "color",
+                                "label": "RGB hex",
+                                "keyboard": "hex",
+                                "default": "FF0000",
+                                "placeholder": "RRGGBB",
+                                "max_length": 6,
+                                "required": true
+                            }
+                        ]
+                    }
+                },
                 { "id": "pop_menu", "label":  "Back" }
             ]
         }

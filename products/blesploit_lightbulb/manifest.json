@@ -1,9 +1,9 @@
 {
   "name": "BLESPlo.it Light",
-  "description": "Example lightbulb: on/off (notify), RGB color, optional secret-challenge, and optional disconnect if no on/off switch write in time.",
+  "description": "Example lightbulb: on/off (notify), RGB color, a quick action (toggle, optional static or random color), optional secret-challenge, and optional disconnect if no on/off switch write in time.",
   "author": "Slawomir Jasek",
   "author_url": "https://blesplo.it",
-  "version": 7,
+  "version": 10,
   "notes": "vars.device_name is the GAP Device Name and the advertised Complete Local Name (default BLESPlo.it light, 1–29 bytes). A write to Device Name (2A00) updates it and persists with vars_save. Set vars.disconnect_without_switch to true to drop the central if no on/off (CHR_ONOFF) write arrives within vars.disconnect_without_switch_seconds (default 3) of connect.",
   "vars": "vars.json",
   "assets": {
@@ -29,6 +29,7 @@
         {
           "id": "main",
           "title": "BLESPlo.it Light",
+          "hint": "On, off, color presets, a custom color, and the current color.",
           "kind": "full_menu",
           "entry": "central/dynamic_central.lua",
           "menu": "central/menu.json",
@@ -37,6 +38,22 @@
               "a701cc65-e486-40ba-5d24-99601dc38fd7",
               "a702cc65-e486-40ba-5d24-99601dc38fd7"
             ]
+          }
+        },
+        {
+          "id": "quick_toggle",
+          "title": "Toggle light",
+          "hint": "Reads the on/off state and writes the opposite.",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/quick_toggle.lua",
+          "auto_run_on_connect": false,
+          "match": {
+            "fingerprint": {
+              "protocol": ["blesploit_light"]
+            },
+            "services": ["a700cc65-e486-40ba-5d24-99601dc38fd7"],
+            "require_discovered_services": false
           }
         }
       ]
