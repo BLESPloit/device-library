@@ -100,6 +100,7 @@ end
 
 local ICON_AP = "assets/aruba_ap.svg"
 local ICON_IBEACON = "assets/aruba_ibeacon.svg"
+local HINT = "Download the official Aruba Utilities app and continue in it: scan, pair, enter the valid credentials."
 
 local function build_entry(attrs, display_name, display_info, opts)
   opts = opts or {}
@@ -108,6 +109,7 @@ local function build_entry(attrs, display_name, display_info, opts)
     {
       id = ENTRY_ID,
       display_name = display_name,
+      hint = HINT,
       attributes = attrs,
     },
   }
