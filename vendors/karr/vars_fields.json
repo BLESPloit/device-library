@@ -1,0 +1,9 @@
+{
+  "auth_key_encoding": {
+    "label": "Auth key encoding",
+    "options": [
+      { "value": "base64", "label": "Base64" },
+      { "value": "hex", "label": "Hex" }
+    ]
+  }
+}

@@ -3,7 +3,7 @@
   "description": "KARR / Quantam / Gridtraq vehicle-security units (QT/DR): advertisement decode from real old-format MSD captures, Transparent UART peripheral sim, and central lock/unlock menu.",
   "author": "BLESPloit device library",
   "manifest_version": 1,
-  "version": 7,
+  "version": 8,
   "notes": "Based on KARR Security (com.whgos.swdscustomerapp) and real field captures. Real units use legacy ADV with Complete Local Name + Flags + 6-byte old MSD (not 26-byte extended). GATT profile cloned from 60:8A:10:26:E9:B0 capture (ISSC Transparent UART 49535343-FE7D-… / 49535343-1E4D-… plus unused ISSC airpatch/EEPROM services). Observer requires QT/DR name or company 5451/5244; recovers GAP name from raw ADV when device_name is empty (fixes icon-only empty decode on peripheral sim). Peripheral sim: QtProtocol 0xAA auth + lock/unlock; updates armed bit in 6-byte MSD and name from BD addr (QT + last 4 octets). Central quick_auth uses vars.auth_key (Base64/hex), vars.auth_mode (OldHash), vars.serial; 8-byte challenge→OldHash, 32-byte→AES-128-CBC NewHash.",
   "apps": {
     "direct": [
@@ -16,6 +16,7 @@
   "profile": "ble.json",
   "uuids": "uuids.json",
   "vars": "vars.json",
+  "vars_fields": "vars_fields.json",
   "assets": {
     "icon": "assets/KARR.svg",
     "graphics": "assets/graphics.json"
@@ -44,6 +45,7 @@
         {
           "id": "quick_auth",
           "title": "Auth with key",
+          "hint": "Authenticates with the key from vars. Does not lock or unlock.",
           "kind": "quick_action",
           "priority": 60,
           "entry": "central/quick_auth.lua",
@@ -61,6 +63,7 @@
         {
           "id": "main",
           "title": "KARR",
+          "hint": "Lock, unlock, and arm after authentication.",
           "kind": "full_menu",
           "priority": 55,
           "entry": "central/main.lua",
