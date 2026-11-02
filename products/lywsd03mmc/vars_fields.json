@@ -1,0 +1,12 @@
+{
+  "model": {
+    "label": "Model",
+    "hint": "Selects the advertisement and notify layout.",
+    "options": [
+      { "value": "MJ_HT_V1", "label": "MJ_HT_V1 (V1 advertisement)" },
+      { "value": "LYWSD03MMC", "label": "LYWSD03MMC (V2)" },
+      { "value": "LYWSD02", "label": "LYWSD02 (V3)" },
+      { "value": "MHO-C401", "label": "MHO-C401 (V4)" }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "Xiaomi Mijia thermometers",
+  "description": "Mijia Reader sensor family: MJ_HT_V1 advertisement objects, and LYWSD03MMC, LYWSD02, and MHO-C401 GATT readings.",
+  "manifest_version": 1,
+  "version": 1,
+  "author": "BLESPloit",
+  "notes": "All four models advertise service data 0xFE95 and are selected by exact GAP name. V1 MJ_HT_V1 (usual product id 0x01AA) is not connected: the app reads one object at byte offset 11 — 0x1004 temperature, 0x1006 humidity, 0x100A battery, or 0x100D both — with values in units of 0.1. V2 LYWSD03MMC (0x055B; frame 0x5830, capability 0x08 or 0x28 plus 01 00) and V4 MHO-C401 (0x0387) subscribe to ebe0ccc1-7a0a-4b0c-8a1a-6ff2997da3a6: int16 LE temperature in 0.01°C, uint8 humidity, uint16 LE battery millivolts, percent = mV * 100 / 3100. V3 LYWSD02 (0x045B) uses that notification for temperature and humidity only; battery percent is the first byte of ebe0ccc4-… and the clock is unix seconds on ebe0ccb7-…. Clock write is not simulated. Set vars.model to MJ_HT_V1, LYWSD03MMC (default), LYWSD02, or MHO-C401 and restart the peripheral. Frame-control bit 0x08 means the advertisement object is sealed with a Mi Home bind key; the observer records that as mi_home_bound and keeps the scan row as Mi Sensor, because the GATT reading stays in the clear.",
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "vars": "vars.json",
+  "vars_fields": "vars_fields.json",
+  "assets": {
+    "icon": "assets/thermometer.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "device_name_regex": "^(MJ_HT_V1|LYWSD03MMC|LYWSD02|MHO-C401)$",
+        "service_data_uuid_16": "fe95"
+      }
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "read_sensors",
+          "title": "Read sensors",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/quick_read_sensors.lua",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["mijia_thermometer"],
+              "connectable": ["true"]
+            },
+            "services": ["ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6"],
+            "require_discovered_services": true
+          },
+          "auto_run_on_connect": false
+        }
+      ]
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic.lua"
+    }
+  }
+}

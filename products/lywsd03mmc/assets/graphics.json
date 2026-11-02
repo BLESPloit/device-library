@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "thermometer",
+      "type": "svg",
+      "file": "thermometer.svg",
+      "size": 80,
+      "align": "center"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "model": "LYWSD03MMC",
+  "device_name": "LYWSD03MMC",
+  "temperature_c": 23.56,
+  "humidity_percent": 45,
+  "battery_mv": 3000,
+  "frame_counter": 1
+}

@@ -1,0 +1,46 @@
+{
+  "SVC_MIJIA": {
+    "type": "service",
+    "uuid": "ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6",
+    "name": "Mijia sensor",
+    "description": "Telink/Xiaomi custom service used by LYWSD03MMC, LYWSD02, and MHO-C401"
+  },
+  "CHR_SENSOR": {
+    "type": "characteristic",
+    "uuid": "ebe0ccc1-7a0a-4b0c-8a1a-6ff2997da3a6",
+    "name": "Temperature, humidity, battery",
+    "description": "Read and notify. Mijia Reader subscribes (CCCD notifications) and takes the first payload: int16 LE temperature in 0.01°C, uint8 humidity percent, uint16 LE battery millivolts as the last two bytes.",
+    "structure": [
+      {
+        "field": "Temperature",
+        "type": "int16",
+        "size": 2,
+        "description": "Little-endian, unit 0.01°C. Negative values are two's complement."
+      },
+      {
+        "field": "Humidity",
+        "type": "uint8",
+        "size": 1,
+        "description": "Relative humidity in percent"
+      },
+      {
+        "field": "Battery",
+        "type": "uint16",
+        "size": 2,
+        "description": "Little-endian millivolts. V2 and V4 percent is mV * 100 / 3100. V3 ignores this field."
+      }
+    ]
+  },
+  "CHR_BATTERY": {
+    "type": "characteristic",
+    "uuid": "ebe0ccc4-7a0a-4b0c-8a1a-6ff2997da3a6",
+    "name": "Battery percent",
+    "description": "V3 LYWSD02 only. First byte is battery percent. V2 and V4 take percent from the sensor notification instead."
+  },
+  "CHR_TIME": {
+    "type": "characteristic",
+    "uuid": "ebe0ccb7-7a0a-4b0c-8a1a-6ff2997da3a6",
+    "name": "Clock",
+    "description": "V3 LYWSD02 read: unix time as int32 little-endian seconds, shown as HH:mm. Writing the clock is not part of this entry."
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "services": [
+    {
+      "uuid": "1800",
+      "type_uuid": "2800",
+      "start_handle": 1,
+      "end_handle": 3,
+      "characteristics": [
+        {
+          "handle": 2,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3,
+            "uuid": "2a00",
+            "data": "4c5957534430334d4d43"
+          },
+          "descriptors": [],
+          "dynamic": {
+            "on_read": "on_read_name"
+          }
+        }
+      ]
+    },
+    {
+      "uuid": "ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6",
+      "type_uuid": "2800",
+      "start_handle": 4,
+      "end_handle": 11,
+      "characteristics": [
+        {
+          "handle": 5,
+          "uuid": "2803",
+          "properties": 18,
+          "security": 0,
+          "value": {
+            "handle": 6,
+            "uuid": "ebe0ccc1-7a0a-4b0c-8a1a-6ff2997da3a6",
+            "data": "34092db80b"
+          },
+          "descriptors": [
+            {
+              "handle": 7,
+              "uuid": "2902",
+              "data": ""
+            }
+          ],
+          "dynamic": {
+            "on_read": "on_read_sensor"
+          }
+        },
+        {
+          "handle": 8,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 9,
+            "uuid": "ebe0ccc4-7a0a-4b0c-8a1a-6ff2997da3a6",
+            "data": "60"
+          },
+          "descriptors": [],
+          "dynamic": {
+            "on_read": "on_read_battery"
+          }
+        },
+        {
+          "handle": 10,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 11,
+            "uuid": "ebe0ccb7-7a0a-4b0c-8a1a-6ff2997da3a6",
+            "data": ""
+          },
+          "descriptors": [],
+          "dynamic": {
+            "on_read": "on_read_time"
+          }
+        }
+      ]
+    }
+  ],
+  "devinfo": {
+    "adv_data": "0201060f1695fe30585b0501035b0038c1a4080b094c5957534430334d4d43",
+    "bd_addr": "A4:C1:38:00:5B:03",
+    "addr_type": 0,
+    "scan_rsp": "0b094c5957534430334d4d43",
+    "pdu_type": "ADV_IND"
+  }
+}
