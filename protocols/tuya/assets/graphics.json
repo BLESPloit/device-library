@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "tuya_logo",
+      "type": "svg",
+      "file": "tuya.svg",
+      "size": 96,
+      "align": "center"
+    }
+  ]
+}

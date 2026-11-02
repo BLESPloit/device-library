@@ -1,0 +1,59 @@
+{
+  "name": "Tuya BLE",
+  "description": "Tuya / Smart Life BLE fingerprint (bound/unbound, connectivity, ...) and simple simulator.",
+  "author": "BLESPloit",
+  "manifest_version": 1,
+  "version": 1,
+  "notes": "Observer parses 0x07D0 manufacturer data + 0xA201 service data (bound bit, protocol version, UUID vs product key). Unbound ads are pairing mode: grey icon when bound, Tuya-red when unbound. Product name/icon come from the Tuya cloud, not the advertisement - unbound hint points at the Tuya app (check the device model/details, bind to your account). GATT identity confirms 0xFD50 vs legacy 0x1910 after connect; plaintext 0x0000 device-info is ignored on real modules (needs a cloud auth-key session). Pairing and DP control are out of scope. Peripheral sim is an unbound TY (legacy ADV_IND: flags+0xA201 UUID+service data; scan response: name TY + 0x07D0 MSD) that answers unencrypted 0x0000.",
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.tuya.smart"
+    },
+    "apple": {
+      "url": "https://apps.apple.com/us/app/tuya-smart-life-smart-living/id1034649547"
+    }
+  },
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "vars": "vars.json",
+  "assets": {
+    "icon": "assets/tuya.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 45,
+      "scan_conditions": {
+        "one_of": [
+          { "company_id": "07D0" },
+          { "service_uuid_16": ["a201", "fd50"] },
+          { "service_data_uuid_16": ["a201", "fd50"] }
+        ]
+      }
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "gatt_identity",
+          "title": "Tuya GATT",
+          "kind": "gatt_identity",
+          "priority": 60,
+          "entry": "central/gatt_identity.lua",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["tuya"]
+            },
+            "services": ["fd50"],
+            "require_discovered_services": true
+          }
+        }
+      ]
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic.lua"
+    }
+  }
+}

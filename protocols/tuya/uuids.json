@@ -1,0 +1,61 @@
+{
+  "SVC_TUYA": {
+    "type": "service",
+    "uuid": "0000fd50-0000-1000-8000-00805f9b34fb",
+    "name": "Tuya BLE (0xFD50)",
+    "description": "Bluetooth SIG assigned Tuya service. Current ThingClips stack uses this for command write + notify. Indexes GATT identity."
+  },
+  "CHR_TUYA_WRITE": {
+    "type": "characteristic",
+    "uuid": "00000001-0000-1001-8001-00805f9b07d0",
+    "name": "Tuya Write",
+    "description": "App → device. Fragmented Tuya PDU (version nibble 2): varint index, first fragment also varint length + (version<<4), then flag + [IV] + AES-CBC body. Unencrypted device-info uses flag 0x00.",
+    "structure": [
+      {
+        "field": "Frag index",
+        "type": "uint8",
+        "size": 1,
+        "description": "LEB128 frame index; 0 starts a PDU"
+      },
+      {
+        "field": "Total length",
+        "type": "uint8",
+        "size": 1,
+        "description": "First fragment only; LEB128 length of the assembled outer PDU"
+      },
+      {
+        "field": "Version",
+        "type": "uint8",
+        "size": 1,
+        "description": "First fragment only; high nibble is protocol version (2 → 0x20)"
+      },
+      {
+        "field": "Outer PDU",
+        "type": "hex",
+        "description": "flag (1) + optional IV (16) + sn(4) ack(4) cmd(2) len(2) data CRC16-MODBUS(2)"
+      }
+    ]
+  },
+  "CHR_TUYA_NOTIFY": {
+    "type": "characteristic",
+    "uuid": "00000002-0000-1001-8001-00805f9b07d0",
+    "name": "Tuya Notify",
+    "description": "Device → app. Same fragmentation as CHR_TUYA_WRITE. Subscribe (CCCD 0x0100) before writing."
+  },
+  "SVC_TUYA_LEGACY": {
+    "type": "service",
+    "uuid": "00001910-0000-1000-8000-00805f9b34fb",
+    "name": "Tuya BLE legacy (0x1910)",
+    "description": "Older Tuya modules; write 0x2B11, notify 0x2B10. GATT identity treats this as layout 1910 when 0xFD50 is absent."
+  },
+  "CHR_TUYA_LEGACY_WRITE": {
+    "type": "characteristic",
+    "uuid": "00002b11-0000-1000-8000-00805f9b34fb",
+    "name": "Tuya Legacy Write (0x2B11)"
+  },
+  "CHR_TUYA_LEGACY_NOTIFY": {
+    "type": "characteristic",
+    "uuid": "00002b10-0000-1000-8000-00805f9b34fb",
+    "name": "Tuya Legacy Notify (0x2B10)"
+  }
+}
