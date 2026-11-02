@@ -1,0 +1,11 @@
+{
+  "buttons": [
+    {
+      "id": "toggle",
+      "name": "Power",
+      "physical_button_id": 0,
+      "physical_button_press": "single",
+      "lua": "toggle_power"
+    }
+  ]
+}

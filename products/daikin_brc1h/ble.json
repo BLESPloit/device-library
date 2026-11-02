@@ -1,0 +1,304 @@
+{
+  "services": [
+    {
+      "uuid": "1800",
+      "type_uuid": "2800",
+      "start_handle": 1,
+      "end_handle": 7,
+      "characteristics": [
+        {
+          "handle": 2,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 3,
+            "uuid": "2a00",
+            "data": "42524331482034363a44433a4544"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 4,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 5,
+            "uuid": "2a01",
+            "data": "0000"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 6,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 7,
+            "uuid": "2aa6",
+            "data": "00"
+          },
+          "descriptors": []
+        }
+      ]
+    },
+    {
+      "uuid": "1801",
+      "type_uuid": "2800",
+      "start_handle": 8,
+      "end_handle": 11,
+      "characteristics": [
+        {
+          "handle": 9,
+          "uuid": "2803",
+          "properties": 32,
+          "security": 0,
+          "value": {
+            "handle": 10,
+            "uuid": "2a05",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 11,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "180a",
+      "type_uuid": "2800",
+      "start_handle": 16,
+      "end_handle": 34,
+      "characteristics": [
+        {
+          "handle": 17,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 18,
+            "uuid": "2a29",
+            "data": "4461696b696e"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 19,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 20,
+            "uuid": "2a23",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 21,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 22,
+            "uuid": "2a24",
+            "data": "4252433148"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 23,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 24,
+            "uuid": "2a25",
+            "data": "343644434544"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 25,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 26,
+            "uuid": "2a26",
+            "data": "30322e30312e3030"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 27,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 28,
+            "uuid": "2a27",
+            "data": "31"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 29,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 30,
+            "uuid": "2a28",
+            "data": "352e3137"
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 31,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 32,
+            "uuid": "2a2a",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 33,
+          "uuid": "2803",
+          "properties": 2,
+          "security": 0,
+          "value": {
+            "handle": 34,
+            "uuid": "2a50",
+            "data": ""
+          },
+          "descriptors": []
+        }
+      ]
+    },
+    {
+      "uuid": "2141e100-213a-11e6-b67b-9e71128cae77",
+      "type_uuid": "2800",
+      "start_handle": 40,
+      "end_handle": 48,
+      "characteristics": [
+        {
+          "handle": 41,
+          "uuid": "2803",
+          "properties": 16,
+          "security": 0,
+          "value": {
+            "handle": 42,
+            "uuid": "2141e101-213a-11e6-b67b-9e71128cae77",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 43,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 44,
+          "uuid": "2803",
+          "properties": 4,
+          "security": 0,
+          "value": {
+            "handle": 45,
+            "uuid": "2141e102-213a-11e6-b67b-9e71128cae77",
+            "data": ""
+          },
+          "descriptors": []
+        },
+        {
+          "handle": 46,
+          "uuid": "2803",
+          "properties": 16,
+          "security": 0,
+          "value": {
+            "handle": 47,
+            "uuid": "2141e103-213a-11e6-b67b-9e71128cae77",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 48,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uuid": "2141e110-213a-11e6-b67b-9e71128cae77",
+      "type_uuid": "2800",
+      "start_handle": 64,
+      "end_handle": 69,
+      "characteristics": [
+        {
+          "handle": 65,
+          "uuid": "2803",
+          "properties": 16,
+          "security": 0,
+          "value": {
+            "handle": 66,
+            "uuid": "2141e111-213a-11e6-b67b-9e71128cae77",
+            "data": ""
+          },
+          "descriptors": [
+            {
+              "handle": 67,
+              "uuid": "2902",
+              "data": ""
+            }
+          ]
+        },
+        {
+          "handle": 68,
+          "uuid": "2803",
+          "properties": 4,
+          "security": 0,
+          "value": {
+            "handle": 69,
+            "uuid": "2141e112-213a-11e6-b67b-9e71128cae77",
+            "data": ""
+          },
+          "descriptors": [],
+          "dynamic": {
+            "on_write": "on_write_uart_tx"
+          }
+        }
+      ]
+    }
+  ],
+  "pairing_info": {
+    "response": {
+      "io_capability": 3,
+      "auth_req": 1,
+      "oob_data_flag": 0,
+      "max_key_size": 16,
+      "init_key_dist": 1,
+      "resp_key_dist": 1
+    },
+    "initiate_pairing_on_connection": false
+  },
+  "devinfo": {
+    "adv_data": "020106110677ae8c12719e7bb6e6113a2110e1412105ff9300e000",
+    "bd_addr": "E4:A6:34:46:DC:ED",
+    "addr_type": 0,
+    "pdu_type": "ADV_IND"
+  }
+}

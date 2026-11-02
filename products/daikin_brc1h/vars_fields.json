@@ -1,0 +1,12 @@
+{
+  "mode": {
+    "label": "Mode",
+    "options": [
+      { "value": 0, "label": "Fan" },
+      { "value": 1, "label": "Dry" },
+      { "value": 2, "label": "Auto" },
+      { "value": 3, "label": "Cool" },
+      { "value": 4, "label": "Heat" }
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "name": "Daikin Madoka BRC1H A/C",
+  "description": "Daikin Madoka BRC1H: UART-over-BLE thermostat protocol. Observer fingerprint, peripheral simulator, and central on/off/mode/setpoint control.",
+  "author": "BLESPloit",
+  "author_url": "https://blesplo.it",
+  "model_url": "https://www.daikin.eu/en_us/products/product.html/BRC1H52W.html",
+  "manifest_version": 1,
+  "version": 1,
+  "notes": "Advertises 128-bit UCG UART service 2141e110-… plus manufacturer 0x0093 / E000. Runtime control is Write Without Response on 2141e112 and Notify on 2141e111; PDUs are 20-byte UART chunks wrapping a 16-bit BE function ID (bit 14 = SET) and TLV parameters. Using that protocol requires pairing, including confirmation on the unit (peripheral sim does not require pairing). Bonding probe is GET 0x0000 (wire 00000000). UUG service 2141e100-… is the UEI BLE-module OTA channel.",
+  "apps": {
+    "google": {
+      "url": "https://play.google.com/store/apps/details?id=com.daikineurope.control.assistant"
+    }
+  },
+  "profile": "ble.json",
+  "uuids": "uuids.json",
+  "vars": "vars.json",
+  "vars_fields": "vars_fields.json",
+  "assets": {
+    "icon": "assets/madoka.svg",
+    "graphics": "assets/graphics.json"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 50,
+      "scan_conditions": {
+        "one_of": [
+          {
+            "company_id": "0093",
+            "manufacturer_data_prefix_hex": "e000"
+          },
+          {
+            "service_uuid_128": "2141e110-213a-11e6-b67b-9e71128cae77"
+          },
+          {
+            "device_name_regex": "^BRC1H"
+          }
+        ]
+      }
+    },
+    "peripheral": {
+      "advertisement": "peripheral/adv.json",
+      "entry": "peripheral/dynamic.lua",
+      "interface": "peripheral/interface.json"
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "get_status",
+          "title": "Get Madoka status",
+          "hint": "Reads power, mode, setpoint, and temperatures. Requires pairing.",
+          "kind": "quick_action",
+          "priority": 60,
+          "entry": "central/quick_get_status.lua",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["daikin_madoka"]
+            },
+            "services": ["2141e110-213a-11e6-b67b-9e71128cae77"]
+          },
+          "auto_run_on_connect": false
+        },
+        {
+          "id": "main",
+          "title": "Madoka BRC1H",
+          "hint": "Sets power, mode, and setpoint. Requires pairing.",
+          "kind": "full_menu",
+          "priority": 55,
+          "entry": "central/main.lua",
+          "menu": "central/menu.json",
+          "match": {
+            "fingerprint_or_services": true,
+            "fingerprint": {
+              "protocol": ["daikin_madoka"]
+            },
+            "services": ["2141e110-213a-11e6-b67b-9e71128cae77"]
+          }
+        }
+      ]
+    }
+  }
+}

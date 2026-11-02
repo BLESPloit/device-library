@@ -1,0 +1,74 @@
+{
+  "SVC_UART": {
+    "type": "service",
+    "uuid": "2141e110-213a-11e6-b67b-9e71128cae77",
+    "name": "UCG Module Service (UART)",
+    "description": "Madoka runtime control tunnel. Advertised in ADV 128-bit service list. App name: serviceUART."
+  },
+  "CHR_UART_RX": {
+    "type": "characteristic",
+    "uuid": "2141e111-213a-11e6-b67b-9e71128cae77",
+    "name": "UART RX (notify)",
+    "description": "Controller → phone. Subscribe CCCD 0x0001. Each notification is one ≤20-byte chunk (index + optional length + payload)."
+  },
+  "CHR_UART_TX": {
+    "type": "characteristic",
+    "uuid": "2141e112-213a-11e6-b67b-9e71128cae77",
+    "name": "UART TX (write cmd)",
+    "description": "Phone → controller. Write Without Response only. Chunked 20-byte UART frames wrapping function ID + TLV.",
+    "structure": [
+      {
+        "field": "ChunkIndex",
+        "type": "uint8",
+        "size": 1,
+        "description": "0 = first chunk (includes 2-byte LE length); 1+ = continuation"
+      },
+      {
+        "field": "Length",
+        "type": "uint16_le",
+        "size": 2,
+        "description": "First chunk only: byte count of (length field + application payload)"
+      },
+      {
+        "field": "Payload",
+        "type": "hex",
+        "description": "Application PDU: uint16 BE functionId (bit 14 = SET) followed by TLV [id][len][value…]"
+      }
+    ],
+    "write_presets": [
+      { "label": "GET general info / bond (0x0000)", "hex": "00060000000000" },
+      { "label": "GET power (0x0020)", "hex": "00060000200000" },
+      { "label": "SET power ON (0x4020)", "hex": "0007004020200101" },
+      { "label": "SET power OFF (0x4020)", "hex": "0007004020200100" },
+      { "label": "GET operation mode (0x0030)", "hex": "00060000300000" },
+      { "label": "SET mode cool (0x4030)", "hex": "0007004030200103" },
+      { "label": "SET mode heat (0x4030)", "hex": "0007004030200104" },
+      { "label": "GET setpoint (0x0040)", "hex": "00060000400000" },
+      { "label": "GET sensors (0x0110)", "hex": "00060001100000" }
+    ]
+  },
+  "SVC_UUG": {
+    "type": "service",
+    "uuid": "2141e100-213a-11e6-b67b-9e71128cae77",
+    "name": "UUG Service (BLE OTA)",
+    "description": "UEI UAPI channel for UE878 radio-module firmware. Not used by the JS thermostat protocol."
+  },
+  "CHR_UUG_RX": {
+    "type": "characteristic",
+    "uuid": "2141e101-213a-11e6-b67b-9e71128cae77",
+    "name": "UUG RX (notify)",
+    "description": "OTA responses from the BLE module"
+  },
+  "CHR_UUG_TX": {
+    "type": "characteristic",
+    "uuid": "2141e102-213a-11e6-b67b-9e71128cae77",
+    "name": "UUG TX (write cmd)",
+    "description": "OTA commands to the BLE module (Write Without Response)"
+  },
+  "CHR_UUG_EVT": {
+    "type": "characteristic",
+    "uuid": "2141e103-213a-11e6-b67b-9e71128cae77",
+    "name": "UUG event (notify)",
+    "description": "Present on real units; unused by Madoka Assistant JS"
+  }
+}

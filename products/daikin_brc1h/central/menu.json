@@ -1,0 +1,49 @@
+{
+  "states": [
+    { "key": "power", "name": "Power" },
+    { "key": "mode", "name": "Mode" },
+    { "key": "cool", "name": "Cool" },
+    { "key": "heat", "name": "Heat" },
+    { "key": "indoor", "name": "Indoor" }
+  ],
+  "initial_menu": "main",
+  "menus": [
+    {
+      "id": "main",
+      "title": "Madoka BRC1H",
+      "on_enter": "on_main_enter",
+      "items": [
+        { "id": "on_get_status", "label": "Get status" },
+        { "id": "on_power_on", "label": "Power on" },
+        { "id": "on_power_off", "label": "Power off" },
+        { "id": "on_mode_menu", "label": "Operation mode →" },
+        { "id": "on_setpoint_menu", "label": "Setpoint →" }
+      ]
+    },
+    {
+      "id": "mode",
+      "title": "Mode",
+      "items": [
+        { "id": "on_mode_cool", "label": "Cool" },
+        { "id": "on_mode_heat", "label": "Heat" },
+        { "id": "on_mode_auto", "label": "Auto" },
+        { "id": "on_mode_fan", "label": "Fan" },
+        { "id": "on_mode_dry", "label": "Dry" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    },
+    {
+      "id": "setpoint",
+      "title": "Setpoint",
+      "items": [
+        { "id": "on_cool_22", "label": "Cool 22°C" },
+        { "id": "on_cool_24", "label": "Cool 24°C" },
+        { "id": "on_cool_26", "label": "Cool 26°C" },
+        { "id": "on_heat_18", "label": "Heat 18°C" },
+        { "id": "on_heat_20", "label": "Heat 20°C" },
+        { "id": "on_heat_22", "label": "Heat 22°C" },
+        { "id": "pop_menu", "label": "Back" }
+      ]
+    }
+  ]
+}

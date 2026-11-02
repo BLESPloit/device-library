@@ -1,0 +1,14 @@
+{
+  "unit_name": "BRC1H 46:DC:ED",
+  "display_label": "Madoka BRC1H sim",
+  "power_on": true,
+  "mode": 3,
+  "cool_setpoint": 24,
+  "heat_setpoint": 21,
+  "indoor_temp": 23,
+  "outdoor_temp": 12,
+  "ble_version": "5.17",
+  "rc_version": "02.01.00",
+  "rx_buf": "",
+  "rx_need": 0
+}

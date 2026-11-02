@@ -1,0 +1,11 @@
+{
+  "elements": [
+    {
+      "id": "thermostat",
+      "type": "svg",
+      "file": "madoka.svg",
+      "size": 96,
+      "align": "center"
+    }
+  ]
+}
