@@ -1,0 +1,32 @@
+{
+  "name": "Apple HomeKit",
+  "description": "HomeKit accessory advertisements (HAP type 0x06) and GATT UUID names for the services browser.",
+  "manifest_version": 1,
+  "version": 1,
+  "notes": "The library icon is the unpaired orange. Scan rows still tint grey when paired and orange when unpaired. Category and paired state come from the advertisement only. After connect, central/gatt_identity.lua labels the accessory from HAP services and does not claim a pairing state.",
+  "uuids": "uuids.json",
+  "assets": {
+    "icon": "assets/homekit.svg",
+    "icon_tint": "#FF9F0A"
+  },
+  "roles": {
+    "observer": {
+      "entry": "observer/adv_decode.lua",
+      "priority": 25,
+      "scan_conditions": {
+        "company_id": "004C",
+        "manufacturer_data_prefix_hex": ["06", "11"]
+      }
+    },
+    "central": {
+      "scripts": [
+        {
+          "id": "gatt_identity",
+          "title": "HomeKit identity",
+          "kind": "gatt_identity",
+          "entry": "central/gatt_identity.lua"
+        }
+      ]
+    }
+  }
+}

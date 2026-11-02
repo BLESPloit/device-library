@@ -75,7 +75,9 @@ function parse(input)
         end
     end
 
-    if payload_hex == "" and #ordered_types == 0 then
+    -- A non-empty Apple manufacturer payload that yields no TLV (HomeKit HAP 0x06/0x11)
+    -- is not Continuity. A real Continuity message always parses at least one TLV.
+    if #ordered_types == 0 then
         return {}, {}
     end
 
